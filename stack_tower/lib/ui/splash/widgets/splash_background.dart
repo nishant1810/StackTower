@@ -18,7 +18,7 @@ class SplashBackground extends StatelessWidget {
         return Transform.scale(
           scale: zoom.value,
           child: Image.asset(
-            AppAssets.splashBackground,
+            AppAssets.splashBg,
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.cover,

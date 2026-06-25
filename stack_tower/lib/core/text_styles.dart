@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 
-class AppTextStyles {
+class AppTextStyles{
+
   AppTextStyles._();
 
-  static const loading = TextStyle(
-    color: Colors.white70,
-    fontSize: 14,
-    letterSpacing: 2,
-    fontWeight: FontWeight.w500,
+  static const heading=
+  TextStyle(
+    fontSize:34,
+    color:Colors.white,
+    fontWeight:FontWeight.bold,
   );
 
-  static const button = TextStyle(
-    color: Colors.white,
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 2,
+  static const title=
+  TextStyle(
+    fontSize:22,
+    color:Colors.white,
+    fontWeight:FontWeight.w700,
   );
 
-  static const score = TextStyle(
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
+  static const body=
+  TextStyle(
+    fontSize:15,
+    color:Colors.white70,
   );
+
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../services/storage_service.dart';
-import 'game_screen.dart';
-import 'settings_screen.dart';
-import '../services/audio_service.dart';
-import 'daily_reward_dialog.dart';
-import 'theme_shop_screen.dart';
+import '../../services/audio_service.dart';
+import '../../services/storage_service.dart';
+
+import '../../screens/game_screen.dart';
+import '../../screens/settings_screen.dart';
+import '../../screens/theme_shop_screen.dart';
+import '../../screens/daily_reward_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

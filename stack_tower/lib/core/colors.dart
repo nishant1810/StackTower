@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+class AppColors{
+
   AppColors._();
 
-  static const background = Color(0xff070B18);
+  static const background=
+  Color(0xff070C1B);
 
-  static const primary = Color(0xffFFA500);
+  static const primary=
+  Color(0xffff9800);
 
-  static const secondary = Color(0xffFFD54F);
+  static const secondary=
+  Color(0xffffc107);
 
-  static const accentBlue = Color(0xff2BD3FF);
+  static const accent=
+  Color(0xff00E5FF);
 
-  static const accentPurple = Color(0xff6A5CFF);
+  static const white=
+      Colors.white;
 
-  static const white = Colors.white;
-
-  static const shadow = Colors.black54;
-
-  static const transparent = Colors.transparent;
 }

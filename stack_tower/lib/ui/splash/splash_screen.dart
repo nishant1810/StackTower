@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/app_initializer.dart';
-import '../../screens/home_screen.dart';
+import '../home/home_screen.dart';
+
 import 'splash_controller.dart';
 import 'widgets/animated_logo.dart';
 import 'widgets/energy_beam.dart';
@@ -25,54 +28,76 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late final SplashController controller;
 
+  bool _navigated = false;
+
   @override
   void initState() {
     super.initState();
 
-    // Full-screen immersive mode
     SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.edgeToEdge,
+      SystemUiMode.immersiveSticky,
     );
 
     controller = SplashController();
     controller.initialize(this);
-    controller.start();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.start();
+    });
 
     _initialize();
   }
 
   Future<void> _initialize() async {
-    await AppInitializer.initialize();
+    try {
+      await AppInitializer.initialize().timeout(
+        const Duration(seconds: 5),
+      );
 
-    await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(
+        const Duration(seconds: 3),
+      );
 
-    if (!mounted) return;
+      _goToHome();
+    } catch (e) {
+      debugPrint("Splash Error: $e");
 
-    Navigator.of(context).pushReplacement(_buildRoute());
+      _goToHome();
+    }
   }
 
-  Route _buildRoute() {
-    return PageRouteBuilder(
-      transitionDuration: const Duration(milliseconds: 800),
-      reverseTransitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (_, animation, __) => const HomeScreen(),
-      transitionsBuilder: (_, animation, __, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: ScaleTransition(
-            scale: Tween<double>(
-              begin: 0.98,
-              end: 1.0,
-            ).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOut,
+  void _goToHome() {
+    if (!mounted || _navigated) return;
+
+    _navigated = true;
+
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        transitionDuration:
+        const Duration(milliseconds: 700),
+        reverseTransitionDuration:
+        const Duration(milliseconds: 300),
+        pageBuilder: (_, animation, __) =>
+        const HomeScreen(),
+        transitionsBuilder:
+            (_, animation, __, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: Tween<double>(
+                begin: .98,
+                end: 1,
+              ).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeOut,
+                ),
               ),
+              child: child,
             ),
-            child: child,
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -80,7 +105,6 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     controller.disposeController();
 
-    // Restore system UI
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
     );
@@ -97,34 +121,26 @@ class _SplashScreenState extends State<SplashScreen>
         body: Stack(
           fit: StackFit.expand,
           children: [
-            /// Background
             SplashBackground(
               zoom: controller.zoomAnimation,
             ),
 
-            /// Floating cubes
             const FloatingCubes(),
 
-            /// Particles
             const ParticlesLayer(),
 
-            /// Overlay
             const SplashOverlay(),
 
-            /// Vignette
             const Vignette(),
 
-            /// Glow
             NeonGlow(
               animation: controller.glowAnimation,
             ),
 
-            /// Energy beam
             EnergyBeam(
               glow: controller.glowAnimation,
             ),
 
-            /// Logo
             Center(
               child: AnimatedLogo(
                 fade: controller.fadeAnimation,
@@ -133,7 +149,6 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
 
-            /// Loading bar
             Positioned(
               left: 40,
               right: 40,

@@ -8,14 +8,14 @@ import 'package:flame_audio/flame_audio.dart';
 
 import '../services/storage_service.dart';
 import '../services/haptic_service.dart';
-import 'landing_particle.dart';
-import 'block_component.dart';
-import 'falling_piece.dart';
-import 'perfect_text.dart';
-import 'perfect_flash.dart';
-import 'floating_particle.dart';
+import 'components/block_component.dart';
+import 'components/falling_piece.dart';
+import 'effects/floating_particle.dart';
+import 'effects/landing_particle.dart';
+import 'effects/perfect_flash.dart';
+import 'effects/perfect_text.dart';
+import 'effects/milestone_text.dart';
 import '../services/audio_service.dart';
-import 'milestone_text.dart';
 import '../theme/theme_manager.dart';
 
 class StackGame extends FlameGame
