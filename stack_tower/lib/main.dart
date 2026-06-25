@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'screens/home_screen.dart';
 import 'services/audio_service.dart';
 import 'services/settings_service.dart';
+
+import 'ui/splash/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class StackTowerApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
         fontFamily: 'Roboto',
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
