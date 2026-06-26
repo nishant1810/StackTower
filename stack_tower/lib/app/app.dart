@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../ui/splash/splash_screen.dart';
+import 'router/app_router.dart';
+import 'theme/app_theme.dart';
 
 class StackTowerApp extends StatelessWidget {
   const StackTowerApp({super.key});
@@ -10,15 +11,8 @@ class StackTowerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stack Tower',
       debugShowCheckedModeBanner: false,
-
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black,
-        fontFamily: 'Roboto',
-        useMaterial3: true,
-      ),
-
-      home: const SplashScreen(),
+      theme: AppTheme.darkTheme,
+      home: AppRouter.initialRoute,
     );
   }
 }

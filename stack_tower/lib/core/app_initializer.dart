@@ -1,11 +1,13 @@
-import '../services/audio_service.dart';
-import '../services/settings_service.dart';
+import 'dart:async';
 
 class AppInitializer {
-  AppInitializer._();
+  const AppInitializer._();
 
   static Future<void> initialize() async {
-    await SettingsService.load();
-    await AudioService.initialize();
+    // Initialize services here
+
+    await Future.wait([
+      Future.value(),
+    ]);
   }
 }
