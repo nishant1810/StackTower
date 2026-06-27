@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-
 import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
 import '../controllers/home_controller.dart';
 import '../widgets/aurora_layer.dart';
-import '../widgets/bottom_dock.dart';
+import '../widgets/feature_dock.dart';
 import '../widgets/home_background.dart';
+import '../widgets/home_center_panel.dart';
+import '../widgets/home_hud.dart';
+import '../widgets/home_left_panel.dart';
+import '../widgets/home_right_panel.dart';
 import '../widgets/particle_layer.dart';
-import '../widgets/play_button.dart';
-import '../widgets/top_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -51,8 +52,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: FadeTransition(
         opacity: controller.playOpacityAnimation,
@@ -60,60 +59,118 @@ class _HomePageState extends State<HomePage>
           fit: StackFit.expand,
           children: [
             const HomeBackground(),
-
             const AuroraLayer(),
-
             const ParticleLayer(),
 
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 14,
+                  horizontal: 12,
+                  vertical: 10,
                 ),
                 child: Column(
                   children: [
-                    TopBar(
+                    /// TOP HUD
+                    HomeHud(
                       controller: controller,
-                      onSettingsTap: controller.openSettings,
+                      onSettingsTap:
+                      controller.openSettings,
                     ),
 
-                    const Spacer(),
+                    const SizedBox(height: 10),
 
-                    TweenAnimationBuilder<double>(
-                      duration: const Duration(
-                        milliseconds: 1200,
+                    /// MAIN CONTENT
+                    Expanded(
+                      child: LayoutBuilder(
+                        builder: (
+                            context,
+                            constraints,
+                            ) {
+                          final isSmallPhone =
+                              constraints.maxWidth <
+                                  380;
+
+                          return Row(
+                            crossAxisAlignment:
+                            CrossAxisAlignment
+                                .center,
+                            children: [
+                              /// LEFT SIDE
+                              SizedBox(
+                                width: isSmallPhone
+                                    ? 105
+                                    : 125,
+                                child: Center(
+                                  child:
+                                  HomeLeftPanel(
+                                    controller:
+                                    controller,
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(
+                                width: isSmallPhone
+                                    ? 6
+                                    : 12,
+                              ),
+
+                              /// CENTER
+                              Expanded(
+                                child:
+                                HomeCenterPanel(
+                                  controller:
+                                  controller,
+                                  onPlay:
+                                  _startGame,
+                                ),
+                              ),
+
+                              SizedBox(
+                                width: isSmallPhone
+                                    ? 6
+                                    : 12,
+                              ),
+
+                              /// RIGHT SIDE
+                              SizedBox(
+                                width: isSmallPhone
+                                    ? 105
+                                    : 125,
+                                child: Center(
+                                  child:
+                                  HomeRightPanel(
+                                    controller:
+                                    controller,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      curve: Curves.easeOutBack,
-                      tween: Tween(
-                        begin: 0.75,
-                        end: 1.0,
-                      ),
-                      builder: (_, scale, child) {
-                        return Transform.scale(
-                          scale: scale,
-                          child: child,
-                        );
-                      },
-                      child: PlayButton(
-                        controller: controller,
-                        onPressed: _startGame,
-                      ),
                     ),
 
-                    SizedBox(
-                      height: screenHeight * 0.05,
+                    const SizedBox(height: 8),
+
+                    /// BOTTOM FEATURE DOCK
+                    FeatureDock(
+                      onLeaderboard:
+                      controller
+                          .openLeaderboard,
+                      onAchievements:
+                      controller
+                          .openAchievements,
+                      onReward:
+                      controller
+                          .openDailyReward,
+                      onShop:
+                      controller.openShop,
+                      onThemes:
+                      controller.openThemes,
                     ),
 
-                    BottomDock(
-                      onShop: controller.openShop,
-                      onInventory: controller.openInventory,
-                      onMission: controller.openMission,
-                      onAchievement: controller.openAchievements,
-                      onLeaderboard: controller.openLeaderboard,
-                    ),
-
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),

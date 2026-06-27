@@ -1,18 +1,16 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 class AuroraLayer extends StatefulWidget {
-  const AuroraLayer({
-    super.key,
-  });
+  const AuroraLayer({super.key});
 
   @override
   State<AuroraLayer> createState() =>
       _AuroraLayerState();
 }
 
-class _AuroraLayerState extends State<AuroraLayer>
+class _AuroraLayerState
+    extends State<AuroraLayer>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -22,93 +20,68 @@ class _AuroraLayerState extends State<AuroraLayer>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 18),
-    )..repeat(reverse: true);
+      duration: const Duration(seconds: 12),
+    )..repeat();
   }
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (_, __) {
-          final dx =
-              math.sin(_controller.value * math.pi * 2) *
-                  0.25;
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, __) {
+        final x =
+            math.sin(
+              _controller.value *
+                  math.pi *
+                  2,
+            ) *
+                120;
 
-          return Stack(
-            fit: StackFit.expand,
-            children: [
-
-              //----------------------------------------
-              // Cyan Glow
-              //----------------------------------------
-
-              Transform.translate(
-                offset: Offset(dx * 120, 0),
-                child: const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(-0.7, -0.5),
-                      radius: .75,
-                      colors: [
-                        Color(0x6622D3EE),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
+        return Stack(
+          children: [
+            Positioned(
+              left: x,
+              top: 120,
+              child: _glow(
+                const Color(0xFF00D1FF),
+                350,
               ),
+            ),
 
-              //----------------------------------------
-              // Purple Glow
-              //----------------------------------------
-
-              Transform.translate(
-                offset: Offset(-dx * 140, 30),
-                child: const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(.75, -.4),
-                      radius: .80,
-                      colors: [
-                        Color(0x554C1D95),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
+            Positioned(
+              right: x,
+              top: 250,
+              child: _glow(
+                const Color(0xFF7A5BFF),
+                300,
               ),
-
-              //----------------------------------------
-              // Blue Glow
-              //----------------------------------------
-
-              Transform.translate(
-                offset: Offset(dx * 90, -25),
-                child: const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(0, -.9),
-                      radius: .90,
-                      colors: [
-                        Color(0x44256DFF),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  Widget _glow(
+      Color color,
+      double size,
+      ) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color:
+            color.withValues(
+              alpha: .35,
+            ),
+            blurRadius: size,
+            spreadRadius: 40,
+          ),
+        ],
+      ),
+    );
   }
 }

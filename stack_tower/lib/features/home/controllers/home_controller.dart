@@ -262,8 +262,8 @@ class HomeController {
   }
 
   //=========================================================
-  // NAVIGATION
-  //=========================================================
+// NAVIGATION
+//=========================================================
 
   void startGame() {}
 
@@ -278,6 +278,12 @@ class HomeController {
   void openMission() {}
 
   void openAchievements() {}
+
+  void openDailyReward() {
+    claimDailyReward();
+  }
+
+  void openThemes() {}
 
   //=========================================================
   // DISPOSE

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ParticleLayer extends StatefulWidget {
   const ParticleLayer({
     super.key,
-    this.count = 30,
+    this.count = 50,
   });
 
   final int count;
