@@ -1,5 +1,5 @@
 import 'package:flame_audio/flame_audio.dart';
-import 'settings_service.dart';
+import '../settings/settings_service.dart';
 
 class AudioService {
   static bool _initialized = false;

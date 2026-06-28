@@ -1,89 +1,144 @@
 import 'package:flutter/material.dart';
 
-import '../controllers/gameplay_controller.dart';
-import '../models/game_state.dart';
-import 'best_score_card.dart';
-import 'coins_card.dart';
-import 'combo_widget.dart';
-import 'pause_button.dart';
-import 'score_card.dart';
-
 class GameplayHud extends StatelessWidget {
+  final int score;
+  final int combo;
+
   const GameplayHud({
     super.key,
-    required this.controller,
+    required this.score,
+    required this.combo,
   });
-
-  final GameplayController controller;
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<GameState>(
-      valueListenable: controller.state,
-      builder: (_, state, __) {
-        if (state.status == GameStatus.gameOver) {
-          return const SizedBox.shrink();
-        }
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 12,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// SCORE
+          _ScoreWidget(
+            score: score,
+          ),
 
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-              vertical: 14,
-            ),
-            child: Column(
-              children: [
-                //--------------------------------------------------
-                // TOP BAR
-                //--------------------------------------------------
+          const Spacer(),
 
-                Row(
-                  children: [
-                    PauseButton(
-                      onPressed: controller.pauseGame,
-                    ),
+          /// COMBO
+          _ComboWidget(
+            combo: combo,
+          ),
 
-                    const Spacer(),
+          const Spacer(),
 
-                    ScoreCard(
-                      score: state.score,
-                    ),
+          /// SPACE FOR PAUSE BUTTON
+          const SizedBox(
+            width: 70,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-                    const Spacer(),
+class _ScoreWidget extends StatelessWidget {
+  final int score;
 
-                    BestScoreCard(
-                      score: state.bestScore,
-                    ),
-                  ],
-                ),
+  const _ScoreWidget({
+    required this.score,
+  });
 
-                const SizedBox(height: 18),
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment:
+      CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'SCORE',
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 1.2,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '$score',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 38,
+            fontWeight: FontWeight.w900,
+            height: 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
-                //--------------------------------------------------
-                // COINS
-                //--------------------------------------------------
+class _ComboWidget extends StatelessWidget {
+  final int combo;
 
-                Align(
-                  alignment: Alignment.topRight,
-                  child: CoinsCard(
-                    coins: state.coinsEarned,
-                  ),
-                ),
+  const _ComboWidget({
+    required this.combo,
+  });
 
-                const Spacer(),
+  @override
+  Widget build(BuildContext context) {
+    if (combo <= 1) {
+      return const SizedBox.shrink();
+    }
 
-                //--------------------------------------------------
-                // COMBO
-                //--------------------------------------------------
-
-                ComboWidget(
-                  combo: state.combo,
-                ),
-              ],
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 22,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFF24160A),
+        borderRadius:
+        BorderRadius.circular(18),
+        border: Border.all(
+          color: const Color(0xFFFFC857),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFFFC857)
+                .withOpacity(.25),
+            blurRadius: 20,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'COMBO',
+            style: TextStyle(
+              color: Color(0xFFFFD56A),
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1,
             ),
           ),
-        );
-      },
+          const SizedBox(height: 2),
+          Text(
+            'x$combo',
+            style: const TextStyle(
+              color: Color(0xFFFFD56A),
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

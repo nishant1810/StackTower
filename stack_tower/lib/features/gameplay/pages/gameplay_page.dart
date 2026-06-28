@@ -1,12 +1,12 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:stack_tower/core/assets/app_assets.dart';
 
+import '../../../engine/game/stack_game.dart';
 import '../../../core/assets/app_assets.dart';
-import '../controllers/gameplay_controller.dart';
-import '../models/game_state.dart';
+import '../../game_over/pages/game_over_page.dart';
+import '../../pause/pages/pause_page.dart';
 import '../widgets/gameplay_hud.dart';
-import '../../game_over/game_over_overlay.dart';
-import '../../pause/pause_overlay.dart';
 
 class GameplayPage extends StatefulWidget {
   const GameplayPage({super.key});
@@ -16,122 +16,151 @@ class GameplayPage extends StatefulWidget {
 }
 
 class _GameplayPageState extends State<GameplayPage> {
-  late GameplayController controller;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (mounted && !(_initialized)) {
-      final size = MediaQuery.of(context).size;
-
-      controller = GameplayController(
-        screenWidth: size.width,
-        groundY: size.height * .82,
-      );
-
-      controller.initialize();
-      controller.startGame();
-
-      _initialized = true;
-    }
-  }
-
-  bool _initialized = false;
+  late final StackGame game;
 
   @override
   void initState() {
     super.initState();
 
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersiveSticky,
+    game = StackGame(
+      onGameOver: () {
+        if (!mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => GameOverPage(
+              score: game.score,
+              bestScore: game.bestScore,
+              coinsEarned: game.coinsEarned,
+            ),
+          ),
+        );
+      },
+    );
+
+    game.addListener(_onGameUpdate);
+  }
+
+  void _onGameUpdate() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _showPauseMenu() {
+    game.pauseEngine();
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (_) {
+        return PausePage(
+          onResume: () {
+            Navigator.pop(context);
+            game.resumeEngine();
+          },
+          onRestart: () {
+            Navigator.pop(context);
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const GameplayPage(),
+              ),
+            );
+          },
+          onSettings: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Settings Coming Soon',
+                ),
+              ),
+            );
+          },
+          onHome: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        );
+      },
     );
   }
 
   @override
   void dispose() {
-    controller.dispose();
-
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.edgeToEdge,
-    );
-
+    game.removeListener(_onGameUpdate);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: ValueListenableBuilder<GameState>(
-        valueListenable: controller.state,
-        builder: (_, state, __) {
-          return Stack(
-            fit: StackFit.expand,
-            children: [
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          /// BACKGROUND
+          Image.asset(
+            AppAssets.gameBackground,
+            fit: BoxFit.cover,
+          ),
 
-              //--------------------------------------------------
-              // Background
-              //--------------------------------------------------
+          /// FLAME GAME
+          GameWidget<StackGame>(
+            game: game,
+          ),
 
-              Image.asset(
-                AppAssets.gameBackground,
-                fit: BoxFit.cover,
-              ),
+          /// HUD
+          SafeArea(
+            child: GameplayHud(
+              score: game.score,
+              combo: game.perfectCombo,
+            ),
+          ),
 
-              //--------------------------------------------------
-              // TODO:
-              // Tower Widget
-              //--------------------------------------------------
-
-              const Center(
-                child: Text(
-                  "GAME AREA",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+          /// PAUSE BUTTON
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 12,
+                  right: 16,
+                ),
+                child: Container(
+                  width: 62,
+                  height: 62,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF09152D)
+                        .withOpacity(0.75),
+                    borderRadius:
+                    BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color(0xFF00E5FF),
+                      width: 2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF00E5FF)
+                            .withOpacity(0.35),
+                        blurRadius: 24,
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    onPressed: _showPauseMenu,
+                    icon: const Icon(
+                      Icons.pause_rounded,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
               ),
-
-              //--------------------------------------------------
-              // HUD
-              //--------------------------------------------------
-
-              GameplayHud(
-                controller: controller,
-              ),
-
-              //--------------------------------------------------
-              // Pause
-              //--------------------------------------------------
-
-              if (state.status == GameStatus.paused)
-                PauseOverlay(
-                  score: state.score,
-                  bestScore: state.bestScore,
-                  onResume: controller.resumeGame,
-                  onRestart: controller.restartGame,
-                  onHome: () {
-                    Navigator.pop(context);
-                  },
-                ),
-
-              //--------------------------------------------------
-              // Game Over
-              //--------------------------------------------------
-
-              if (state.status == GameStatus.gameOver)
-                GameOverOverlay(
-                  score: state.score,
-                  bestScore: state.bestScore,
-                  coinsEarned: state.coinsEarned,
-                  onRestart: controller.restartGame,
-                ),
-            ],
-          );
-        },
+            ),
+          ),
+        ],
       ),
     );
   }

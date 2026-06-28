@@ -1,71 +1,56 @@
-import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../services/storage_service.dart';
-import '../models/daily_reward.dart';
+class DailyRewardService {
+  static const String lastClaimDateKey =
+      'daily_reward_last_claim';
 
-class DailyRewardService extends ChangeNotifier {
-  DailyRewardService._();
+  static const String rewardDayKey =
+      'daily_reward_day';
 
-  static final instance = DailyRewardService._();
+  static const String coinsKey = 'coins';
 
-  final List<int> rewards = [
-    100,
-    150,
-    200,
-    300,
-    400,
-    500,
-    1000,
-  ];
+  Future<int> getCurrentDay() async {
+    final prefs = await SharedPreferences.getInstance();
 
-  int currentDay = 1;
-
-  bool canClaim = false;
-
-  Future<void> initialize() async {
-    currentDay =
-    await StorageService.getRewardDay();
-
-    canClaim =
-    await StorageService.canClaimReward();
-
-    notifyListeners();
+    return prefs.getInt(rewardDayKey) ?? 1;
   }
 
-  List<DailyReward> get days {
-    return List.generate(
-      rewards.length,
-          (index) {
-        final day = index + 1;
+  Future<bool> canClaimReward() async {
+    final prefs = await SharedPreferences.getInstance();
 
-        return DailyReward(
-          day: day,
-          coins: rewards[index],
-          claimed: day < currentDay,
-          current:
-          canClaim &&
-              day == currentDay,
-        );
-      },
-    );
-  }
+    final lastClaim =
+    prefs.getString(lastClaimDateKey);
 
-  Future<int> claimReward() async {
-    if (!canClaim) {
-      return 0;
+    if (lastClaim == null) {
+      return true;
     }
 
-    final reward =
-    rewards[currentDay - 1];
+    final lastDate =
+    DateTime.parse(lastClaim);
 
-    final coins =
-    await StorageService.getCoins();
+    final now = DateTime.now();
 
-    await StorageService.setCoins(
-      coins + reward,
+    return now.difference(lastDate).inDays >= 1;
+  }
+
+  Future<int> claimReward(int rewardAmount) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final currentCoins =
+        prefs.getInt(coinsKey) ?? 0;
+
+    await prefs.setInt(
+      coinsKey,
+      currentCoins + rewardAmount,
     );
 
-    await StorageService.markRewardClaimed();
+    await prefs.setString(
+      lastClaimDateKey,
+      DateTime.now().toIso8601String(),
+    );
+
+    int currentDay =
+        prefs.getInt(rewardDayKey) ?? 1;
 
     currentDay++;
 
@@ -73,14 +58,11 @@ class DailyRewardService extends ChangeNotifier {
       currentDay = 1;
     }
 
-    await StorageService.setRewardDay(
+    await prefs.setInt(
+      rewardDayKey,
       currentDay,
     );
 
-    canClaim = false;
-
-    notifyListeners();
-
-    return reward;
+    return rewardAmount;
   }
 }

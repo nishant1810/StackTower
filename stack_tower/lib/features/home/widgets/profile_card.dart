@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../controllers/home_controller.dart';
@@ -18,51 +19,104 @@ class ProfileCard extends StatelessWidget {
       child: ValueListenableBuilder<HomeState>(
         valueListenable: controller.state,
         builder: (_, state, __) {
-          return Row(
-            children: [
-              const _Avatar(),
+          return Container(
+            height: 82,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF0A1730),
+                  Color(0xFF08101E),
+                ],
+              ),
+              border: Border.all(
+                color: const Color(0xFF3BAFFF),
+                width: 1.2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF3BAFFF)
+                      .withOpacity(.18),
+                  blurRadius: 18,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 8),
 
-              const SizedBox(width: 14),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
-                  mainAxisAlignment:
-                  MainAxisAlignment.center,
+                Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    Text(
-                      state.playerName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
+                    const _Avatar(),
+
+                    Positioned(
+                      bottom: -8,
+                      left: 18,
+                      child: _LevelBadge(
+                        level: state.level,
                       ),
                     ),
+                  ],
+                ),
 
-                    const SizedBox(height: 6),
+                const SizedBox(width: 14),
 
-                    Row(
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      right: 12,
+                      bottom: 8,
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
                       children: [
-                        _LevelBadge(
-                          level: state.level,
+                        Row(
+                          children: const [
+                            Icon(
+                              Icons.star,
+                              color: Color(0xFFFFC857),
+                              size: 16,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'TOWER MASTER',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight:
+                                FontWeight.w900,
+                              ),
+                            ),
+                          ],
                         ),
 
-                        const SizedBox(width: 10),
+                        const SizedBox(height: 10),
 
-                        Expanded(
-                          child: _XpBar(
-                            progress: state.xp,
+                        _XpBar(
+                          progress: state.xp,
+                        ),
+
+                        const SizedBox(height: 6),
+
+                        Text(
+                          '${(state.xp * 10000).toInt()} / 10000',
+                          style: TextStyle(
+                            color: Colors.white
+                                .withOpacity(.75),
+                            fontSize: 11,
+                            fontWeight:
+                            FontWeight.w600,
                           ),
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -70,39 +124,81 @@ class ProfileCard extends StatelessWidget {
   }
 }
 
-class _Avatar extends StatelessWidget {
+class _Avatar extends StatefulWidget {
   const _Avatar();
 
   @override
+  State<_Avatar> createState() =>
+      _AvatarState();
+}
+
+class _AvatarState extends State<_Avatar>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 62,
-      height: 62,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF00C6FF),
-            Color(0xFF7C3AED),
-          ],
-        ),
-        border: Border.all(
-          color: Colors.white24,
-          width: 2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.cyan.withOpacity(.30),
-            blurRadius: 18,
-            spreadRadius: 2,
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, __) {
+        return Transform.rotate(
+          angle: _controller.value *
+              math.pi *
+              2,
+          child: Container(
+            width: 64,
+            height: 64,
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient:
+              const SweepGradient(
+                colors: [
+                  Color(0xFF00C6FF),
+                  Color(0xFF7C3AED),
+                  Color(0xFF00C6FF),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(
+                    0xFF00C6FF,
+                  ).withOpacity(.35),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: Container(
+              decoration:
+              const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFF08121F),
+              ),
+              child: const Icon(
+                Icons.person,
+                color: Colors.white,
+                size: 32,
+              ),
+            ),
           ),
-        ],
-      ),
-      child: const Icon(
-        Icons.person_rounded,
-        color: Colors.white,
-        size: 34,
-      ),
+        );
+      },
     );
   }
 }
@@ -117,26 +213,23 @@ class _LevelBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 4,
-      ),
+      width: 28,
+      height: 28,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: const Color(0xFF00C6FF)
-            .withOpacity(.18),
-        borderRadius:
-        BorderRadius.circular(20),
+        color: const Color(0xFF613BFF),
+        shape: BoxShape.circle,
         border: Border.all(
-          color: Colors.cyanAccent
-              .withOpacity(.45),
+          color: Colors.white,
+          width: 1.2,
         ),
       ),
       child: Text(
-        "Lv $level",
+        '$level',
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
+          fontSize: 12,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
@@ -152,17 +245,30 @@ class _XpBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius:
-      BorderRadius.circular(30),
-      child: SizedBox(
-        height: 8,
-        child: LinearProgressIndicator(
-          value: progress.clamp(0.0, 1.0),
-          backgroundColor: Colors.white10,
-          valueColor:
-          const AlwaysStoppedAnimation(
-            Color(0xFF00C6FF),
+    return Container(
+      height: 8,
+      decoration: BoxDecoration(
+        borderRadius:
+        BorderRadius.circular(999),
+        color: Colors.white10,
+      ),
+      child: FractionallySizedBox(
+        alignment: Alignment.centerLeft,
+        widthFactor:
+        progress.clamp(0.0, 1.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius:
+            BorderRadius.circular(
+              999,
+            ),
+            gradient:
+            const LinearGradient(
+              colors: [
+                Color(0xFF00C6FF),
+                Color(0xFFB14DFF),
+              ],
+            ),
           ),
         ),
       ),

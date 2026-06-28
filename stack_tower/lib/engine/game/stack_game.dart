@@ -6,17 +6,20 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-import '../services/storage_service.dart';
-import '../services/haptic_service.dart';
-import 'components/block_component.dart';
-import 'effects/falling_piece.dart';
-import 'effects/floating_particle.dart';
-import 'effects/landing_particle.dart';
-import 'effects/perfect_flash.dart';
-import 'effects/perfect_text.dart';
-import 'effects/milestone_text.dart';
-import '../services/audio_service.dart';
-import '../theme/theme_manager.dart';
+import '../components/block_component.dart';
+
+import '../effects/falling_piece.dart';
+import '../effects/floating_particle.dart';
+import '../effects/landing_particle.dart';
+import '../effects/perfect_flash.dart';
+import '../effects/perfect_text.dart';
+import '../effects/milestone_text.dart';
+
+import '../../core/services/storage/storage_service.dart';
+import '../../core/services/haptics/haptic_service.dart';
+import '../../core/services/audio/audio_service.dart';
+
+import '../../features/themes/domain/theme_manager.dart';
 
 class StackGame extends FlameGame
     with TapCallbacks, ChangeNotifier {
@@ -25,6 +28,9 @@ class StackGame extends FlameGame
   StackGame({
     required this.onGameOver,
   });
+
+  @override
+  Color backgroundColor() => Colors.transparent;
   void _checkMilestone() {
     String? message;
 
@@ -133,7 +139,7 @@ class StackGame extends FlameGame
 
     currentY = size.y * 0.78;
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 3; i++) {
       add(
         FloatingParticle(
           gameSize: size,
@@ -142,20 +148,20 @@ class StackGame extends FlameGame
     }
 
     /// Platform
-    add(
-      RectangleComponent(
-        position: Vector2(
-          size.x / 2 - 170,
-          currentY + 65,
-        ),
-        size: Vector2(
-          340,
-          25,
-        ),
-        paint: Paint()
-          ..color = const Color(0xFF1E293B),
-      ),
-    );
+    // add(
+    //   RectangleComponent(
+    //     position: Vector2(
+    //       size.x / 2 - 170,
+    //       currentY + 65,
+    //     ),
+    //     size: Vector2(
+    //       340,
+    //       25,
+    //     ),
+    //     paint: Paint()
+    //       ..color = const Color(0xFF1E293B),
+    //   ),
+    // );
 
     /// Base Block
     final baseBlock = BlockComponent(
@@ -253,7 +259,7 @@ class StackGame extends FlameGame
     /// BACKGROUND PARTICLE SPAWNER
     particleTimer += dt;
 
-    if (particleTimer > 0.8) {
+    if (particleTimer > 0.4) {
       particleTimer = 0;
       _spawnBackgroundParticle();
     }
@@ -294,7 +300,7 @@ class StackGame extends FlameGame
         (movingBlock.x -
             previousBlock.x)
             .abs() <
-            5;
+            8;
 
     /// Falling Piece
     if (cutWidth > 0) {
@@ -336,6 +342,7 @@ class StackGame extends FlameGame
 
     add(placedBlock);
     towerBlocks.add(placedBlock);
+    placedBlock.triggerPulse();
 
     AudioService.playDrop();
 
@@ -343,7 +350,7 @@ class StackGame extends FlameGame
 
     // placedBlock.triggerGlowPulse();
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 8; i++) {
       add(
         LandingParticle(
           position: Vector2(
@@ -366,10 +373,11 @@ class StackGame extends FlameGame
     ).toDouble();
 
     if (perfect) {
+      placedBlock.x = previousBlock.x;
       perfectCombo++;
 
       final comboBonus =
-      (perfectCombo * 5).clamp(5, 25);
+      (perfectCombo * 8).clamp(8, 50);
 
       score += comboBonus;
 
@@ -385,8 +393,8 @@ class StackGame extends FlameGame
       shakeTimer = 0.15;
 
       shakeStrength = min(
-        12.0 + perfectCombo * 2,
-        24.0,
+        16.0 + perfectCombo * 3,
+        30.0,
       ).toDouble();
 
       add(
@@ -434,8 +442,8 @@ class StackGame extends FlameGame
     currentY -= blockHeight;
 
     blockSpeed = min(
-      blockSpeed + 4,
-      500.0,
+      260 + (score * 2.5),
+      650.0,
     ).toDouble();
 
     _spawnMovingBlock();

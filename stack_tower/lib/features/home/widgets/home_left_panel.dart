@@ -17,17 +17,12 @@ class HomeLeftPanel extends StatelessWidget {
       valueListenable: controller.state,
       builder: (_, state, __) {
         return SizedBox(
-          width: 100,
+          width: 145,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _PanelCard(
-                icon: Icons.emoji_events_rounded,
-                title: 'BEST',
-                value: state.bestScore.toString(),
-                subtitle: 'TOP',
-                borderColor: const Color(0xFF39D6FF),
-                iconColor: const Color(0xFFFFC84A),
+              _BestScoreCard(
+                bestScore: state.bestScore,
               ),
             ],
           ),
@@ -37,119 +32,128 @@ class HomeLeftPanel extends StatelessWidget {
   }
 }
 
-class _PanelCard extends StatelessWidget {
-  const _PanelCard({
-    required this.icon,
-    required this.title,
-    required this.value,
-    required this.subtitle,
-    required this.borderColor,
-    required this.iconColor,
-  });
+class _BestScoreCard extends StatelessWidget {
+  final int bestScore;
 
-  final IconData icon;
-  final String title;
-  final String value;
-  final String subtitle;
-  final Color borderColor;
-  final Color iconColor;
+  const _BestScoreCard({
+    required this.bestScore,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 90,
-      height: 110,
+      width: 145,
+      height: 135,
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFF081326).withOpacity(0.92),
         borderRadius: BorderRadius.circular(22),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF081A38),
+            Color(0xFF071120),
+          ],
+        ),
         border: Border.all(
-          color: borderColor,
-          width: 1.5,
+          color: const Color(0xFF39D6FF),
+          width: 1.6,
         ),
         boxShadow: [
           BoxShadow(
-            color: borderColor.withOpacity(.25),
+            color: const Color(0xFF39D6FF).withOpacity(.20),
             blurRadius: 18,
             spreadRadius: 1,
           ),
         ],
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Row(
-              children: List.generate(
-                3,
-                    (_) => Container(
-                  width: 3,
-                  height: 3,
-                  margin: const EdgeInsets.only(left: 2),
-                  decoration: BoxDecoration(
-                    color: borderColor,
-                    shape: BoxShape.circle,
-                  ),
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'BEST SCORE',
+                style: TextStyle(
+                  color: Color(0xFF4EE6FF),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 8,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
-                  size: 30,
-                  color: iconColor,
-                ),
-
-                const SizedBox(height: 6),
-
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-
-                const SizedBox(height: 6),
-
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    value,
-                    maxLines: 1,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
+              Row(
+                children: List.generate(
+                  3,
+                      (_) => Container(
+                    width: 3,
+                    height: 3,
+                    margin: const EdgeInsets.only(
+                      left: 3,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF4EE6FF),
+                      shape: BoxShape.circle,
                     ),
                   ),
                 ),
+              ),
+            ],
+          ),
 
-                const SizedBox(height: 4),
+          const SizedBox(height: 14),
 
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: borderColor,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2,
+          Row(
+            children: [
+              const Icon(
+                Icons.emoji_events_rounded,
+                color: Color(0xFFFFC857),
+                size: 34,
+              ),
+
+              const SizedBox(width: 10),
+
+              Expanded(
+                child: Text(
+                  bestScore.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+
+          const Spacer(),
+
+          Container(
+            height: 1,
+            color: Colors.white.withOpacity(.08),
+          ),
+
+          const SizedBox(height: 10),
+
+          const Row(
+            children: [
+              Icon(
+                Icons.workspace_premium,
+                color: Color(0xFF4EE6FF),
+                size: 18,
+              ),
+              SizedBox(width: 6),
+              Text(
+                'TOP 3%',
+                style: TextStyle(
+                  color: Color(0xFF4EE6FF),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
           ),
         ],
       ),

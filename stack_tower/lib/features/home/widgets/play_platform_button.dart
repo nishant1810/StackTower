@@ -14,91 +14,100 @@ class PlayPlatformButton extends StatefulWidget {
 }
 
 class _PlayPlatformButtonState
-    extends State<PlayPlatformButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
+    extends State<PlayPlatformButton> {
+  bool _pressed = false;
 
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 2200,
-      ),
-    )..repeat(reverse: true);
+  void _handleTapDown(TapDownDetails details) {
+    setState(() => _pressed = true);
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void _handleTapUp(TapUpDetails details) {
+    setState(() => _pressed = false);
+    widget.onPlay();
+  }
+
+  void _handleTapCancel() {
+    setState(() => _pressed = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (_, __) {
-        final scale =
-            1 + (_controller.value * 0.02);
-
-        final glow =
-            22 + (_controller.value * 14);
-
-        return Transform.scale(
-          scale: scale,
-          child: GestureDetector(
-            onTap: widget.onPlay,
-            child: Container(
-              width: 250,
-              height: 86,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(
-                      0xFF4FD8FF,
-                    ).withOpacity(.45),
-                    blurRadius: glow + 20,
-                    spreadRadius: 5,
-                  ),
-                  BoxShadow(
-                    color: const Color(
-                      0xFFB55CFF,
-                    ).withOpacity(.25),
-                    blurRadius: glow + 10,
-                  ),
-                ],
-              ),
-              child: ClipPath(
-                clipper: _HexButtonClipper(),
+    return GestureDetector(
+      onTapDown: _handleTapDown,
+      onTapUp: _handleTapUp,
+      onTapCancel: _handleTapCancel,
+      child: AnimatedScale(
+        duration: const Duration(milliseconds: 120),
+        scale: _pressed ? 0.96 : 1,
+        child: SizedBox(
+          width: 340,
+          height: 140,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              /// Bottom neon platform glow
+              Positioned(
+                bottom: 12,
                 child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end:
-                      Alignment.bottomRight,
-                      colors: [
-                        Color(0xFF4FD8FF),
-                        Color(0xFF6D78FF),
-                        Color(0xFFB55CFF),
-                      ],
-                    ),
+                  width: 250,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                    BorderRadius.circular(999),
+                    color: const Color(0xFF8D6BFF),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(
+                          0xFF8D6BFF,
+                        ).withOpacity(.95),
+                        blurRadius: 45,
+                        spreadRadius: 6,
+                      ),
+                    ],
                   ),
-                  child: Container(
-                    margin: const EdgeInsets.all(
-                      3,
+                ),
+              ),
+
+              /// Main platform
+              Container(
+                width: 300,
+                height: 100,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(
+                        0xFF57C7FF,
+                      ).withOpacity(.55),
+                      blurRadius: 40,
+                      spreadRadius: 3,
                     ),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF041122),
+                  ],
+                ),
+                child: ClipPath(
+                  clipper: _PlatformClipper(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(
+                          0xFF87D8FF,
+                        ),
+                        width: 2.5,
+                      ),
+                      gradient:
+                      const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF1D47A4),
+                          Color(0xFF0A1633),
+                        ],
+                      ),
                     ),
                     child: Stack(
                       children: [
                         Positioned.fill(
                           child: DecoratedBox(
-                            decoration:
-                            BoxDecoration(
+                            decoration: BoxDecoration(
                               gradient:
                               LinearGradient(
                                 begin:
@@ -110,7 +119,8 @@ class _PlayPlatformButtonState
                                 colors: [
                                   Colors.white
                                       .withOpacity(
-                                      .08),
+                                    .12,
+                                  ),
                                   Colors
                                       .transparent,
                                 ],
@@ -120,22 +130,11 @@ class _PlayPlatformButtonState
                         ),
 
                         const Center(
-                          child: Row(
-                            mainAxisSize:
-                            MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.play_arrow_rounded,
-                                size: 42,
-                                color: Colors.white,
-                                shadows: const[
-                                  Shadow(
-                                    color: Colors.white,
-                                    blurRadius: 35,
-                                  ),
-                                ],
-                              ),
-                            ],
+                          child: Icon(
+                            Icons
+                                .play_arrow_rounded,
+                            size: 78,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -143,34 +142,45 @@ class _PlayPlatformButtonState
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
 
-class _HexButtonClipper
+class _PlatformClipper
     extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    const cut = 16.0;
+    const cut = 40.0;
 
     return Path()
       ..moveTo(cut, 0)
       ..lineTo(size.width - cut, 0)
-      ..lineTo(size.width,
-          size.height / 2)
       ..lineTo(
-          size.width - cut, size.height)
-      ..lineTo(cut, size.height)
-      ..lineTo(0, size.height / 2)
+        size.width,
+        size.height / 2,
+      )
+      ..lineTo(
+        size.width - cut,
+        size.height,
+      )
+      ..lineTo(
+        cut,
+        size.height,
+      )
+      ..lineTo(
+        0,
+        size.height / 2,
+      )
       ..close();
   }
 
   @override
   bool shouldReclip(
-      CustomClipper<Path> oldClipper) =>
-      false;
+      CustomClipper<Path> oldClipper) {
+    return false;
+  }
 }

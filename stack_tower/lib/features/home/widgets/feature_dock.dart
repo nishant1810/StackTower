@@ -5,24 +5,21 @@ class FeatureDock extends StatelessWidget {
     super.key,
     required this.onLeaderboard,
     required this.onAchievements,
-    required this.onReward,
     required this.onShop,
     required this.onThemes,
   });
 
   final VoidCallback onLeaderboard;
   final VoidCallback onAchievements;
-  final VoidCallback onReward;
   final VoidCallback onShop;
   final VoidCallback onThemes;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 72,
+      height: 78,
       child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _DockCard(
             icon: Icons.emoji_events_rounded,
@@ -30,22 +27,18 @@ class FeatureDock extends StatelessWidget {
             color: const Color(0xFF3BCFFF),
             onTap: onLeaderboard,
           ),
-
           _DockCard(
-            icon: Icons.card_giftcard_rounded,
-            label: 'REWARD',
-            color: const Color(0xFFFFC84A),
-            onTap: onReward,
-            showBadge: true,
+            icon: Icons.workspace_premium_rounded,
+            label: 'ACHIEVE',
+            color: const Color(0xFFFFB347),
+            onTap: onAchievements,
           ),
-
           _DockCard(
             icon: Icons.storefront_rounded,
             label: 'SHOP',
             color: const Color(0xFFFF69F8),
             onTap: onShop,
           ),
-
           _DockCard(
             icon: Icons.palette_rounded,
             label: 'THEMES',
@@ -81,58 +74,66 @@ class _DockCard extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 52,
-            height: 64,
+            width: 60,
+            height: 70,
             decoration: BoxDecoration(
-              color: const Color(0xFF081326)
-                  .withOpacity(0.92),
-              borderRadius:
-              BorderRadius.circular(18),
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF0D1830),
+                  Color(0xFF081326),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: color,
-                width: 1.4,
+                width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(.22),
-                  blurRadius: 16,
+                  color: color.withOpacity(0.22),
+                  blurRadius: 18,
                   spreadRadius: 1,
                 ),
               ],
             ),
             child: Column(
-              mainAxisAlignment:
-              MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   icon,
                   color: color,
-                  size: 22,
+                  size: 24,
                 ),
-
-                const SizedBox(height: 4),
-
-                Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 7,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.8,
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 2,
+                  ),
+                  child: Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.8,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-
           if (showBadge)
             Positioned(
-              top: -2,
-              right: -2,
+              top: -3,
+              right: -3,
               child: Container(
-                width: 12,
-                height: 12,
+                width: 14,
+                height: 14,
                 decoration: BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.circle,

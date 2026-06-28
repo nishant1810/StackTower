@@ -1,28 +1,20 @@
+enum RewardType {
+  coins,
+  crystalPurple,
+  crystalBlue,
+  chest,
+}
+
 class DailyReward {
+  final int day;
+  final String title;
+  final int amount;
+  final RewardType type;
+
   const DailyReward({
     required this.day,
-    required this.coins,
-    this.claimed = false,
-    this.current = false,
+    required this.title,
+    required this.amount,
+    required this.type,
   });
-
-  final int day;
-
-  final int coins;
-
-  final bool claimed;
-
-  final bool current;
-
-  DailyReward copyWith({
-    bool? claimed,
-    bool? current,
-  }) {
-    return DailyReward(
-      day: day,
-      coins: coins,
-      claimed: claimed ?? this.claimed,
-      current: current ?? this.current,
-    );
-  }
 }
