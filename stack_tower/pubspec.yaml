@@ -15,7 +15,7 @@ dependencies:
   flame: ^1.37.0
   flame_audio: ^2.11.0
   shared_preferences: ^2.5.5
-  vibration: ^3.1.0
+  vibration: ^3.1.3
   google_mobile_ads: ^9.0.0
   google_fonts: ^6.3.2
   games_services: ^4.0.0
@@ -38,9 +38,13 @@ flutter:
   uses-material-design: true
 
   assets:
+    - lib/core/assets/images/
     - lib/core/assets/images/splash/
     - lib/core/assets/images/home/
     - lib/core/assets/images/daily_reward/
+    - lib/core/assets/images/achievement/
+    - lib/core/assets/images/leaderboard/
+    - lib/core/assets/images/themes/
     - lib/core/assets/images/game/
     - lib/core/assets/images/icons/
     - lib/core/assets/audio/

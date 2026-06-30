@@ -18,8 +18,11 @@ import '../effects/milestone_text.dart';
 import '../../core/services/storage/storage_service.dart';
 import '../../core/services/haptics/haptic_service.dart';
 import '../../core/services/audio/audio_service.dart';
+import '../../core/services/ads/ad_service.dart';
 
 import '../../features/themes/domain/theme_manager.dart';
+import '../../features/themes/models/game_theme.dart';
+import '../../features/themes/data/theme_catalog.dart';
 
 class StackGame extends FlameGame
     with TapCallbacks, ChangeNotifier {
@@ -373,8 +376,12 @@ class StackGame extends FlameGame
     ).toDouble();
 
     if (perfect) {
+      StorageService.incrementPerfectPlacements();
       placedBlock.x = previousBlock.x;
       perfectCombo++;
+      StorageService.saveHighestCombo(
+        perfectCombo,
+      );
 
       final comboBonus =
       (perfectCombo * 8).clamp(8, 50);
@@ -462,7 +469,15 @@ class StackGame extends FlameGame
   Future<void> _gameOver() async {
     gameEnded = true;
 
+    /// Save game played count
+    await StorageService.incrementGamesPlayed();
+
+    /// Save best score
     await StorageService.saveBestScore(
+      score,
+    );
+
+    await StorageService.saveRunScore(
       score,
     );
 
@@ -476,6 +491,8 @@ class StackGame extends FlameGame
     AudioService.playGameOver();
 
     HapticService.heavy();
+
+    AdService.onGameOver();
 
     pauseEngine();
 

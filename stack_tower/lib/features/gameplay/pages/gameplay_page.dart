@@ -1,11 +1,11 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:stack_tower/core/assets/app_assets.dart';
 
-import '../../../engine/game/stack_game.dart';
 import '../../../core/assets/app_assets.dart';
+import '../../../engine/game/stack_game.dart';
 import '../../game_over/pages/game_over_page.dart';
 import '../../pause/pages/pause_page.dart';
+import '../../settings/pages/settings_page.dart';
 import '../widgets/gameplay_hud.dart';
 
 class GameplayPage extends StatefulWidget {
@@ -60,6 +60,7 @@ class _GameplayPageState extends State<GameplayPage> {
             Navigator.pop(context);
             game.resumeEngine();
           },
+
           onRestart: () {
             Navigator.pop(context);
 
@@ -70,15 +71,22 @@ class _GameplayPageState extends State<GameplayPage> {
               ),
             );
           },
-          onSettings: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'Settings Coming Soon',
-                ),
+
+          onSettings: () async {
+            Navigator.pop(context);
+
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SettingsPage(),
               ),
             );
+
+            if (mounted) {
+              game.resumeEngine();
+            }
           },
+
           onHome: () {
             Navigator.pop(context);
             Navigator.pop(context);
@@ -133,7 +141,7 @@ class _GameplayPageState extends State<GameplayPage> {
                   height: 62,
                   decoration: BoxDecoration(
                     color: const Color(0xFF09152D)
-                        .withOpacity(0.75),
+                        .withValues(alpha: 0.75),
                     borderRadius:
                     BorderRadius.circular(20),
                     border: Border.all(
@@ -143,7 +151,7 @@ class _GameplayPageState extends State<GameplayPage> {
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF00E5FF)
-                            .withOpacity(0.35),
+                            .withValues(alpha: 0.35),
                         blurRadius: 24,
                       ),
                     ],

@@ -1,6 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/services/storage/storage_service.dart';
+
+import '../../achievements/pages/achievements_page.dart';
+import '../../settings/pages/settings_page.dart';
+import '../../themes/pages/theme_shop_page.dart';
+
 import '../models/home_state.dart';
 
 class HomeController {
@@ -16,41 +22,65 @@ class HomeController {
   // STATE
   //=========================================================
 
-  final ValueNotifier<HomeState> state = ValueNotifier(
+  final ValueNotifier<HomeState> state =
+  ValueNotifier(
     const HomeState(
       playerName: 'Player',
-      level: 42,
-      xp: 0.72,
-      coins: 98750,
-      gems: 2450,
-      bestScore: 125,
+      level: 1,
+      xp: 0.0,
+      coins: 0,
+      gems: 0,
+      bestScore: 0,
       dailyRewardAvailable: true,
     ),
   );
 
-  final ValueNotifier<bool> isLoading = ValueNotifier(false);
+  final ValueNotifier<bool> isLoading =
+  ValueNotifier(false);
+
+  final ValueNotifier<String> selectedTheme =
+  ValueNotifier('neon');
 
   //=========================================================
   // ANIMATION CONTROLLERS
   //=========================================================
 
-  late final AnimationController entranceController;
-  late final AnimationController playGlowController;
-  late final AnimationController towerFloatController;
+  late final AnimationController
+  entranceController;
+
+  late final AnimationController
+  playGlowController;
+
+  late final AnimationController
+  towerFloatController;
 
   //=========================================================
   // ANIMATIONS
   //=========================================================
 
-  late final Animation<Offset> topBarSlideAnimation;
-  late final Animation<double> towerOpacityAnimation;
-  late final Animation<double> towerScaleAnimation;
-  late final Animation<double> playOpacityAnimation;
-  late final Animation<double> dockOpacityAnimation;
-  late final Animation<Offset> dockSlideAnimation;
+  late final Animation<Offset>
+  topBarSlideAnimation;
 
-  late final Animation<double> playGlowAnimation;
-  late final Animation<double> towerFloatAnimation;
+  late final Animation<double>
+  towerOpacityAnimation;
+
+  late final Animation<double>
+  towerScaleAnimation;
+
+  late final Animation<double>
+  playOpacityAnimation;
+
+  late final Animation<double>
+  dockOpacityAnimation;
+
+  late final Animation<Offset>
+  dockSlideAnimation;
+
+  late final Animation<double>
+  playGlowAnimation;
+
+  late final Animation<double>
+  towerFloatAnimation;
 
   //=========================================================
   // INITIALIZE
@@ -65,7 +95,7 @@ class HomeController {
     _initializeAnimations();
     _startAnimations();
 
-    _loadPlayerData();
+    refresh();
   }
 
   //=========================================================
@@ -73,20 +103,29 @@ class HomeController {
   //=========================================================
 
   void _initializeControllers() {
-    entranceController = AnimationController(
-      vsync: _vsync,
-      duration: const Duration(milliseconds: 900),
-    );
+    entranceController =
+        AnimationController(
+          vsync: _vsync,
+          duration: const Duration(
+            milliseconds: 900,
+          ),
+        );
 
-    playGlowController = AnimationController(
-      vsync: _vsync,
-      duration: const Duration(seconds: 2),
-    );
+    playGlowController =
+        AnimationController(
+          vsync: _vsync,
+          duration: const Duration(
+            seconds: 2,
+          ),
+        );
 
-    towerFloatController = AnimationController(
-      vsync: _vsync,
-      duration: const Duration(seconds: 5),
-    );
+    towerFloatController =
+        AnimationController(
+          vsync: _vsync,
+          duration: const Duration(
+            seconds: 5,
+          ),
+        );
   }
 
   //=========================================================
@@ -94,109 +133,120 @@ class HomeController {
   //=========================================================
 
   void _initializeAnimations() {
-    topBarSlideAnimation = Tween<Offset>(
-      begin: const Offset(0, -0.35),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: entranceController,
-        curve: const Interval(
-          0.0,
-          0.35,
-          curve: Curves.easeOutCubic,
-        ),
-      ),
-    );
+    topBarSlideAnimation =
+        Tween<Offset>(
+          begin: const Offset(0, -0.35),
+          end: Offset.zero,
+        ).animate(
+          CurvedAnimation(
+            parent: entranceController,
+            curve: const Interval(
+              0.0,
+              0.35,
+              curve: Curves.easeOutCubic,
+            ),
+          ),
+        );
 
-    towerOpacityAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: entranceController,
-        curve: const Interval(
-          0.15,
-          0.65,
-          curve: Curves.easeOut,
-        ),
-      ),
-    );
+    towerOpacityAnimation =
+        Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: entranceController,
+            curve: const Interval(
+              0.15,
+              0.65,
+              curve: Curves.easeOut,
+            ),
+          ),
+        );
 
-    towerScaleAnimation = Tween<double>(
-      begin: 0.75,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: entranceController,
-        curve: const Interval(
-          0.15,
-          0.65,
-          curve: Curves.easeOutBack,
-        ),
-      ),
-    );
+    towerScaleAnimation =
+        Tween<double>(
+          begin: 0.75,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: entranceController,
+            curve: const Interval(
+              0.15,
+              0.65,
+              curve: Curves.easeOutBack,
+            ),
+          ),
+        );
 
-    playOpacityAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: entranceController,
-        curve: const Interval(
-          0.45,
-          0.85,
-          curve: Curves.easeOut,
-        ),
-      ),
-    );
+    playOpacityAnimation =
+        Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: entranceController,
+            curve: const Interval(
+              0.45,
+              0.85,
+              curve: Curves.easeOut,
+            ),
+          ),
+        );
 
-    dockOpacityAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: entranceController,
-        curve: const Interval(
-          0.60,
-          1.00,
-          curve: Curves.easeOut,
-        ),
-      ),
-    );
+    dockOpacityAnimation =
+        Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: entranceController,
+            curve: const Interval(
+              0.60,
+              1.00,
+              curve: Curves.easeOut,
+            ),
+          ),
+        );
 
-    dockSlideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.40),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: entranceController,
-        curve: const Interval(
-          0.60,
-          1.00,
-          curve: Curves.easeOutCubic,
-        ),
-      ),
-    );
+    dockSlideAnimation =
+        Tween<Offset>(
+          begin: const Offset(
+            0,
+            0.40,
+          ),
+          end: Offset.zero,
+        ).animate(
+          CurvedAnimation(
+            parent: entranceController,
+            curve: const Interval(
+              0.60,
+              1.00,
+              curve: Curves.easeOutCubic,
+            ),
+          ),
+        );
 
-    playGlowAnimation = Tween<double>(
-      begin: 0.96,
-      end: 1.04,
-    ).animate(
-      CurvedAnimation(
-        parent: playGlowController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    playGlowAnimation =
+        Tween<double>(
+          begin: 0.96,
+          end: 1.04,
+        ).animate(
+          CurvedAnimation(
+            parent: playGlowController,
+            curve: Curves.easeInOut,
+          ),
+        );
 
-    towerFloatAnimation = Tween<double>(
-      begin: -8,
-      end: 8,
-    ).animate(
-      CurvedAnimation(
-        parent: towerFloatController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    towerFloatAnimation =
+        Tween<double>(
+          begin: -8,
+          end: 8,
+        ).animate(
+          CurvedAnimation(
+            parent: towerFloatController,
+            curve: Curves.easeInOut,
+          ),
+        );
   }
 
   //=========================================================
@@ -206,40 +256,82 @@ class HomeController {
   void _startAnimations() {
     entranceController.forward();
 
-    playGlowController.repeat(reverse: true);
+    playGlowController.repeat(
+      reverse: true,
+    );
 
-    towerFloatController.repeat(reverse: true);
+    towerFloatController.repeat(
+      reverse: true,
+    );
   }
 
   //=========================================================
   // LOAD DATA
   //=========================================================
 
-  void _loadPlayerData() {
+  Future<void> _loadPlayerData() async {
     isLoading.value = true;
 
-    // TODO:
-    // Load SharedPreferences
-    // Audio
-    // Theme
-    // Ads
+    try {
+      final bestScore =
+      await StorageService.getBestScore();
 
-    isLoading.value = false;
+      final coins =
+      await StorageService.getCoins();
+
+      final diamonds =
+      await StorageService.getDiamonds();
+
+      final theme =
+      await StorageService.getSelectedTheme();
+
+      selectedTheme.value = theme;
+
+      state.value = state.value.copyWith(
+        bestScore: bestScore,
+        coins: coins,
+        gems: diamonds,
+      );
+    } catch (e) {
+      debugPrint(
+        'HomeController load error: $e',
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> refresh() async {
+    await _loadPlayerData();
   }
 
   //=========================================================
   // ACTIONS
   //=========================================================
 
-  void addCoins(int amount) {
+  Future<void> addCoins(int amount) async {
+    final newValue =
+        state.value.coins + amount;
+
+    await StorageService.saveCoins(
+      newValue,
+    );
+
     state.value = state.value.copyWith(
-      coins: state.value.coins + amount,
+      coins: newValue,
     );
   }
 
-  void addGems(int amount) {
+  Future<void> addGems(int amount) async {
+    final newValue =
+        state.value.gems + amount;
+
+    await StorageService.saveDiamonds(
+      newValue,
+    );
+
     state.value = state.value.copyWith(
-      gems: state.value.gems + amount,
+      gems: newValue,
     );
   }
 
@@ -257,33 +349,73 @@ class HomeController {
     );
   }
 
-  void refresh() {
-    _loadPlayerData();
+  //=========================================================
+  // NAVIGATION
+  //=========================================================
+
+  void startGame(
+      BuildContext context,
+      ) {}
+
+  void openShop(
+      BuildContext context,
+      ) {}
+
+  void openLeaderboard(
+      BuildContext context,
+      ) {}
+
+  Future<void> openSettings(
+      BuildContext context,
+      ) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+        const SettingsPage(),
+      ),
+    );
+
+    await refresh();
   }
 
-  //=========================================================
-// NAVIGATION
-//=========================================================
+  void openInventory(
+      BuildContext context,
+      ) {}
 
-  void startGame() {}
+  void openMission(
+      BuildContext context,
+      ) {}
 
-  void openShop() {}
-
-  void openLeaderboard() {}
-
-  void openSettings() {}
-
-  void openInventory() {}
-
-  void openMission() {}
-
-  void openAchievements() {}
+  void openAchievements(
+      BuildContext context,
+      ) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+        const AchievementsPage(),
+      ),
+    );
+  }
 
   void openDailyReward() {
     claimDailyReward();
   }
 
-  void openThemes() {}
+  Future<void> openThemes(
+      BuildContext context,
+      ) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+        const ThemeShopPage(),
+      ),
+    );
+
+    await refresh();
+  }
 
   //=========================================================
   // DISPOSE
@@ -298,5 +430,6 @@ class HomeController {
 
     state.dispose();
     isLoading.dispose();
+    selectedTheme.dispose();
   }
 }

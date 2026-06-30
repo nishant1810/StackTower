@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+
+class SettingsTile extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String title;
+  final VoidCallback onTap;
+
+  const SettingsTile({
+    super.key,
+    required this.icon,
+    required this.iconColor,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius:
+        BorderRadius.circular(22),
+        onTap: onTap,
+        child: Container(
+          height: 76,
+          margin: const EdgeInsets.only(
+            bottom: 14,
+          ),
+          decoration: BoxDecoration(
+            borderRadius:
+            BorderRadius.circular(22),
+            border: Border.all(
+              color: const Color(
+                0xFF7B61FF,
+              ).withValues(alpha: 0.45),
+              width: 1.4,
+            ),
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF0B1033),
+                const Color(0xFF131A4D),
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(
+                  0xFF6A5CFF,
+                ).withValues(
+                  alpha: 0.15,
+                ),
+                blurRadius: 16,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding:
+            const EdgeInsets.symmetric(
+              horizontal: 18,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  alignment:
+                  Alignment.center,
+                  decoration:
+                  BoxDecoration(
+                    shape:
+                    BoxShape.circle,
+                    color:
+                    iconColor.withValues(
+                      alpha: 0.12,
+                    ),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: iconColor,
+                    size: 26,
+                  ),
+                ),
+
+                const SizedBox(
+                  width: 18,
+                ),
+
+                Expanded(
+                  child: Text(
+                    title,
+                    style:
+                    const TextStyle(
+                      color:
+                      Colors.white,
+                      fontSize: 20,
+                      fontWeight:
+                      FontWeight.w500,
+                    ),
+                  ),
+                ),
+
+                const Icon(
+                  Icons.chevron_right,
+                  color: Colors.white70,
+                  size: 28,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

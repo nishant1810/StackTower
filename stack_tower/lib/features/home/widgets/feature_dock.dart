@@ -29,7 +29,7 @@ class FeatureDock extends StatelessWidget {
           ),
           _DockCard(
             icon: Icons.workspace_premium_rounded,
-            label: 'ACHIEVE',
+            label: 'MISSION',
             color: const Color(0xFFFFB347),
             onTap: onAchievements,
           ),

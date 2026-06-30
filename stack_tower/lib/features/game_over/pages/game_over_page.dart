@@ -5,7 +5,10 @@ import 'package:stack_tower/features/game_over/pages/new_best_game_over_page.dar
 import 'package:stack_tower/features/game_over/pages/normal_game_over_page.dart';
 import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
-class GameOverPage extends StatelessWidget {
+import '../../../core/services/ads/ad_service.dart';
+import '../../../core/services/storage/storage_service.dart';
+
+class GameOverPage extends StatefulWidget {
   final int score;
   final int bestScore;
   final int coinsEarned;
@@ -17,8 +20,17 @@ class GameOverPage extends StatelessWidget {
     required this.coinsEarned,
   });
 
-  /// Show celebration when player beats OR equals best score
-  bool get isNewBest => score >= bestScore;
+  @override
+  State<GameOverPage> createState() =>
+      _GameOverPageState();
+}
+
+class _GameOverPageState
+    extends State<GameOverPage> {
+  bool _rewardClaimed = false;
+
+  bool get isNewBest =>
+      widget.score >= widget.bestScore;
 
   void _restartGame(BuildContext context) {
     Navigator.of(context).pushReplacement(
@@ -34,32 +46,53 @@ class GameOverPage extends StatelessWidget {
     );
   }
 
-  void _showReward(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Rewarded Ads Coming Soon'),
-      ),
+  Future<void> _showReward(
+      BuildContext context) async {
+    if (_rewardClaimed) return;
+
+    AdService.showRewardedAd(
+      onRewardEarned: () async {
+        await StorageService.addCoins(
+          widget.coinsEarned,
+        );
+
+        if (!mounted) return;
+
+        setState(() {
+          _rewardClaimed = true;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '+${widget.coinsEarned} Bonus Coins Added!',
+            ),
+          ),
+        );
+      },
     );
   }
 
   void _shareScore(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Share Feature Coming Soon'),
+        content: Text(
+          'Share Feature Coming Soon',
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool showNewBestScreen = score >= bestScore;
+    final bool showNewBestScreen =
+        widget.score >= widget.bestScore;
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          /// BACKGROUND
           Positioned.fill(
             child: Image.asset(
               showNewBestScreen
@@ -69,28 +102,41 @@ class GameOverPage extends StatelessWidget {
             ),
           ),
 
-          /// DARK OVERLAY
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withOpacity(
+                0.15,
+              ),
             ),
           ),
 
-          /// CONTENT
           SafeArea(
             child: showNewBestScreen
                 ? NewBestGameOverPage(
-              score: score,
-              onReplay: () => _restartGame(context),
-              onShare: () => _shareScore(context),
+              score: widget.score,
+              onReplay: () =>
+                  _restartGame(context),
+              onReward: _rewardClaimed
+                  ? null
+                  : () => _showReward(context),
             )
                 : NormalGameOverPage(
-              score: score,
-              bestScore: bestScore,
-              coins: coinsEarned,
-              onReplay: () => _restartGame(context),
-              onHome: () => _goHome(context),
-              onReward: () => _showReward(context),
+              score: widget.score,
+              bestScore:
+              widget.bestScore,
+              coins:
+              widget.coinsEarned,
+              onReplay: () =>
+                  _restartGame(context),
+              onHome: () =>
+                  _goHome(context),
+
+              /// Rewarded Ad
+              onReward: _rewardClaimed
+                  ? null
+                  : () => _showReward(
+                context,
+              ),
             ),
           ),
         ],

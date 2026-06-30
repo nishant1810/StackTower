@@ -1,14 +1,30 @@
 import 'package:flame_audio/flame_audio.dart';
-import '../settings/settings_service.dart';
+
+import '../storage/storage_service.dart';
 
 class AudioService {
+  AudioService._();
+
   static bool _initialized = false;
   static bool _bgmStarted = false;
+
+  static bool _musicEnabled = true;
+  static bool _sfxEnabled = true;
+
+  //=========================================================
+  // INITIALIZE
+  //=========================================================
 
   static Future<void> initialize() async {
     if (_initialized) return;
 
     try {
+      _musicEnabled =
+      await StorageService.getMusicEnabled();
+
+      _sfxEnabled =
+      await StorageService.getSfxEnabled();
+
       await FlameAudio.audioCache.loadAll([
         'bg_music.wav',
         'drop.wav',
@@ -24,15 +40,30 @@ class AudioService {
     }
   }
 
-  /// Background Music
+  //=========================================================
+  // SETTINGS CACHE
+  //=========================================================
+
+  static Future<void> refreshSettings() async {
+    _musicEnabled =
+    await StorageService.getMusicEnabled();
+
+    _sfxEnabled =
+    await StorageService.getSfxEnabled();
+  }
+
+  //=========================================================
+  // MUSIC
+  //=========================================================
+
   static Future<void> startBackgroundMusic() async {
-    if (!SettingsService.musicEnabled) return;
-
-    await initialize();
-
-    if (_bgmStarted) return;
-
     try {
+      await initialize();
+
+      if (!_musicEnabled) return;
+
+      if (_bgmStarted) return;
+
       await FlameAudio.bgm.play(
         'bg_music.wav',
         volume: 0.35,
@@ -62,54 +93,82 @@ class AudioService {
   }
 
   static Future<void> resumeBackgroundMusic() async {
-    if (!SettingsService.musicEnabled) return;
-
     try {
+      if (!_musicEnabled) return;
+
       await FlameAudio.bgm.resume();
     } catch (e) {
       print('BGM RESUME ERROR: $e');
     }
   }
 
-  /// Drop Sound
-  static Future<void> playDrop() async {
-    if (!SettingsService.soundEnabled) return;
+  //=========================================================
+  // SFX
+  //=========================================================
 
-    try {
-      await FlameAudio.play(
-        'drop.wav',
-        volume: 0.7,
-      );
-    } catch (e) {
-      print('DROP ERROR: $e');
+  static void playDrop() {
+    if (!_sfxEnabled) return;
+
+    FlameAudio.play(
+      'drop.wav',
+      volume: 0.7,
+    );
+  }
+
+  static void playPerfect() {
+    if (!_sfxEnabled) return;
+
+    FlameAudio.play(
+      'perfect.wav',
+      volume: 1.0,
+    );
+  }
+
+  static void playGameOver() {
+    if (!_sfxEnabled) return;
+
+    FlameAudio.play(
+      'game_over.wav',
+      volume: 1.0,
+    );
+  }
+
+  //=========================================================
+  // TOGGLE HELPERS
+  //=========================================================
+
+  static Future<void> setMusicEnabled(
+      bool value) async {
+    _musicEnabled = value;
+
+    await StorageService.saveMusicEnabled(value);
+
+    if (value) {
+      await startBackgroundMusic();
+    } else {
+      await stopBackgroundMusic();
     }
   }
 
-  /// Perfect Sound
-  static Future<void> playPerfect() async {
-    if (!SettingsService.soundEnabled) return;
+  static Future<void> setSfxEnabled(
+      bool value) async {
+    _sfxEnabled = value;
 
-    try {
-      await FlameAudio.play(
-        'perfect.wav',
-        volume: 1.0,
-      );
-    } catch (e) {
-      print('PERFECT ERROR: $e');
-    }
+    await StorageService.saveSfxEnabled(value);
   }
 
-  /// Game Over Sound
-  static Future<void> playGameOver() async {
-    if (!SettingsService.soundEnabled) return;
+  //=========================================================
+  // CLEANUP
+  //=========================================================
 
+  static Future<void> dispose() async {
     try {
-      await FlameAudio.play(
-        'game_over.wav',
-        volume: 1.0,
-      );
+      await FlameAudio.bgm.stop();
+
+      _bgmStarted = false;
+      _initialized = false;
     } catch (e) {
-      print('GAME OVER ERROR: $e');
+      print('AUDIO DISPOSE ERROR: $e');
     }
   }
 }

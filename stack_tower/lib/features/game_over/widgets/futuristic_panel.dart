@@ -20,91 +20,127 @@ class FuturisticPanel extends StatelessWidget {
         child: Stack(
           children: [
             /// OUTER GLOW
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFAA6BFF)
-                        .withValues(alpha: 0.22),
-                    blurRadius: 40,
-                    spreadRadius: 2,
-                  ),
-                  BoxShadow(
-                    color: const Color(0xFF00E5FF)
-                        .withValues(alpha: 0.12),
-                    blurRadius: 32,
-                    spreadRadius: 1,
-                  ),
-                ],
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius:
+                  BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(
+                        0xFFAA6BFF,
+                      ).withOpacity(0.22),
+                      blurRadius: 40,
+                      spreadRadius: 2,
+                    ),
+                    BoxShadow(
+                      color: const Color(
+                        0xFF00E5FF,
+                      ).withOpacity(0.12),
+                      blurRadius: 32,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
               ),
             ),
 
-            /// GLASS PANEL
+            /// PANEL
             ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius:
+              BorderRadius.circular(30),
               child: BackdropFilter(
                 filter: ImageFilter.blur(
                   sigmaX: 16,
                   sigmaY: 16,
                 ),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding:
+                  const EdgeInsets.symmetric(
                     horizontal: 18,
                     vertical: 18,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius:
+                    BorderRadius.circular(30),
                     color: const Color(
                       0xFF0A1025,
-                    ).withValues(alpha: 0.35),
+                    ).withOpacity(0.35),
                     border: Border.all(
                       color: const Color(
                         0xFFB56DFF,
-                      ).withValues(alpha: 0.75),
+                      ).withOpacity(0.75),
                       width: 1.4,
                     ),
                   ),
-                  child: Stack(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      /// INNER BORDER
-                      Positioned.fill(
-                        child: Container(
-                          margin: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(24),
-                            border: Border.all(
-                              color: Colors.white
-                                  .withValues(alpha: 0.05),
+                      Stack(
+                        children: [
+                          /// INNER BORDER
+                          Positioned.fill(
+                            child: Container(
+                              margin:
+                              const EdgeInsets.all(
+                                5,
+                              ),
+                              decoration:
+                              BoxDecoration(
+                                borderRadius:
+                                BorderRadius
+                                    .circular(
+                                  24,
+                                ),
+                                border: Border.all(
+                                  color: Colors.white
+                                      .withOpacity(
+                                    0.05,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
 
-                      /// TOP GLOW
-                      Positioned(
-                        top: -35,
-                        left: 40,
-                        right: 40,
-                        child: Container(
-                          height: 80,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(999),
-                            gradient: RadialGradient(
-                              colors: [
-                                const Color(
-                                  0xFFAA6BFF,
-                                ).withValues(alpha: 0.15),
-                                Colors.transparent,
-                              ],
+                          /// TOP GLOW
+                          Positioned(
+                            top: -35,
+                            left: 40,
+                            right: 40,
+                            child: Container(
+                              height: 80,
+                              decoration:
+                              BoxDecoration(
+                                borderRadius:
+                                BorderRadius
+                                    .circular(
+                                  999,
+                                ),
+                                gradient:
+                                RadialGradient(
+                                  colors: [
+                                    const Color(
+                                      0xFFAA6BFF,
+                                    ).withOpacity(
+                                      0.15,
+                                    ),
+                                    Colors
+                                        .transparent,
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
 
-                      child,
+                          Padding(
+                            padding:
+                            const EdgeInsets.all(
+                              8,
+                            ),
+                            child: child,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -112,14 +148,14 @@ class FuturisticPanel extends StatelessWidget {
             ),
 
             /// CORNER ACCENTS
-
             Positioned(
               top: 0,
               left: 0,
               child: Container(
                 width: 50,
                 height: 2,
-                color: const Color(0xFF00E5FF),
+                color:
+                const Color(0xFF00E5FF),
               ),
             ),
 
@@ -129,7 +165,8 @@ class FuturisticPanel extends StatelessWidget {
               child: Container(
                 width: 50,
                 height: 2,
-                color: const Color(0xFFB56DFF),
+                color:
+                const Color(0xFFB56DFF),
               ),
             ),
 
@@ -139,7 +176,8 @@ class FuturisticPanel extends StatelessWidget {
               child: Container(
                 width: 50,
                 height: 2,
-                color: const Color(0xFFB56DFF),
+                color:
+                const Color(0xFFB56DFF),
               ),
             ),
 
@@ -149,7 +187,8 @@ class FuturisticPanel extends StatelessWidget {
               child: Container(
                 width: 50,
                 height: 2,
-                color: const Color(0xFF00E5FF),
+                color:
+                const Color(0xFF00E5FF),
               ),
             ),
           ],

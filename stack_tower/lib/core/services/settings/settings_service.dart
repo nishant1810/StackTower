@@ -1,40 +1,50 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsService {
+  SettingsService._();
+
   static const String musicKey = 'musicEnabled';
   static const String soundKey = 'soundEnabled';
   static const String vibrationKey = 'vibrationEnabled';
+
+  static SharedPreferences? _prefs;
 
   static bool musicEnabled = true;
   static bool soundEnabled = true;
   static bool vibrationEnabled = true;
 
+  //=========================================================
+  // INITIALIZE
+  //=========================================================
+
   static Future<void> load() async {
     try {
-      final prefs =
-      await SharedPreferences.getInstance();
+      _prefs ??= await SharedPreferences.getInstance();
 
       musicEnabled =
-          prefs.getBool(musicKey) ?? true;
+          _prefs!.getBool(musicKey) ?? true;
 
       soundEnabled =
-          prefs.getBool(soundKey) ?? true;
+          _prefs!.getBool(soundKey) ?? true;
 
       vibrationEnabled =
-          prefs.getBool(vibrationKey) ?? true;
+          _prefs!.getBool(vibrationKey) ?? true;
     } catch (e) {
       print('SETTINGS LOAD ERROR: $e');
     }
   }
 
+  //=========================================================
+  // MUSIC
+  //=========================================================
+
   static Future<void> setMusic(bool value) async {
     try {
       musicEnabled = value;
 
-      final prefs =
-      await SharedPreferences.getInstance();
+      _prefs ??= await SharedPreferences.getInstance();
 
-      await prefs.setBool(
+      await _prefs!.setBool(
         musicKey,
         value,
       );
@@ -43,14 +53,17 @@ class SettingsService {
     }
   }
 
+  //=========================================================
+  // SOUND
+  //=========================================================
+
   static Future<void> setSound(bool value) async {
     try {
       soundEnabled = value;
 
-      final prefs =
-      await SharedPreferences.getInstance();
+      _prefs ??= await SharedPreferences.getInstance();
 
-      await prefs.setBool(
+      await _prefs!.setBool(
         soundKey,
         value,
       );
@@ -59,20 +72,55 @@ class SettingsService {
     }
   }
 
-  static Future<void> setVibration(
-      bool value) async {
+  //=========================================================
+  // VIBRATION
+  //=========================================================
+
+  static Future<void> setVibration(bool value) async {
     try {
       vibrationEnabled = value;
 
-      final prefs =
-      await SharedPreferences.getInstance();
+      _prefs ??= await SharedPreferences.getInstance();
 
-      await prefs.setBool(
+      await _prefs!.setBool(
         vibrationKey,
         value,
       );
     } catch (e) {
       print('SET VIBRATION ERROR: $e');
+    }
+  }
+
+  //=========================================================
+  // GETTERS
+  //=========================================================
+
+  static bool get isMusicEnabled =>
+      musicEnabled;
+
+  static bool get isSoundEnabled =>
+      soundEnabled;
+
+  static bool get isVibrationEnabled =>
+      vibrationEnabled;
+
+  //=========================================================
+  // RESET
+  //=========================================================
+
+  static Future<void> reset() async {
+    try {
+      _prefs ??= await SharedPreferences.getInstance();
+
+      musicEnabled = true;
+      soundEnabled = true;
+      vibrationEnabled = true;
+
+      await _prefs!.setBool(musicKey, true);
+      await _prefs!.setBool(soundKey, true);
+      await _prefs!.setBool(vibrationKey, true);
+    } catch (e) {
+      print('SETTINGS RESET ERROR: $e');
     }
   }
 }

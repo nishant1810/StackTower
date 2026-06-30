@@ -3,10 +3,14 @@ import 'package:stack_tower/features/daily_reward/controllers/daily_reward_contr
 import 'package:stack_tower/features/daily_reward/pages/daily_reward_page.dart';
 import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
-import '../../../core/services/storage_service.dart';
+import '../../../core/services/storage/storage_service.dart';
+
 import '../../leaderboard/pages/leaderboard_page.dart';
+import '../../settings/pages/settings_page.dart';
+import '../../themes/pages/theme_shop_page.dart';
 
 import '../controllers/home_controller.dart';
+
 import '../widgets/aurora_layer.dart';
 import '../widgets/feature_dock.dart';
 import '../widgets/home_background.dart';
@@ -57,6 +61,8 @@ class _HomePageState extends State<HomePage>
         builder: (_) => const GameplayPage(),
       ),
     );
+
+    await controller.refresh();
   }
 
   Future<void> _openDailyReward() async {
@@ -68,25 +74,24 @@ class _HomePageState extends State<HomePage>
         builder: (_) => DailyRewardPage(),
       ),
     );
+
+    await controller.refresh();
   }
 
   Future<void> _openLeaderboard() async {
-    final bestScore = await StorageService.getBestScore();
-
     if (!mounted) return;
 
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => LeaderboardPage(
-          bestScore: bestScore,
-        ),
+        builder: (_) => const LeaderboardPage(),
       ),
     );
   }
 
   Future<void> _checkDailyReward() async {
-    final rewardController = DailyRewardController();
+    final rewardController =
+    DailyRewardController();
 
     await rewardController.initialize();
 
@@ -111,6 +116,8 @@ class _HomePageState extends State<HomePage>
           builder: (_) => DailyRewardPage(),
         ),
       );
+
+      await controller.refresh();
     }
 
     rewardController.dispose();
@@ -138,66 +145,97 @@ class _HomePageState extends State<HomePage>
                   children: [
                     HomeHud(
                       controller: controller,
-                      onSettingsTap: controller.openSettings,
+                      onSettingsTap: () =>
+                          controller.openSettings(
+                            context,
+                          ),
                     ),
 
                     const SizedBox(height: 10),
 
                     Expanded(
                       child: LayoutBuilder(
-                        builder: (context, constraints) {
+                        builder: (
+                            context,
+                            constraints,
+                            ) {
                           final isSmallPhone =
-                              constraints.maxWidth < 380;
+                              constraints.maxWidth <
+                                  380;
 
                           return Row(
                             crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            CrossAxisAlignment
+                                .start,
                             children: [
-                              /// LEFT PANEL
+                              // LEFT PANEL
                               SizedBox(
-                                width: isSmallPhone ? 150 : 160,
+                                width:
+                                isSmallPhone
+                                    ? 150
+                                    : 160,
                                 child: Align(
-                                  alignment: Alignment.topCenter,
+                                  alignment:
+                                  Alignment
+                                      .topCenter,
                                   child: Padding(
                                     padding:
                                     const EdgeInsets.only(
                                       top: 60,
                                     ),
-                                    child: HomeLeftPanel(
-                                      controller: controller,
+                                    child:
+                                    HomeLeftPanel(
+                                      controller:
+                                      controller,
                                     ),
                                   ),
                                 ),
                               ),
 
                               SizedBox(
-                                width: isSmallPhone ? 2 : 6,
+                                width:
+                                isSmallPhone
+                                    ? 2
+                                    : 6,
                               ),
 
-                              /// CENTER PANEL
+                              // CENTER PANEL
                               Expanded(
-                                child: HomeCenterPanel(
-                                  controller: controller,
-                                  onPlay: _startGame,
+                                child:
+                                HomeCenterPanel(
+                                  controller:
+                                  controller,
+                                  onPlay:
+                                  _startGame,
                                 ),
                               ),
 
                               SizedBox(
-                                width: isSmallPhone ? 2 : 6,
+                                width:
+                                isSmallPhone
+                                    ? 2
+                                    : 6,
                               ),
 
-                              /// RIGHT PANEL
+                              // RIGHT PANEL
                               SizedBox(
-                                width: isSmallPhone ? 110 : 120,
+                                width:
+                                isSmallPhone
+                                    ? 110
+                                    : 120,
                                 child: Align(
-                                  alignment: Alignment.topCenter,
+                                  alignment:
+                                  Alignment
+                                      .topCenter,
                                   child: Padding(
                                     padding:
                                     const EdgeInsets.only(
                                       top: 60,
                                     ),
-                                    child: HomeRightPanel(
-                                      controller: controller,
+                                    child:
+                                    HomeRightPanel(
+                                      controller:
+                                      controller,
                                       onRewardTap:
                                       _openDailyReward,
                                     ),
@@ -213,11 +251,24 @@ class _HomePageState extends State<HomePage>
                     const SizedBox(height: 8),
 
                     FeatureDock(
-                      onLeaderboard: _openLeaderboard,
-                      onAchievements:
-                      controller.openAchievements,
-                      onShop: controller.openShop,
-                      onThemes: controller.openThemes,
+                      onLeaderboard:
+                      _openLeaderboard,
+
+                      onAchievements: () =>
+                          controller
+                              .openAchievements(
+                            context,
+                          ),
+
+                      onShop: () =>
+                          controller.openShop(
+                            context,
+                          ),
+
+                      onThemes: () =>
+                          controller.openThemes(
+                            context,
+                          ),
                     ),
 
                     const SizedBox(height: 8),

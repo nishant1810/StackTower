@@ -1,321 +1,154 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
-import '../models/achievement.dart';
+import '../models/achievement_model.dart';
 
-class AchievementCard extends StatefulWidget {
+class AchievementCard extends StatelessWidget {
+  final AchievementModel achievement;
+
   const AchievementCard({
     super.key,
     required this.achievement,
-    required this.onClaim,
   });
-
-  final Achievement achievement;
-
-  final VoidCallback onClaim;
-
-  @override
-  State<AchievementCard> createState() =>
-      _AchievementCardState();
-}
-
-class _AchievementCardState
-    extends State<AchievementCard>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        seconds: 2,
-      ),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Color get _accent {
-    if (widget.achievement.claimed) {
-      return Colors.green;
-    }
-
-    if (widget.achievement.completed) {
-      return Colors.amber;
-    }
-
-    return const Color(0xff38BDF8);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (_, __) {
-        final glow =
-            18 +
-                math.sin(
-                  _controller.value * math.pi,
-                ) *
-                    8;
+    final isUnlocked = achievement.unlocked;
 
-        return Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 18,
-            vertical: 10,
+    final displayProgress =
+    achievement.progress > achievement.target
+        ? achievement.target
+        : achievement.progress;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white.withValues(
+          alpha: 0.08,
+        ),
+        border: Border.all(
+          color: isUnlocked
+              ? Colors.amber
+              : Colors.white24,
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isUnlocked
+                ? Colors.amber.withValues(
+              alpha: 0.25,
+            )
+                : Colors.black26,
+            blurRadius: 18,
+            spreadRadius: 1,
           ),
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            borderRadius:
-            BorderRadius.circular(22),
-
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xCC0F172A),
-                Color(0xCC1E293B),
-              ],
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 62,
+            height: 62,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isUnlocked
+                  ? Colors.amber.withValues(
+                alpha: 0.18,
+              )
+                  : Colors.white10,
             ),
-
-            border: Border.all(
-              color: _accent,
-              width: 1.4,
+            child: Icon(
+              achievement.icon,
+              size: 30,
+              color: isUnlocked
+                  ? Colors.amber
+                  : Colors.white70,
             ),
-
-            boxShadow: [
-              BoxShadow(
-                color: _accent.withValues(
-                  alpha: .25,
-                ),
-                blurRadius: glow,
-              ),
-            ],
           ),
-          child: Column(
-            children: [
 
-              //--------------------------------
-              // HEADER
-              //--------------------------------
+          const SizedBox(width: 16),
 
-              Row(
-                children: [
-
-                  Container(
-                    width: 54,
-                    height: 54,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient:
-                      LinearGradient(
-                        colors: [
-                          _accent,
-                          _accent.withValues(
-                            alpha: .6,
-                          ),
-                        ],
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.emoji_events,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-
-                  const SizedBox(width: 16),
-
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                      children: [
-
-                        Text(
-                          widget
-                              .achievement
-                              .title,
-                          style:
-                          const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight:
-                            FontWeight.w800,
-                          ),
-                        ),
-
-                        const SizedBox(
-                          height: 4,
-                        ),
-
-                        Text(
-                          widget
-                              .achievement
-                              .description,
-                          style:
-                          const TextStyle(
-                            color:
-                            Colors.white70,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              //--------------------------------
-              // PROGRESS BAR
-              //--------------------------------
-
-              ClipRRect(
-                borderRadius:
-                BorderRadius.circular(12),
-                child: LinearProgressIndicator(
-                  minHeight: 10,
-                  value: widget
-                      .achievement
-                      .percentage
-                      .clamp(0, 1),
-                  backgroundColor:
-                  Colors.white12,
-                  valueColor:
-                  AlwaysStoppedAnimation(
-                    _accent,
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Text(
+                  achievement.title,
+                  style: TextStyle(
+                    color: isUnlocked
+                        ? Colors.white
+                        : Colors.white70,
+                    fontSize: 18,
+                    fontWeight:
+                    FontWeight.w700,
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 4),
 
-              //--------------------------------
-              // PROGRESS
-              //--------------------------------
-
-              Align(
-                alignment:
-                Alignment.centerRight,
-                child: Text(
-                  "${widget.achievement.progress}/${widget.achievement.target}",
+                Text(
+                  achievement.description,
                   style: const TextStyle(
                     color: Colors.white60,
-                    fontSize: 12,
+                    fontSize: 13,
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
-              //--------------------------------
-              // FOOTER
-              //--------------------------------
-
-              Row(
-                children: [
-
-                  Container(
-                    padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(
-                        30,
-                      ),
-                      color: Colors.amber
-                          .withValues(
-                        alpha: .15,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-
-                        const Icon(
-                          Icons
-                              .monetization_on,
-                          color: Colors.amber,
-                          size: 18,
-                        ),
-
-                        const SizedBox(width: 6),
-
-                        Text(
-                          "${widget.achievement.reward}",
-                          style:
-                          const TextStyle(
-                            color:
-                            Colors.white,
-                            fontWeight:
-                            FontWeight.w700,
-                          ),
-                        ),
-                      ],
+                ClipRRect(
+                  borderRadius:
+                  BorderRadius.circular(
+                    12,
+                  ),
+                  child:
+                  LinearProgressIndicator(
+                    minHeight: 8,
+                    value: achievement
+                        .progressPercent,
+                    backgroundColor:
+                    Colors.white10,
+                    valueColor:
+                    AlwaysStoppedAnimation(
+                      isUnlocked
+                          ? Colors.amber
+                          : Colors.cyan,
                     ),
                   ),
+                ),
 
-                  const Spacer(),
+                const SizedBox(height: 8),
 
-                  _buildButton(),
-                ],
-              ),
-            ],
+                Text(
+                  '$displayProgress/${achievement.target}',
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    fontWeight:
+                    FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
           ),
-        );
-      },
-    );
-  }
 
-  Widget _buildButton() {
-    if (widget.achievement.claimed) {
-      return const Chip(
-        backgroundColor: Colors.green,
-        label: Text(
-          "CLAIMED",
-          style: TextStyle(
-            color: Colors.white,
+          const SizedBox(width: 12),
+
+          Icon(
+            isUnlocked
+                ? Icons.verified
+                : Icons.lock_outline,
+            color: isUnlocked
+                ? Colors.amber
+                : Colors.white54,
+            size: 28,
           ),
-        ),
-      );
-    }
-
-    if (!widget.achievement.completed) {
-      return const Chip(
-        backgroundColor: Colors.blueGrey,
-        label: Text(
-          "LOCKED",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
-
-    return ElevatedButton(
-      onPressed: widget.onClaim,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.amber,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius:
-          BorderRadius.circular(14),
-        ),
-      ),
-      child: const Text(
-        "CLAIM",
+        ],
       ),
     );
   }

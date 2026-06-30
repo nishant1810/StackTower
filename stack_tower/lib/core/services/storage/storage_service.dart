@@ -1,13 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
-  // =========================
+  StorageService._();
+
+  //=========================================================
   // KEYS
-  // =========================
+  //=========================================================
 
   static const String bestScoreKey = 'best_score';
-
   static const String coinsKey = 'coins';
+  static const String diamondsKey = 'diamonds';
 
   static const String lastRewardDateKey =
       'last_reward_date';
@@ -21,9 +23,32 @@ class StorageService {
   static const String unlockedThemesKey =
       'unlocked_themes';
 
-  // =========================
+  static const String gamesPlayedKey =
+      'games_played';
+
+  static const String musicEnabledKey =
+      'music_enabled';
+
+  static const String sfxEnabledKey =
+      'sfx_enabled';
+
+  static const String vibrationEnabledKey =
+      'vibration_enabled';
+
+  static const String highestComboKey =
+      'highest_combo';
+
+  static const String perfectPlacementsKey =
+      'perfect_placements';
+
+  static const String achievementsKey =
+      'achievements';
+
+  static const _topScoresKey = 'top_scores';
+
+  //=========================================================
   // BEST SCORE
-  // =========================
+  //=========================================================
 
   static Future<int> getBestScore() async {
     try {
@@ -32,7 +57,7 @@ class StorageService {
 
       return prefs.getInt(bestScoreKey) ?? 0;
     } catch (e) {
-      print('GET SCORE ERROR: $e');
+      print('GET BEST SCORE ERROR: $e');
       return 0;
     }
   }
@@ -53,7 +78,7 @@ class StorageService {
         );
       }
     } catch (e) {
-      print('SAVE SCORE ERROR: $e');
+      print('SAVE BEST SCORE ERROR: $e');
     }
   }
 
@@ -64,13 +89,13 @@ class StorageService {
 
       await prefs.remove(bestScoreKey);
     } catch (e) {
-      print('RESET SCORE ERROR: $e');
+      print('RESET BEST SCORE ERROR: $e');
     }
   }
 
-  // =========================
+  //=========================================================
   // COINS
-  // =========================
+  //=========================================================
 
   static Future<int> getCoins() async {
     try {
@@ -142,9 +167,86 @@ class StorageService {
     }
   }
 
-  // =========================
+  //=========================================================
+// DIAMONDS
+//=========================================================
+
+  static Future<int> getDiamonds() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getInt(diamondsKey) ?? 0;
+    } catch (e) {
+      print('GET DIAMONDS ERROR: $e');
+      return 0;
+    }
+  }
+
+  static Future<void> saveDiamonds(
+      int diamonds,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setInt(
+        diamondsKey,
+        diamonds,
+      );
+    } catch (e) {
+      print('SAVE DIAMONDS ERROR: $e');
+    }
+  }
+
+  static Future<void> addDiamonds(
+      int amount,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(diamondsKey) ?? 0;
+
+      await prefs.setInt(
+        diamondsKey,
+        current + amount,
+      );
+    } catch (e) {
+      print('ADD DIAMONDS ERROR: $e');
+    }
+  }
+
+  static Future<bool> spendDiamonds(
+      int amount,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(diamondsKey) ?? 0;
+
+      if (current < amount) {
+        return false;
+      }
+
+      await prefs.setInt(
+        diamondsKey,
+        current - amount,
+      );
+
+      return true;
+    } catch (e) {
+      print('SPEND DIAMONDS ERROR: $e');
+      return false;
+    }
+  }
+
+  //=========================================================
   // DAILY REWARD
-  // =========================
+  //=========================================================
 
   static Future<String?> getLastRewardDate() async {
     try {
@@ -155,7 +257,7 @@ class StorageService {
         lastRewardDateKey,
       );
     } catch (e) {
-      print('GET DATE ERROR: $e');
+      print('GET REWARD DATE ERROR: $e');
       return null;
     }
   }
@@ -171,7 +273,7 @@ class StorageService {
         date,
       );
     } catch (e) {
-      print('SAVE DATE ERROR: $e');
+      print('SAVE REWARD DATE ERROR: $e');
     }
   }
 
@@ -205,11 +307,12 @@ class StorageService {
     }
   }
 
-  // =========================
-  // THEME SHOP
-  // =========================
+  //=========================================================
+  // THEMES
+  //=========================================================
 
-  static Future<String> getSelectedTheme() async {
+  static Future<String>
+  getSelectedTheme() async {
     try {
       final prefs =
       await SharedPreferences.getInstance();
@@ -251,7 +354,8 @@ class StorageService {
           ['neon'];
     } catch (e) {
       print(
-          'GET UNLOCKED THEMES ERROR: $e');
+        'GET UNLOCKED THEMES ERROR: $e',
+      );
       return ['neon'];
     }
   }
@@ -268,7 +372,8 @@ class StorageService {
       );
     } catch (e) {
       print(
-          'SAVE UNLOCKED THEMES ERROR: $e');
+        'SAVE UNLOCKED THEMES ERROR: $e',
+      );
     }
   }
 
@@ -280,23 +385,576 @@ class StorageService {
     return themes.contains(themeId);
   }
 
-  static Future<void> unlockTheme(
-      String themeId) async {
-    final themes =
-    await getUnlockedThemes();
+  static Future<bool> unlockTheme(
+      String themeId,
+      ) async {
+    try {
+      final themes =
+      await getUnlockedThemes();
 
-    if (!themes.contains(themeId)) {
+      if (themes.contains(themeId)) {
+        return false;
+      }
+
       themes.add(themeId);
 
-      await saveUnlockedThemes(
-        themes,
+      await saveUnlockedThemes(themes);
+
+      return true;
+    } catch (e) {
+      print('UNLOCK THEME ERROR: $e');
+      return false;
+    }
+  }
+
+  //=========================================================
+  // GAMES PLAYED
+  //=========================================================
+
+  static Future<int> getGamesPlayed() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getInt(
+        gamesPlayedKey,
+      ) ??
+          0;
+    } catch (e) {
+      print(
+        'GET GAMES PLAYED ERROR: $e',
+      );
+      return 0;
+    }
+  }
+
+  static Future<void>
+  incrementGamesPlayed() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(
+            gamesPlayedKey,
+          ) ??
+              0;
+
+      await prefs.setInt(
+        gamesPlayedKey,
+        current + 1,
+      );
+    } catch (e) {
+      print(
+        'SAVE GAMES PLAYED ERROR: $e',
       );
     }
   }
 
-  // =========================
-  // RESET ALL DATA
-  // =========================
+  static Future<void> addGamesPlayed(
+      int amount) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(
+            gamesPlayedKey,
+          ) ??
+              0;
+
+      await prefs.setInt(
+        gamesPlayedKey,
+        current + amount,
+      );
+    } catch (e) {
+      print('ADD GAMES ERROR: $e');
+    }
+  }
+
+  //=========================================================
+// SETTINGS
+//=========================================================
+
+  static Future<bool> getMusicEnabled() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getBool(
+        musicEnabledKey,
+      ) ??
+          true;
+    } catch (e) {
+      print('GET MUSIC ERROR: $e');
+      return true;
+    }
+  }
+
+  static Future<void> saveMusicEnabled(
+      bool enabled,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setBool(
+        musicEnabledKey,
+        enabled,
+      );
+    } catch (e) {
+      print('SAVE MUSIC ERROR: $e');
+    }
+  }
+
+  static Future<bool> getSfxEnabled() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getBool(
+        sfxEnabledKey,
+      ) ??
+          true;
+    } catch (e) {
+      print('GET SFX ERROR: $e');
+      return true;
+    }
+  }
+
+  static Future<void> saveSfxEnabled(
+      bool enabled,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setBool(
+        sfxEnabledKey,
+        enabled,
+      );
+    } catch (e) {
+      print('SAVE SFX ERROR: $e');
+    }
+  }
+
+  static Future<bool>
+  getVibrationEnabled() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getBool(
+        vibrationEnabledKey,
+      ) ??
+          true;
+    } catch (e) {
+      print(
+        'GET VIBRATION ERROR: $e',
+      );
+      return true;
+    }
+  }
+
+  static Future<void>
+  saveVibrationEnabled(
+      bool enabled,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setBool(
+        vibrationEnabledKey,
+        enabled,
+      );
+    } catch (e) {
+      print(
+        'SAVE VIBRATION ERROR: $e',
+      );
+    }
+  }
+
+  //=========================================================
+  // HIGHEST COMBO
+  //=========================================================
+
+  static Future<int>
+  getHighestCombo() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getInt(
+        highestComboKey,
+      ) ??
+          0;
+    } catch (e) {
+      print('GET COMBO ERROR: $e');
+      return 0;
+    }
+  }
+
+  static Future<void> saveHighestCombo(
+      int combo) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(
+            highestComboKey,
+          ) ??
+              0;
+
+      if (combo > current) {
+        await prefs.setInt(
+          highestComboKey,
+          combo,
+        );
+      }
+    } catch (e) {
+      print('SAVE COMBO ERROR: $e');
+    }
+  }
+
+  //=========================================================
+  // PERFECT PLACEMENTS
+  //=========================================================
+
+  static Future<int>
+  getPerfectPlacements() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getInt(
+        perfectPlacementsKey,
+      ) ??
+          0;
+    } catch (e) {
+      print('GET PERFECT ERROR: $e');
+      return 0;
+    }
+  }
+
+  static Future<void>
+  incrementPerfectPlacements() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(
+            perfectPlacementsKey,
+          ) ??
+              0;
+
+      await prefs.setInt(
+        perfectPlacementsKey,
+        current + 1,
+      );
+    } catch (e) {
+      print('SAVE PERFECT ERROR: $e');
+    }
+  }
+
+  static Future<void>
+  addPerfectPlacements(
+      int amount) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(
+            perfectPlacementsKey,
+          ) ??
+              0;
+
+      await prefs.setInt(
+        perfectPlacementsKey,
+        current + amount,
+      );
+    } catch (e) {
+      print('ADD PERFECTS ERROR: $e');
+    }
+  }
+
+  //=========================================================
+  // ACHIEVEMENTS
+  //=========================================================
+
+  static Future<List<String>>
+  getUnlockedAchievements() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getStringList(
+        achievementsKey,
+      ) ??
+          [];
+    } catch (e) {
+      print(
+        'GET ACHIEVEMENTS ERROR: $e',
+      );
+      return [];
+    }
+  }
+
+  static Future<bool>
+  unlockAchievement(
+      String achievementId) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final achievements =
+          prefs.getStringList(
+            achievementsKey,
+          ) ??
+              [];
+
+      if (achievements.contains(
+        achievementId,
+      )) {
+        return false;
+      }
+
+      achievements.add(
+        achievementId,
+      );
+
+      await prefs.setStringList(
+        achievementsKey,
+        achievements,
+      );
+
+      return true;
+    } catch (e) {
+      print(
+        'UNLOCK ACHIEVEMENT ERROR: $e',
+      );
+
+      return false;
+    }
+  }
+
+  static Future<bool>
+  isAchievementUnlocked(
+      String achievementId) async {
+    try {
+      final achievements =
+      await getUnlockedAchievements();
+
+      return achievements.contains(
+        achievementId,
+      );
+    } catch (e) {
+      print(
+        'CHECK ACHIEVEMENT ERROR: $e',
+      );
+      return false;
+    }
+  }
+
+  static Future<void>
+  resetAchievements() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.remove(
+        achievementsKey,
+      );
+    } catch (e) {
+      print(
+        'RESET ACHIEVEMENTS ERROR: $e',
+      );
+    }
+  }
+
+  //=========================================================
+// TEST CURRENCY
+//=========================================================
+
+  static Future<void> giveTestCurrency() async {
+    try {
+      await saveCoins(5000);
+      await saveDiamonds(100);
+    } catch (e) {
+      print('TEST CURRENCY ERROR: $e');
+    }
+  }
+
+  //=========================================================
+// PERSONAL BEST LEADERBOARD
+//=========================================================
+
+  static Future<void> saveRunScore(
+      int score,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final scores =
+          prefs.getStringList(_topScoresKey) ?? [];
+
+      scores.add(score.toString());
+
+      final parsed =
+      scores.map(int.parse).toList()
+        ..sort(
+              (a, b) => b.compareTo(a),
+        );
+
+      // Keep only top 20 scores
+      if (parsed.length > 20) {
+        parsed.removeRange(
+          20,
+          parsed.length,
+        );
+      }
+
+      await prefs.setStringList(
+        _topScoresKey,
+        parsed
+            .map(
+              (e) => e.toString(),
+        )
+            .toList(),
+      );
+    } catch (e) {
+      print(
+        'SAVE RUN SCORE ERROR: $e',
+      );
+    }
+  }
+
+  static Future<List<int>> getTopScores() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final scores =
+      (prefs.getStringList(
+        _topScoresKey,
+      ) ??
+          [])
+          .map(int.parse)
+          .toList();
+
+      final bestScore =
+          prefs.getInt(bestScoreKey) ?? 0;
+
+      if (bestScore > 0 &&
+          !scores.contains(bestScore)) {
+        scores.add(bestScore);
+      }
+
+      scores.sort(
+            (a, b) => b.compareTo(a),
+      );
+
+      return scores;
+    } catch (e) {
+      print(
+        'GET TOP SCORES ERROR: $e',
+      );
+
+      return [];
+    }
+  }
+
+  static Future<void>
+  clearTopScores() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.remove(
+        _topScoresKey,
+      );
+    } catch (e) {
+      print(
+        'CLEAR TOP SCORES ERROR: $e',
+      );
+    }
+  }
+
+  //=========================================================
+// RESET GAME PROGRESS
+//=========================================================
+
+  static Future<void>
+  resetGameProgress() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.remove(bestScoreKey);
+      await prefs.remove(coinsKey);
+      await prefs.remove(diamondsKey);
+
+      await prefs.setInt(coinsKey, 0);
+      await prefs.setInt(diamondsKey, 0);
+
+      await prefs.remove(
+        lastRewardDateKey,
+      );
+      await prefs.remove(
+        rewardDayKey,
+      );
+
+      await prefs.remove(
+        selectedThemeKey,
+      );
+
+      await prefs.remove(
+        unlockedThemesKey,
+      );
+
+      await prefs.remove(
+        gamesPlayedKey,
+      );
+
+      await prefs.remove(
+        highestComboKey,
+      );
+
+      await prefs.remove(
+        perfectPlacementsKey,
+      );
+
+      await prefs.remove(
+        achievementsKey,
+      );
+
+      await prefs.remove(
+        _topScoresKey,
+      );
+
+      await prefs.setStringList(
+        unlockedThemesKey,
+        ['neon'],
+      );
+
+      await prefs.setString(
+        selectedThemeKey,
+        'neon',
+      );
+    } catch (e) {
+      print(
+        'RESET GAME PROGRESS ERROR: $e',
+      );
+    }
+  }
+
+  //=========================================================
+  // RESET ALL
+  //=========================================================
 
   static Future<void> resetAllData() async {
     try {

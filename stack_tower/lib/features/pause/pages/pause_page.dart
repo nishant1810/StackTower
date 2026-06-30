@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../../settings/pages/settings_page.dart';
+
 import '../widgets/neon_title.dart';
 import '../widgets/pause_button.dart';
 import '../widgets/pause_panel.dart';
@@ -56,6 +58,7 @@ class PausePage extends StatelessWidget {
 
                       PauseButton(
                         icon: Icons.play_arrow_rounded,
+                        title: 'Resume',
                         glowColor:
                         const Color(0xFF00D4FF),
                         onTap: onResume,
@@ -65,6 +68,7 @@ class PausePage extends StatelessWidget {
 
                       PauseButton(
                         icon: Icons.refresh_rounded,
+                        title: 'Restart',
                         glowColor:
                         const Color(0xFFB84DFF),
                         onTap: onRestart,
@@ -74,6 +78,7 @@ class PausePage extends StatelessWidget {
 
                       PauseButton(
                         icon: Icons.settings_rounded,
+                        title: 'Settings',
                         glowColor:
                         const Color(0xFF8A2EFF),
                         onTap: onSettings,
@@ -83,6 +88,7 @@ class PausePage extends StatelessWidget {
 
                       PauseButton(
                         icon: Icons.home_rounded,
+                        title: 'Main Menu',
                         glowColor:
                         const Color(0xFFFFA726),
                         onTap: onHome,

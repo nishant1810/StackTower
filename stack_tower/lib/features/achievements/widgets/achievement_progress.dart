@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../models/achievement.dart';
+import '../models/achievement_model.dart';
 
 class AchievementProgress extends StatefulWidget {
   const AchievementProgress({

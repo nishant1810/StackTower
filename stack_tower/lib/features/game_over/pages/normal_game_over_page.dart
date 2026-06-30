@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/responsive.dart';
+
 import '../widgets/best_score_card.dart';
 import '../widgets/coin_reward_card.dart';
 import '../widgets/futuristic_panel.dart';
@@ -15,7 +17,7 @@ class NormalGameOverPage extends StatelessWidget {
 
   final VoidCallback onReplay;
   final VoidCallback onHome;
-  final VoidCallback onReward;
+  final VoidCallback? onReward;
 
   const NormalGameOverPage({
     super.key,
@@ -37,101 +39,142 @@ class NormalGameOverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-        width: 340,
-        child: FuturisticPanel(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 4),
-
-              /// TITLE
-              const Text(
-                'GAME OVER',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFFE8D8FF),
-                  fontSize: 34,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 2,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(
+          horizontal: Responsive.w(context, 0.04),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 300,
+          ),
+          child: FuturisticPanel(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: Responsive.h(context, 0.005),
                 ),
-              ),
 
-              const SizedBox(height: 10),
+                /// TITLE
+                Text(
+                  'GAME OVER',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: const Color(0xFFE8D8FF),
+                    fontSize: Responsive.sp(
+                      context,
+                      34,
+                    ),
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2,
+                  ),
+                ),
 
-              /// DIVIDER
-              Container(
-                height: 1,
-                decoration: BoxDecoration(
+                SizedBox(
+                  height: Responsive.h(context, 0.012),
+                ),
+
+                /// DIVIDER
+                Container(
+                  height: 1,
                   color: Colors.transparent,
                 ),
-              ),
 
-              const SizedBox(height: 12),
-
-              /// STARS
-              StarRating(
-                stars: stars,
-              ),
-
-              const SizedBox(height: 12),
-
-              /// SCORE
-              ScoreDisplay(
-                score: score,
-              ),
-
-              const SizedBox(height: 10),
-
-              /// BEST SCORE
-              BestScoreCard(
-                bestScore: bestScore,
-              ),
-
-              const SizedBox(height: 12),
-
-              /// COINS
-              CoinRewardCard(
-                coins: coins,
-              ),
-
-              const SizedBox(height: 18),
-
-              /// PLAY BUTTON
-              SizedBox(
-                width: 220,
-                child: PrimaryActionButton(
-                  title: '',
-                  icon: Icons.play_arrow_rounded,
-                  onTap: onReplay,
+                SizedBox(
+                  height: Responsive.h(context, 0.015),
                 ),
-              ),
 
-              const SizedBox(height: 14),
+                /// STARS
+                StarRating(
+                  stars: stars,
+                ),
 
-              /// HOME + REWARD
-              Row(
-                children: [
-                  Expanded(
-                    child: SecondaryActionButton(
-                      icon: Icons.home_rounded,
-                      glowColor: const Color(0xFFB15DFF),
-                      onTap: onHome,
-                    ),
+                SizedBox(
+                  height: Responsive.h(context, 0.015),
+                ),
+
+                /// SCORE
+                ScoreDisplay(
+                  score: score,
+                ),
+
+                SizedBox(
+                  height: Responsive.h(context, 0.012),
+                ),
+
+                /// BEST SCORE
+                BestScoreCard(
+                  bestScore: bestScore,
+                ),
+
+                SizedBox(
+                  height: Responsive.h(context, 0.015),
+                ),
+
+                /// COINS
+                CoinRewardCard(
+                  coins: coins,
+                ),
+
+                SizedBox(
+                  height: Responsive.h(context, 0.025),
+                ),
+
+                /// PLAY BUTTON
+                SizedBox(
+                  width: Responsive.w(
+                    context,
+                    0.55,
+                  ).clamp(220, 300),
+                  child: PrimaryActionButton(
+                    title: '',
+                    icon: Icons.play_arrow_rounded,
+                    onTap: onReplay,
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: SecondaryActionButton(
-                      icon: Icons.play_circle_fill_rounded,
-                      glowColor: const Color(0xFFFFA726),
-                      onTap: onReward,
-                    ),
-                  ),
-                ],
-              ),
+                ),
 
-              const SizedBox(height: 4),
-            ],
+                SizedBox(
+                  height: Responsive.h(context, 0.018),
+                ),
+
+                /// HOME + REWARD
+                Row(
+                  children: [
+                    Expanded(
+                      child: SecondaryActionButton(
+                        icon: Icons.home_rounded,
+                        label: 'HOME',
+                        glowColor:
+                        const Color(0xFFB15DFF),
+                        onTap: onHome,
+                      ),
+                    ),
+
+                    SizedBox(
+                      width: Responsive.w(
+                        context,
+                        0.03,
+                      ),
+                    ),
+
+                    Expanded(
+                      child: SecondaryActionButton(
+                        icon:
+                        Icons.play_circle_fill_rounded,
+                        label: '2X COINS',
+                        glowColor:
+                        const Color(0xFFFFA726),
+                        onTap: onReward,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(
+                  height: Responsive.h(context, 0.005),
+                ),
+              ],
+            ),
           ),
         ),
       ),
