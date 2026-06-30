@@ -44,7 +44,7 @@ class _AuroraLayerState
               top: 120,
               child: _glow(
                 const Color(0xFF00D1FF),
-                350,
+                100,
               ),
             ),
 
@@ -53,7 +53,7 @@ class _AuroraLayerState
               top: 250,
               child: _glow(
                 const Color(0xFF7A5BFF),
-                300,
+                100,
               ),
             ),
           ],

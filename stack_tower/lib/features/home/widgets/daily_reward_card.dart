@@ -12,39 +12,62 @@ class DailyRewardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFFFC857);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 110,
         height: 130,
         decoration: BoxDecoration(
-          color: const Color(0xFF081326)
-              .withValues(alpha: .88),
-          borderRadius:
-          BorderRadius.circular(26),
+          borderRadius: BorderRadius.circular(26),
           border: Border.all(
-            color: const Color(0xFFFFB800),
+            color: gold,
             width: 1.5,
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white.withValues(alpha: 0.08),
+              Colors.white.withValues(alpha: 0.02),
+            ],
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFFFB800)
-                  .withValues(alpha: .20),
-              blurRadius: 20,
+              color: gold.withValues(alpha: 0.15),
+              blurRadius: 16,
               spreadRadius: 1,
             ),
           ],
         ),
         child: Stack(
           children: [
+            Positioned(
+              top: 8,
+              left: 10,
+              right: 10,
+              child: Container(
+                height: 10,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.15),
+                      Colors.white.withValues(alpha: 0.01),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             Column(
-              mainAxisAlignment:
-              MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.card_giftcard,
+                  Icons.card_giftcard_rounded,
                   size: 42,
-                  color: Color(0xFFFFC857),
+                  color: gold,
                 ),
 
                 const SizedBox(height: 8),
@@ -54,8 +77,7 @@ class DailyRewardCard extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
-                    fontWeight:
-                    FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: 1,
                   ),
                 ),
@@ -63,17 +85,11 @@ class DailyRewardCard extends StatelessWidget {
                 const SizedBox(height: 4),
 
                 Text(
-                  available
-                      ? 'READY'
-                      : 'CLAIMED',
+                  available ? 'READY' : 'CLAIMED',
                   style: TextStyle(
-                    color: available
-                        ? const Color(
-                        0xFFFFC857)
-                        : Colors.white54,
+                    color: available ? gold : Colors.white54,
                     fontSize: 18,
-                    fontWeight:
-                    FontWeight.w900,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
@@ -86,10 +102,13 @@ class DailyRewardCard extends StatelessWidget {
                 child: Container(
                   width: 12,
                   height: 12,
-                  decoration:
-                  const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.red,
                     shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 1.5,
+                    ),
                   ),
                 ),
               ),

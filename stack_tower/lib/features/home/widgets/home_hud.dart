@@ -19,7 +19,7 @@ class HomeHud extends StatelessWidget {
       valueListenable: controller.state,
       builder: (_, state, __) {
         return SizedBox(
-          height: 76,
+          height: 80,
           child: Row(
             children: [
               Expanded(
@@ -28,31 +28,7 @@ class HomeHud extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 10),
-
-              _CurrencyChip(
-                icon: Icons.monetization_on_rounded,
-                value: _formatNumber(
-                  state.coins,
-                ),
-                color: const Color(
-                  0xFFFFC84A,
-                ),
-              ),
-
-              const SizedBox(width: 8),
-
-              _CurrencyChip(
-                icon: Icons.diamond_rounded,
-                value: _formatNumber(
-                  state.gems,
-                ),
-                color: const Color(
-                  0xFFB46CFF,
-                ),
-              ),
-
-              const SizedBox(width: 8),
+              const SizedBox(width: 5),
 
               _SettingsButton(
                 onTap: onSettingsTap,
@@ -62,18 +38,6 @@ class HomeHud extends StatelessWidget {
         );
       },
     );
-  }
-
-  String _formatNumber(int value) {
-    if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(1)}M';
-    }
-
-    if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(1)}K';
-    }
-
-    return value.toString();
   }
 }
 
@@ -86,206 +50,195 @@ class _ProfileHud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentXp = (state.xp * 10000).toInt();
+    const maxXp = 10000;
+
     return Container(
-      height: 66,
-      padding:
-      const EdgeInsets.symmetric(
-        horizontal: 10,
-      ),
+      height: 70,
       decoration: BoxDecoration(
-        borderRadius:
-        BorderRadius.circular(22),
-        gradient:
-        const LinearGradient(
+        borderRadius: BorderRadius.circular(22),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
-            Color(0xFF091426),
-            Color(0xFF0E1B35),
+            Colors.white.withValues(alpha: 0.04),
+            Colors.white.withValues(alpha: 0.01),
           ],
         ),
         border: Border.all(
-          color: const Color(
-            0xFF3BCFFF,
-          ),
-          width: 1.3,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(
-              0xFF3BCFFF,
-            ).withValues(alpha: .20),
-            blurRadius: 20,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient:
-              const LinearGradient(
-                colors: [
-                  Color(0xFF3BCFFF),
-                  Color(0xFF9A5FFF),
-                ],
-              ),
-            ),
-            child: const Icon(
-              Icons.person_rounded,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: Column(
-              mainAxisAlignment:
-              MainAxisAlignment
-                  .center,
-              crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
-              children: [
-                Text(
-                  state.playerName,
-                  maxLines: 1,
-                  overflow:
-                  TextOverflow
-                      .ellipsis,
-                  style:
-                  const TextStyle(
-                    color:
-                    Colors.white,
-                    fontSize: 13,
-                    fontWeight:
-                    FontWeight
-                        .w800,
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 5,
-                ),
-
-                ClipRRect(
-                  borderRadius:
-                  BorderRadius
-                      .circular(8),
-                  child:
-                  LinearProgressIndicator(
-                    value: state.xp
-                        .clamp(
-                      0.0,
-                      1.0,
-                    ),
-                    minHeight: 5,
-                    backgroundColor:
-                    Colors.white10,
-                    valueColor:
-                    const AlwaysStoppedAnimation(
-                      Color(
-                        0xFF3BCFFF,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 4,
-                ),
-
-                Text(
-                  'LEVEL ${state.level}',
-                  style:
-                  const TextStyle(
-                    color:
-                    Colors.white70,
-                    fontSize: 9,
-                    fontWeight:
-                    FontWeight
-                        .w700,
-                    letterSpacing:
-                    1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CurrencyChip extends StatelessWidget {
-  const _CurrencyChip({
-    required this.icon,
-    required this.value,
-    required this.color,
-  });
-
-  final IconData icon;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 58,
-      constraints:
-      const BoxConstraints(
-        minWidth: 80,
-      ),
-      padding:
-      const EdgeInsets.symmetric(
-        horizontal: 12,
-      ),
-      decoration: BoxDecoration(
-        borderRadius:
-        BorderRadius.circular(18),
-        gradient:
-        const LinearGradient(
-          colors: [
-            Color(0xFF091426),
-            Color(0xFF0D1931),
-          ],
-        ),
-        border: Border.all(
-          color: color,
+          color: const Color(0xFF53CFFF),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: color.withValues(
-              alpha: .18,
-            ),
-            blurRadius: 16,
+            color: const Color(
+              0xFF53CFFF,
+            ).withValues(alpha: 0.08),
+            blurRadius: 18,
           ),
         ],
       ),
       child: Row(
-        mainAxisSize:
-        MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            color: color,
-            size: 20,
+          const SizedBox(width: 8),
+
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(
+                      0xFF6EDBFF,
+                    ),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(
+                        0xFF6EDBFF,
+                      ).withValues(alpha: 0.30),
+                      blurRadius: 18,
+                    ),
+                  ],
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF1B3A7A),
+                      Color(0xFF6B3DFF),
+                    ],
+                  ),
+                ),
+                child: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+
+              Positioned(
+                bottom: -3,
+                left: -2,
+                child: Container(
+                  width: 18,
+                  height: 18,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF7A4DFF),
+                        Color(0xFF4A2FFF),
+                      ],
+                    ),
+                    border: Border.all(
+                      color: Colors.white24,
+                    ),
+                  ),
+                  child: Text(
+                    '${state.level}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
 
-          const SizedBox(width: 6),
+          const SizedBox(width: 12),
 
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight:
-              FontWeight.w800,
-              fontSize: 12,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+                right: 12,
+                bottom: 10,
+              ),
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                mainAxisAlignment:
+                MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 18,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(5),
+                          color: const Color(
+                            0xFFFFD54F,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.star,
+                          size: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      const SizedBox(width: 3),
+
+                      Expanded(
+                        child: Text(
+                          state.playerName
+                              .toUpperCase(),
+                          maxLines: 1,
+                          overflow:
+                          TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight:
+                            FontWeight.w900,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  ClipRRect(
+                    borderRadius:
+                    BorderRadius.circular(20),
+                    child: SizedBox(
+                      height: 7,
+                      child:
+                      LinearProgressIndicator(
+                        value: state.xp,
+                        backgroundColor:
+                        Colors.white10,
+                        valueColor:
+                        const AlwaysStoppedAnimation(
+                          Color(0xFF6EDBFF),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 3),
+
+                  Text(
+                    '$currentXp / $maxXp',
+                    style: TextStyle(
+                      color: Colors.white
+                          .withValues(alpha: 0.75),
+                      fontSize: 9,
+                      fontWeight:
+                      FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -305,15 +258,15 @@ class _SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius:
-      BorderRadius.circular(18),
+      BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
-        width: 58,
-        height: 58,
+        width: 54,
+        height: 54,
         decoration: BoxDecoration(
           borderRadius:
           BorderRadius.circular(
-            18,
+            16,
           ),
           gradient:
           const LinearGradient(
@@ -323,20 +276,18 @@ class _SettingsButton extends StatelessWidget {
             ],
           ),
           border: Border.all(
-            color:
-            const Color(
+            color: const Color(
               0xFF9A5FFF,
             ),
           ),
           boxShadow: [
             BoxShadow(
-              color:
-              const Color(
+              color: const Color(
                 0xFF9A5FFF,
               ).withValues(
-                alpha: .18,
+                alpha: .16,
               ),
-              blurRadius: 16,
+              blurRadius: 14,
             ),
           ],
         ),

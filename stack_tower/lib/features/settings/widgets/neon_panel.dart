@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'animated_glow_border.dart';
 import 'pulse_ring.dart';
-import 'rotating_gear.dart';
 
 class NeonPanel extends StatelessWidget {
   final Widget child;

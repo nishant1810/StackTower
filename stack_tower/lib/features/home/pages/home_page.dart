@@ -3,11 +3,7 @@ import 'package:stack_tower/features/daily_reward/controllers/daily_reward_contr
 import 'package:stack_tower/features/daily_reward/pages/daily_reward_page.dart';
 import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
-import '../../../core/services/storage/storage_service.dart';
-
 import '../../leaderboard/pages/leaderboard_page.dart';
-import '../../settings/pages/settings_page.dart';
-import '../../themes/pages/theme_shop_page.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -16,7 +12,6 @@ import '../widgets/feature_dock.dart';
 import '../widgets/home_background.dart';
 import '../widgets/home_center_panel.dart';
 import '../widgets/home_hud.dart';
-import '../widgets/home_left_panel.dart';
 import '../widgets/home_right_panel.dart';
 import '../widgets/particle_layer.dart';
 
@@ -135,6 +130,26 @@ class _HomePageState extends State<HomePage>
             const AuroraLayer(),
             const ParticleLayer(),
 
+            IgnorePointer(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: const Alignment(
+                      0,
+                      -0.05,
+                    ),
+                    radius: .85,
+                    colors: [
+                      const Color(
+                        0xFF3BCFFF,
+                      ).withValues(alpha: .06),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -151,7 +166,7 @@ class _HomePageState extends State<HomePage>
                           ),
                     ),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
 
                     Expanded(
                       child: LayoutBuilder(
@@ -163,44 +178,10 @@ class _HomePageState extends State<HomePage>
                               constraints.maxWidth <
                                   380;
 
-                          return Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                          return Stack(
+                            clipBehavior: Clip.none,
                             children: [
-                              // LEFT PANEL
-                              SizedBox(
-                                width:
-                                isSmallPhone
-                                    ? 150
-                                    : 160,
-                                child: Align(
-                                  alignment:
-                                  Alignment
-                                      .topCenter,
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.only(
-                                      top: 60,
-                                    ),
-                                    child:
-                                    HomeLeftPanel(
-                                      controller:
-                                      controller,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(
-                                width:
-                                isSmallPhone
-                                    ? 2
-                                    : 6,
-                              ),
-
-                              // CENTER PANEL
-                              Expanded(
+                              Center(
                                 child:
                                 HomeCenterPanel(
                                   controller:
@@ -209,37 +190,19 @@ class _HomePageState extends State<HomePage>
                                   _startGame,
                                 ),
                               ),
-
-                              SizedBox(
-                                width:
-                                isSmallPhone
-                                    ? 2
-                                    : 6,
-                              ),
-
-                              // RIGHT PANEL
-                              SizedBox(
-                                width:
-                                isSmallPhone
-                                    ? 110
-                                    : 120,
-                                child: Align(
-                                  alignment:
-                                  Alignment
-                                      .topCenter,
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.only(
-                                      top: 60,
-                                    ),
-                                    child:
-                                    HomeRightPanel(
-                                      controller:
-                                      controller,
-                                      onRewardTap:
-                                      _openDailyReward,
-                                    ),
-                                  ),
+                              Positioned(
+                                right: isSmallPhone
+                                    ? 0
+                                    : 8,
+                                top: isSmallPhone
+                                    ? 70
+                                    : 90,
+                                child:
+                                HomeRightPanel(
+                                  controller:
+                                  controller,
+                                  onRewardTap:
+                                  _openDailyReward,
                                 ),
                               ),
                             ],
@@ -248,27 +211,30 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
 
-                    FeatureDock(
-                      onLeaderboard:
-                      _openLeaderboard,
-
-                      onAchievements: () =>
-                          controller
-                              .openAchievements(
-                            context,
-                          ),
-
-                      onShop: () =>
-                          controller.openShop(
-                            context,
-                          ),
-
-                      onThemes: () =>
-                          controller.openThemes(
-                            context,
-                          ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(
+                        horizontal: 6,
+                      ),
+                      child: FeatureDock(
+                        onLeaderboard:
+                        _openLeaderboard,
+                        onAchievements: () =>
+                            controller
+                                .openAchievements(
+                              context,
+                            ),
+                        onShop: () =>
+                            controller.openShop(
+                              context,
+                            ),
+                        onThemes: () =>
+                            controller.openThemes(
+                              context,
+                            ),
+                      ),
                     ),
 
                     const SizedBox(height: 8),
