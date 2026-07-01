@@ -8,6 +8,8 @@ class AchievementModel {
 
   final int target;
   final int progress;
+  final int reward;
+  final bool rewardClaimed;
 
   final bool unlocked;
 
@@ -19,6 +21,8 @@ class AchievementModel {
     required this.target,
     required this.progress,
     required this.unlocked,
+    required this.reward,
+    required this.rewardClaimed,
   });
 
   double get progressPercent {

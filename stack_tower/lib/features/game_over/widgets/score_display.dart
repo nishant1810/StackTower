@@ -11,48 +11,72 @@ class ScoreDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 330,
-      height: 130,
+      width: 220,
+      height: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
+
+        // Transparent glass
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF0E1440),
-            Color(0xFF05091C),
+            Colors.white.withValues(alpha: 0.08),
+            Colors.white.withValues(alpha: 0.02),
           ],
         ),
+
         border: Border.all(
-          color: const Color(0xFF6E7BFF),
-          width: 1.6,
+          color: const Color(0xFF6EDBFF),
+          width: 1.4,
         ),
+
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6E7BFF)
-                .withOpacity(.30),
-            blurRadius: 30,
-            spreadRadius: 2,
-          ),
-          BoxShadow(
-            color: const Color(0xFF00E5FF)
-                .withOpacity(.18),
+            color: const Color(0xFF6EDBFF)
+                .withValues(alpha: 0.15),
             blurRadius: 20,
-            spreadRadius: 1,
           ),
         ],
       ),
       child: Stack(
         children: [
+          // Glass shine
+          // Positioned(
+          //   top: 6,
+          //   left: 16,
+          //   right: 16,
+            // child: Container(
+            //   height: 8,
+            //   decoration: BoxDecoration(
+            //     borderRadius:
+            //     BorderRadius.circular(20),
+            //     gradient: LinearGradient(
+            //       colors: [
+            //         Colors.white.withValues(
+            //           alpha: 0.12,
+            //         ),
+            //         Colors.white.withValues(
+            //           alpha: 0.01,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+          // ),
+
+          // Inner border
           Positioned.fill(
-            child: Container(
-              margin: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                borderRadius:
-                BorderRadius.circular(18),
-                border: Border.all(
-                  color: Colors.white
-                      .withOpacity(.04),
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius:
+                  BorderRadius.circular(18),
+                  border: Border.all(
+                    color: Colors.white
+                        .withValues(alpha: 0.08),
+                  ),
                 ),
               ),
             ),
@@ -63,13 +87,15 @@ class ScoreDisplay extends StatelessWidget {
               mainAxisAlignment:
               MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'SCORE',
                   style: TextStyle(
-                    color: Color(0xFFD6D8FF),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
+                    color: Colors.white
+                        .withValues(alpha: 0.75),
+                    fontSize: 10,
+                    fontWeight:
+                    FontWeight.w700,
+                    letterSpacing: 3,
                   ),
                 ),
 
@@ -83,25 +109,29 @@ class ScoreDisplay extends StatelessWidget {
                   duration: const Duration(
                     milliseconds: 1400,
                   ),
-                  builder: (_, value, __) {
-                    return ShaderMask(
-                      shaderCallback: (bounds) {
-                        return const LinearGradient(
-                          colors: [
-                            Color(0xFFFFF6B0),
-                            Color(0xFFFFD54F),
-                            Color(0xFFFFA726),
-                          ],
-                        ).createShader(bounds);
-                      },
-                      child: Text(
-                        value.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 62,
-                          fontWeight: FontWeight.w900,
-                          height: 1,
-                        ),
+                  builder: (
+                      _,
+                      value,
+                      __,
+                      ) {
+                    return Text(
+                      value.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 62,
+                        fontWeight:
+                        FontWeight.w900,
+                        height: 1,
+                        shadows: [
+                          Shadow(
+                            color: const Color(
+                              0xFF6EDBFF,
+                            ).withValues(
+                              alpha: 0.5,
+                            ),
+                            blurRadius: 16,
+                          ),
+                        ],
                       ),
                     );
                   },

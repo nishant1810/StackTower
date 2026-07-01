@@ -775,6 +775,8 @@ class StorageService {
     }
   }
 
+
+
   //=========================================================
 // TEST CURRENCY
 //=========================================================
@@ -885,6 +887,60 @@ class StorageService {
   }
 
   //=========================================================
+// ACHIEVEMENT REWARDS
+//=========================================================
+
+  static String _rewardKey(
+      String achievementId,
+      ) {
+    return 'achievement_reward_$achievementId';
+  }
+
+  static Future<bool>
+  isAchievementRewardClaimed(
+      String achievementId,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getBool(
+        _rewardKey(
+          achievementId,
+        ),
+      ) ??
+          false;
+    } catch (e) {
+      print(
+        'CHECK ACHIEVEMENT REWARD ERROR: $e',
+      );
+
+      return false;
+    }
+  }
+
+  static Future<void>
+  claimAchievementReward(
+      String achievementId,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setBool(
+        _rewardKey(
+          achievementId,
+        ),
+        true,
+      );
+    } catch (e) {
+      print(
+        'CLAIM ACHIEVEMENT REWARD ERROR: $e',
+      );
+    }
+  }
+
+  //=========================================================
 // RESET GAME PROGRESS
 //=========================================================
 
@@ -935,6 +991,16 @@ class StorageService {
       await prefs.remove(
         _topScoresKey,
       );
+
+      final keys = prefs.getKeys();
+
+      for (final key in keys) {
+        if (key.startsWith(
+          'achievement_reward_',
+        )) {
+          await prefs.remove(key);
+        }
+      }
 
       await prefs.setStringList(
         unlockedThemesKey,

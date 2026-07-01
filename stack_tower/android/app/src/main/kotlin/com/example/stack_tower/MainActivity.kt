@@ -1,4 +1,4 @@
-package com.example.stack_tower
+package com.nishantgaur.stacktower
 
 import io.flutter.embedding.android.FlutterActivity
 

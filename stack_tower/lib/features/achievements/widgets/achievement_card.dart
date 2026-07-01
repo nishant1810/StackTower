@@ -1,21 +1,66 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/services/storage/storage_service.dart';
 import '../models/achievement_model.dart';
 
-class AchievementCard extends StatelessWidget {
+class AchievementCard extends StatefulWidget {
   final AchievementModel achievement;
+  final VoidCallback? onRewardClaimed;
 
   const AchievementCard({
     super.key,
     required this.achievement,
+    this.onRewardClaimed,
   });
 
   @override
+  State<AchievementCard> createState() =>
+      _AchievementCardState();
+}
+
+class _AchievementCardState
+    extends State<AchievementCard> {
+  bool _claiming = false;
+
+  Future<void> _claimReward() async {
+    if (_claiming) return;
+
+    setState(() {
+      _claiming = true;
+    });
+
+    await StorageService.addCoins(
+      widget.achievement.reward,
+    );
+
+    await StorageService
+        .claimAchievementReward(
+      widget.achievement.id,
+    );
+
+    if (mounted) {
+      setState(() {
+        _claiming = false;
+      });
+    }
+
+    widget.onRewardClaimed?.call();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isUnlocked = achievement.unlocked;
+    final achievement =
+        widget.achievement;
+
+    final isUnlocked =
+        achievement.unlocked;
+
+    final rewardClaimed =
+        achievement.rewardClaimed;
 
     final displayProgress =
-    achievement.progress > achievement.target
+    achievement.progress >
+        achievement.target
         ? achievement.target
         : achievement.progress;
 
@@ -24,9 +69,10 @@ class AchievementCard extends StatelessWidget {
         horizontal: 16,
         vertical: 8,
       ),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius:
+        BorderRadius.circular(24),
         color: Colors.white.withValues(
           alpha: 0.08,
         ),
@@ -40,30 +86,32 @@ class AchievementCard extends StatelessWidget {
           BoxShadow(
             color: isUnlocked
                 ? Colors.amber.withValues(
-              alpha: 0.25,
+              alpha: 0.22,
             )
                 : Colors.black26,
-            blurRadius: 18,
+            blurRadius: 20,
             spreadRadius: 1,
           ),
         ],
       ),
       child: Row(
+        crossAxisAlignment:
+        CrossAxisAlignment.start,
         children: [
           Container(
-            width: 62,
-            height: 62,
+            width: 68,
+            height: 68,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isUnlocked
-                  ? Colors.amber.withValues(
-                alpha: 0.18,
-              )
+                  ? Colors.amber
+                  .withValues(
+                  alpha: 0.18)
                   : Colors.white10,
             ),
             child: Icon(
               achievement.icon,
-              size: 30,
+              size: 32,
               color: isUnlocked
                   ? Colors.amber
                   : Colors.white70,
@@ -110,7 +158,11 @@ class AchievementCard extends StatelessWidget {
                   LinearProgressIndicator(
                     minHeight: 8,
                     value: achievement
-                        .progressPercent,
+                        .progressPercent
+                        .clamp(
+                      0.0,
+                      1.0,
+                    ),
                     backgroundColor:
                     Colors.white10,
                     valueColor:
@@ -126,13 +178,169 @@ class AchievementCard extends StatelessWidget {
 
                 Text(
                   '$displayProgress/${achievement.target}',
-                  style: const TextStyle(
-                    color: Colors.white70,
+                  style:
+                  const TextStyle(
+                    color:
+                    Colors.white70,
                     fontSize: 12,
                     fontWeight:
                     FontWeight.w600,
                   ),
                 ),
+
+                const SizedBox(height: 12),
+
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration:
+                  BoxDecoration(
+                    borderRadius:
+                    BorderRadius.circular(
+                        12),
+                    color: Colors.amber
+                        .withValues(
+                      alpha: 0.15,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize:
+                    MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons
+                            .monetization_on,
+                        color:
+                        Colors.amber,
+                        size: 18,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        '${achievement.reward} Coins',
+                        style:
+                        const TextStyle(
+                          color:
+                          Colors.amber,
+                          fontWeight:
+                          FontWeight
+                              .w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                if (isUnlocked)
+                  Padding(
+                    padding:
+                    const EdgeInsets.only(
+                      top: 12,
+                    ),
+                    child: rewardClaimed
+                        ? Container(
+                      padding:
+                      const EdgeInsets
+                          .symmetric(
+                        horizontal:
+                        14,
+                        vertical: 8,
+                      ),
+                      decoration:
+                      BoxDecoration(
+                        color: Colors
+                            .green
+                            .withValues(
+                          alpha: 0.18,
+                        ),
+                        borderRadius:
+                        BorderRadius
+                            .circular(
+                          12,
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisSize:
+                        MainAxisSize
+                            .min,
+                        children: [
+                          Icon(
+                            Icons.check,
+                            color: Colors
+                                .green,
+                            size: 18,
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            'CLAIMED',
+                            style:
+                            TextStyle(
+                              color: Colors
+                                  .green,
+                              fontWeight:
+                              FontWeight
+                                  .w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : SizedBox(
+                      height: 42,
+                      child:
+                      ElevatedButton(
+                        onPressed:
+                        _claiming
+                            ? null
+                            : _claimReward,
+                        style:
+                        ElevatedButton
+                            .styleFrom(
+                          backgroundColor:
+                          Colors
+                              .amber,
+                          foregroundColor:
+                          Colors
+                              .black,
+                          elevation: 0,
+                          shape:
+                          RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius
+                                .circular(
+                              12,
+                            ),
+                          ),
+                        ),
+                        child: _claiming
+                            ? const SizedBox(
+                          width: 18,
+                          height:
+                          18,
+                          child:
+                          CircularProgressIndicator(
+                            strokeWidth:
+                            2,
+                          ),
+                        )
+                            : const Text(
+                          'CLAIM',
+                          style:
+                          TextStyle(
+                            fontWeight:
+                            FontWeight
+                                .w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

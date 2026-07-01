@@ -18,35 +18,40 @@ class PauseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 72,
+      height: 86,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
               color: glowColor.withValues(
-                alpha: 0.35,
+                alpha: 0.25,
               ),
-              blurRadius: 25,
+              blurRadius: 30,
+              spreadRadius: 2,
             ),
           ],
         ),
         child: ElevatedButton(
           onPressed: onTap,
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-            glowColor.withValues(
-              alpha: 0.12,
+            backgroundColor: glowColor.withValues(
+              alpha: 0.10,
             ),
             foregroundColor: Colors.white,
             elevation: 0,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
             side: BorderSide(
-              color: glowColor,
-              width: 1.5,
+              color: glowColor.withValues(
+                alpha: 0.8,
+              ),
+              width: 1.6,
             ),
             shape: RoundedRectangleBorder(
               borderRadius:
-              BorderRadius.circular(18),
+              BorderRadius.circular(22),
             ),
           ),
           child: Row(
@@ -55,17 +60,19 @@ class PauseButton extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                size: 28,
+                size: 38,
+                color: Colors.white,
               ),
 
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
 
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight:
-                  FontWeight.w700,
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.8,
                 ),
               ),
             ],

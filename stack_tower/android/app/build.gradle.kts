@@ -5,7 +5,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.stack_tower"
+    namespace = "com.nishantgaur.stacktower"
+
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,7 +16,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.stack_tower"
+        applicationId = "com.nishantgaur.stacktower"
 
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
