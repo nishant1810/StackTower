@@ -390,10 +390,15 @@ class StackGame extends FlameGame
 
       coinsEarned += 1;
       StorageService.addCoins(1);
+      AudioService.playCoin();
 
       // placedBlock.glowPulse = 2.0;
 
       AudioService.playPerfect();
+
+      if (perfectCombo >= 3) {
+        AudioService.playCombo();
+      }
 
       HapticService.medium();
 
@@ -489,6 +494,8 @@ class StackGame extends FlameGame
     notifyListeners();
 
     AudioService.playGameOver();
+
+    AudioService.playAchievement();
 
     HapticService.heavy();
 

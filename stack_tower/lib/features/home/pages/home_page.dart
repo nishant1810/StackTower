@@ -3,6 +3,9 @@ import 'package:stack_tower/features/daily_reward/controllers/daily_reward_contr
 import 'package:stack_tower/features/daily_reward/pages/daily_reward_page.dart';
 import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
+import '../../../core/services/audio/audio_service.dart';
+import '../../../core/services/storage/storage_service.dart';
+
 import '../../leaderboard/pages/leaderboard_page.dart';
 
 import '../controllers/home_controller.dart';
@@ -23,12 +26,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
+
+  @override
+  void didChangeAppLifecycleState(
+      AppLifecycleState state,
+      ) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        AudioService.startBackgroundMusic();
+        break;
+
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        AudioService.stopBackgroundMusic();
+        break;
+
+      default:
+        break;
+    }
+  }
+
   late final HomeController controller;
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
 
     controller = HomeController(
       vsync: this,
@@ -36,13 +61,30 @@ class _HomePageState extends State<HomePage>
 
     controller.initialize();
 
+    _initializeAudio();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkDailyReward();
     });
   }
 
+  Future<void> _initializeAudio() async {
+    await AudioService.initialize();
+
+    final musicEnabled =
+    await StorageService.getMusicEnabled();
+
+    await AudioService.setMusicEnabled(
+      musicEnabled,
+    );
+  }
+
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    AudioService.dispose();
+
     controller.dispose();
     super.dispose();
   }

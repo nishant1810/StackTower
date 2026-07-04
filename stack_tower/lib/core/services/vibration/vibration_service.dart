@@ -1,40 +1,48 @@
 import 'package:vibration/vibration.dart';
 
-import '../storage/storage_service.dart';
+import '../settings/settings_service.dart';
 
 class VibrationService {
   VibrationService._();
 
+  static Future<void> initialize() async {}
+
   static Future<void> light() async {
-    final enabled =
-    await StorageService.getVibrationEnabled();
+    if (!SettingsService.isVibrationEnabled) return;
 
-    if (!enabled) return;
+    final hasVibrator =
+        await Vibration.hasVibrator() ?? false;
 
-    if (await Vibration.hasVibrator() ?? false) {
-      Vibration.vibrate(duration: 20);
-    }
+    if (!hasVibrator) return;
+
+    await Vibration.vibrate(
+      duration: 20,
+    );
   }
 
   static Future<void> medium() async {
-    final enabled =
-    await StorageService.getVibrationEnabled();
+    if (!SettingsService.isVibrationEnabled) return;
 
-    if (!enabled) return;
+    final hasVibrator =
+        await Vibration.hasVibrator() ?? false;
 
-    if (await Vibration.hasVibrator() ?? false) {
-      Vibration.vibrate(duration: 50);
-    }
+    if (!hasVibrator) return;
+
+    await Vibration.vibrate(
+      duration: 50,
+    );
   }
 
   static Future<void> heavy() async {
-    final enabled =
-    await StorageService.getVibrationEnabled();
+    if (!SettingsService.isVibrationEnabled) return;
 
-    if (!enabled) return;
+    final hasVibrator =
+        await Vibration.hasVibrator() ?? false;
 
-    if (await Vibration.hasVibrator() ?? false) {
-      Vibration.vibrate(duration: 120);
-    }
+    if (!hasVibrator) return;
+
+    await Vibration.vibrate(
+      duration: 100,
+    );
   }
 }

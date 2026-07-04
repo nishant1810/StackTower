@@ -89,7 +89,7 @@ class RewardCard extends StatelessWidget {
   String _assetPath() {
     switch (reward.type) {
       case RewardType.coins:
-        return AppAssets.coinStack;
+        return AppAssets.coinIcon;
 
       case RewardType.crystalPurple:
         return AppAssets.crystalPurple;

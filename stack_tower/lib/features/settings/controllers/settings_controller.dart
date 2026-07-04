@@ -50,15 +50,13 @@ class SettingsController {
         value,
       );
 
+      await AudioService.setMusicEnabled(
+        value,
+      );
+
       state.value = state.value.copyWith(
         musicEnabled: value,
       );
-
-      if (value) {
-        await AudioService.startBackgroundMusic();
-      } else {
-        await AudioService.stopBackgroundMusic();
-      }
     } catch (e) {
       debugPrint(
         'Toggle music error: $e',
@@ -72,17 +70,15 @@ class SettingsController {
 
   Future<void> toggleSound(bool value) async {
     try {
-      await StorageService.saveSfxEnabled(
-        value,
-      );
+      await StorageService.saveSfxEnabled(value);
+
+      AudioService.setSoundEnabled(value);
 
       state.value = state.value.copyWith(
         soundEnabled: value,
       );
     } catch (e) {
-      debugPrint(
-        'Toggle sound error: $e',
-      );
+      debugPrint('Toggle sound error: $e');
     }
   }
 

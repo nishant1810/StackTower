@@ -145,23 +145,31 @@ class SplashController {
 
   Future<void> _initializeApplication() async {
     try {
+      print('STEP 1');
+
       await AppInitializer.initialize().timeout(
         const Duration(seconds: 5),
       );
 
-      // Ensure splash stays visible for at least 3 seconds.
+      print('STEP 2');
+
       await Future.delayed(
         const Duration(seconds: 3),
       );
+
+      print('STEP 3');
     } catch (e) {
-      debugPrint('Splash Initialization Error: $e');
+      print('ERROR: $e');
     }
 
-    if (_disposed) return;
+    print('STEP 4');
 
+    if (_disposed) return;
     if (_navigationTriggered) return;
 
     _navigationTriggered = true;
+
+    print('STEP 5 NAVIGATING');
 
     _onInitializationComplete();
   }
