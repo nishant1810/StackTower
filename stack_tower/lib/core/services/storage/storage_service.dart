@@ -23,6 +23,12 @@ class StorageService {
   static const String unlockedThemesKey =
       'unlocked_themes';
 
+  static const String selectedBlockKey =
+      'selected_block';
+
+  static const String unlockedBlocksKey =
+      'unlocked_blocks';
+
   static const String gamesPlayedKey =
       'games_played';
 
@@ -45,6 +51,43 @@ class StorageService {
       'achievements';
 
   static const _topScoresKey = 'top_scores';
+
+  //=========================================================
+// GUEST LOGIN
+//=========================================================
+
+  static const String guestModeKey = 'guest_mode';
+
+  static Future<void> setGuestMode(
+      bool value,
+      ) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setBool(
+        guestModeKey,
+        value,
+      );
+    } catch (e) {
+      print('SET GUEST MODE ERROR: $e');
+    }
+  }
+
+  static Future<bool> getGuestMode() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getBool(
+        guestModeKey,
+      ) ??
+          false;
+    } catch (e) {
+      print('GET GUEST MODE ERROR: $e');
+      return false;
+    }
+  }
 
   //=========================================================
   // BEST SCORE
@@ -308,11 +351,10 @@ class StorageService {
   }
 
   //=========================================================
-  // THEMES
-  //=========================================================
+// THEMES
+//=========================================================
 
-  static Future<String>
-  getSelectedTheme() async {
+  static Future<String> getSelectedTheme() async {
     try {
       final prefs =
       await SharedPreferences.getInstance();
@@ -328,7 +370,8 @@ class StorageService {
   }
 
   static Future<void> saveSelectedTheme(
-      String themeId) async {
+      String themeId,
+      ) async {
     try {
       final prefs =
       await SharedPreferences.getInstance();
@@ -353,57 +396,43 @@ class StorageService {
       ) ??
           ['neon'];
     } catch (e) {
-      print(
-        'GET UNLOCKED THEMES ERROR: $e',
-      );
+      print('GET THEMES ERROR: $e');
       return ['neon'];
     }
   }
 
-  static Future<void> saveUnlockedThemes(
-      List<String> themes) async {
-    try {
-      final prefs =
-      await SharedPreferences.getInstance();
-
-      await prefs.setStringList(
-        unlockedThemesKey,
-        themes,
-      );
-    } catch (e) {
-      print(
-        'SAVE UNLOCKED THEMES ERROR: $e',
-      );
-    }
-  }
-
   static Future<bool> isThemeUnlocked(
-      String themeId) async {
+      String themeId,
+      ) async {
     final themes =
     await getUnlockedThemes();
 
     return themes.contains(themeId);
   }
 
-  static Future<bool> unlockTheme(
+  static Future<void> unlockTheme(
       String themeId,
       ) async {
     try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
       final themes =
-      await getUnlockedThemes();
+          prefs.getStringList(
+            unlockedThemesKey,
+          ) ??
+              ['neon'];
 
-      if (themes.contains(themeId)) {
-        return false;
+      if (!themes.contains(themeId)) {
+        themes.add(themeId);
+
+        await prefs.setStringList(
+          unlockedThemesKey,
+          themes,
+        );
       }
-
-      themes.add(themeId);
-
-      await saveUnlockedThemes(themes);
-
-      return true;
     } catch (e) {
       print('UNLOCK THEME ERROR: $e');
-      return false;
     }
   }
 
@@ -535,43 +564,6 @@ class StorageService {
       );
     } catch (e) {
       print('SAVE SFX ERROR: $e');
-    }
-  }
-
-  static Future<bool>
-  getVibrationEnabled() async {
-    try {
-      final prefs =
-      await SharedPreferences.getInstance();
-
-      return prefs.getBool(
-        vibrationEnabledKey,
-      ) ??
-          true;
-    } catch (e) {
-      print(
-        'GET VIBRATION ERROR: $e',
-      );
-      return true;
-    }
-  }
-
-  static Future<void>
-  saveVibrationEnabled(
-      bool enabled,
-      ) async {
-    try {
-      final prefs =
-      await SharedPreferences.getInstance();
-
-      await prefs.setBool(
-        vibrationEnabledKey,
-        enabled,
-      );
-    } catch (e) {
-      print(
-        'SAVE VIBRATION ERROR: $e',
-      );
     }
   }
 
@@ -775,8 +767,6 @@ class StorageService {
     }
   }
 
-
-
   //=========================================================
 // TEST CURRENCY
 //=========================================================
@@ -958,18 +948,18 @@ class StorageService {
       await prefs.setInt(diamondsKey, 0);
 
       await prefs.remove(
-        lastRewardDateKey,
-      );
-      await prefs.remove(
-        rewardDayKey,
-      );
-
-      await prefs.remove(
         selectedThemeKey,
       );
 
       await prefs.remove(
         unlockedThemesKey,
+      );
+
+      await prefs.remove(
+        lastRewardDateKey,
+      );
+      await prefs.remove(
+        rewardDayKey,
       );
 
       await prefs.remove(
@@ -1002,15 +992,6 @@ class StorageService {
         }
       }
 
-      await prefs.setStringList(
-        unlockedThemesKey,
-        ['neon'],
-      );
-
-      await prefs.setString(
-        selectedThemeKey,
-        'neon',
-      );
     } catch (e) {
       print(
         'RESET GAME PROGRESS ERROR: $e',

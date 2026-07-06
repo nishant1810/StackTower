@@ -5,10 +5,14 @@ import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
 import '../../../core/services/audio/audio_service.dart';
 import '../../../core/services/storage/storage_service.dart';
+import '../../../core/services/auth/auth_service.dart';
 
+import '../../auth/pages/login_page.dart';
+import '../../profile/pages/profile_page.dart';
 import '../../leaderboard/pages/leaderboard_page.dart';
-
 import '../controllers/home_controller.dart';
+import '../../themes/pages/theme_page.dart';
+import '../../shop/pages/shop_page.dart';
 
 import '../widgets/aurora_layer.dart';
 import '../widgets/feature_dock.dart';
@@ -92,6 +96,17 @@ class _HomePageState extends State<HomePage>
   Future<void> _startGame() async {
     if (!mounted) return;
 
+    if (!AuthService.isAuthenticated) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LoginPage(),
+        ),
+      );
+    }
+
+    if (!mounted) return;
+
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -100,6 +115,10 @@ class _HomePageState extends State<HomePage>
     );
 
     await controller.refresh();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _openDailyReward() async {
@@ -192,6 +211,55 @@ class _HomePageState extends State<HomePage>
               ),
             ),
 
+            // 👇 ADD HERE
+            Positioned(
+              top: 60,
+              right: 20,
+              child: GestureDetector(
+                onTap: () async {
+                  if (AuthService.isLoggedIn || AuthService.isGuest) {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ProfilePage(),
+                      ),
+                    );
+                  } else {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const LoginPage(),
+                      ),
+                    );
+
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  }
+
+                  if (mounted) {
+                    setState(() {});
+                  }
+                },
+                child: CircleAvatar(
+                  radius: 24,
+                  backgroundColor: const Color(0xFF1A2238),
+                  backgroundImage: AuthService.photoUrl != null
+                      ? NetworkImage(AuthService.photoUrl!)
+                      : null,
+                  child: AuthService.photoUrl == null
+                      ? Text(
+                    AuthService.playerName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                      : null,
+                ),
+              ),
+            ),
+
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -272,10 +340,20 @@ class _HomePageState extends State<HomePage>
                             controller.openShop(
                               context,
                             ),
-                        onThemes: () =>
-                            controller.openThemes(
-                              context,
+                        onThemes: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ThemesPage(),
                             ),
+                          );
+
+                          await controller.refresh();
+
+                          if (mounted) {
+                            setState(() {});
+                          }
+                        },
                       ),
                     ),
 

@@ -12,139 +12,131 @@ class CurrencyHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _CurrencyCard(
-            icon: Icons.monetization_on_rounded,
-            title: 'COINS',
-            value: coins.toString(),
-            gradient: const [
-              Color(0xFFFFD54F),
-              Color(0xFFFFA000),
-            ],
-          ),
+    return Container(
+      margin: const EdgeInsets.fromLTRB(
+        16,
+        12,
+        16,
+        16,
+      ),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: Colors.black.withOpacity(0.35),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.12),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _CurrencyCard(
-            icon: Icons.diamond_rounded,
-            title: 'DIAMONDS',
-            value: diamonds.toString(),
-            gradient: const [
-              Color(0xFF64B5F6),
-              Color(0xFF1976D2),
-            ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.purple.withOpacity(0.15),
+            blurRadius: 20,
+            spreadRadius: 2,
           ),
-        ),
-      ],
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _CurrencyCard(
+              icon: Icons.monetization_on,
+              value: coins.toString(),
+              label: 'COINS',
+              glowColor: const Color(0xFFFFC107),
+            ),
+          ),
+
+          const SizedBox(width: 12),
+
+          Expanded(
+            child: _CurrencyCard(
+              icon: Icons.diamond,
+              value: diamonds.toString(),
+              label: 'DIAMONDS',
+              glowColor: const Color(0xFF00E5FF),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class _CurrencyCard extends StatelessWidget {
   final IconData icon;
-  final String title;
   final String value;
-  final List<Color> gradient;
+  final String label;
+  final Color glowColor;
 
   const _CurrencyCard({
     required this.icon,
-    required this.title,
     required this.value,
-    required this.gradient,
+    required this.label,
+    required this.glowColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 95,
+      height: 72,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+      ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: gradient,
+        borderRadius: BorderRadius.circular(18),
+        color: Colors.white.withOpacity(0.05),
+        border: Border.all(
+          color: glowColor.withOpacity(0.4),
         ),
         boxShadow: [
           BoxShadow(
-            color: gradient.first.withOpacity(0.35),
+            color: glowColor.withOpacity(0.15),
             blurRadius: 16,
-            spreadRadius: 2,
+            spreadRadius: 1,
           ),
         ],
       ),
-      child: Stack(
+      child: Row(
         children: [
-          Positioned(
-            right: -15,
-            top: -15,
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.12),
-                shape: BoxShape.circle,
-              ),
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: glowColor.withOpacity(0.15),
+            ),
+            child: Icon(
+              icon,
+              color: glowColor,
+              size: 24,
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
-            child: Row(
+          const SizedBox(width: 10),
+
+          Expanded(
+            child: Column(
+              mainAxisAlignment:
+              MainAxisAlignment.center,
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 46,
-                  height: 46,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius:
-                    BorderRadius.circular(14),
-                  ),
-                  child: Icon(
-                    icon,
+                Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
                     color: Colors.white,
-                    size: 26,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-
-                const SizedBox(width: 12),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 11,
-                          fontWeight:
-                          FontWeight.w600,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-
-                      const SizedBox(height: 4),
-
-                      Text(
-                        value,
-                        overflow:
-                        TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight:
-                          FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1,
                   ),
                 ),
               ],

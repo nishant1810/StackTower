@@ -1,85 +1,48 @@
 import '../models/shop_item.dart';
 
 class ShopCatalog {
-  const ShopCatalog._();
-
-  // Buy Coins using Diamonds
   static const List<ShopItem> coinPacks = [
     ShopItem(
-      id: 'coins_small',
-      title: 'Small Coin Pack',
-      description: '500 Coins',
-      amount: 500,
-      price: 5,
-      currencyType: CurrencyType.diamonds,
+      id: 'coins_1000',
+      title: '1,000 Coins',
+      amount: 1000,
+      price: '₹10',
     ),
-
     ShopItem(
-      id: 'coins_medium',
-      title: 'Medium Coin Pack',
-      description: '1,500 Coins',
-      amount: 1500,
-      price: 12,
-      currencyType: CurrencyType.diamonds,
-      isPopular: true,
-    ),
-
-    ShopItem(
-      id: 'coins_large',
-      title: 'Large Coin Pack',
-      description: '5,000 Coins',
+      id: 'coins_5000',
+      title: '5,000 Coins',
       amount: 5000,
-      price: 35,
-      currencyType: CurrencyType.diamonds,
+      price: '₹49',
     ),
-
     ShopItem(
-      id: 'coins_mega',
-      title: 'Mega Coin Vault',
-      description: '15,000 Coins',
-      amount: 15000,
-      price: 80,
-      currencyType: CurrencyType.diamonds,
+      id: 'coins_10000',
+      title: '10,000 Coins',
+      amount: 10000,
+      price: '₹99',
     ),
   ];
 
-  // Buy Diamonds using Coins
   static const List<ShopItem> diamondPacks = [
     ShopItem(
-      id: 'diamonds_small',
-      title: 'Starter Diamonds',
-      description: '10 Diamonds',
-      amount: 10,
-      price: 1000,
-      currencyType: CurrencyType.coins,
-    ),
-
-    ShopItem(
-      id: 'diamonds_medium',
-      title: 'Diamond Crate',
-      description: '25 Diamonds',
-      amount: 25,
-      price: 2200,
-      currencyType: CurrencyType.coins,
-      isPopular: true,
-    ),
-
-    ShopItem(
-      id: 'diamonds_large',
-      title: 'Diamond Vault',
-      description: '50 Diamonds',
+      id: 'diamond_50',
+      title: '50 Diamonds',
       amount: 50,
-      price: 4000,
-      currencyType: CurrencyType.coins,
+      price: '₹10',
+      isDiamond: true,
     ),
-
     ShopItem(
-      id: 'diamonds_mega',
-      title: 'Royal Diamond Chest',
-      description: '100 Diamonds',
-      amount: 100,
-      price: 7500,
-      currencyType: CurrencyType.coins,
+      id: 'diamond_250',
+      title: '250 Diamonds',
+      amount: 250,
+      price: '₹49',
+      isDiamond: true,
+    ),
+    ShopItem(
+      id: 'diamond_500',
+      title: '500 Diamonds',
+      amount: 500,
+      price: '₹99',
+      isDiamond: true,
     ),
   ];
 }

@@ -204,19 +204,19 @@ class _SettingsPageState
                             .toggleSound,
                       ),
 
-                      SettingsSwitchTile(
-                        icon: Icons
-                            .vibration_rounded,
-                        iconColor: Colors
-                            .orangeAccent,
-                        title:
-                        'Vibration',
-                        value: state
-                            .vibrationEnabled,
-                        onChanged:
-                        controller
-                            .toggleVibration,
-                      ),
+                      // SettingsSwitchTile(
+                      //   icon: Icons
+                      //       .vibration_rounded,
+                      //   iconColor: Colors
+                      //       .orangeAccent,
+                      //   title:
+                      //   'Vibration',
+                      //   value: state
+                      //       .vibrationEnabled,
+                      //   onChanged:
+                      //   controller
+                      //       .toggleVibration,
+                      // ),
 
                       const SizedBox(
                         height: 4,

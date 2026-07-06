@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/services/audio/audio_service.dart';
-import '../../../core/services/haptics/haptic_service.dart';
 import '../../../core/services/storage/storage_service.dart';
-
 import '../models/settings_state.dart';
 
 class SettingsController {
@@ -23,13 +21,15 @@ class SettingsController {
       final soundEnabled =
       await StorageService.getSfxEnabled();
 
-      final vibrationEnabled =
-      await StorageService.getVibrationEnabled();
-
       state.value = state.value.copyWith(
         musicEnabled: musicEnabled,
         soundEnabled: soundEnabled,
-        vibrationEnabled: vibrationEnabled,
+      );
+
+      // Sync AudioService with saved settings
+      AudioService.setSoundEnabled(soundEnabled);
+      await AudioService.setMusicEnabled(
+        musicEnabled,
       );
     } catch (e) {
       debugPrint(
@@ -40,9 +40,9 @@ class SettingsController {
     }
   }
 
-  //=========================================================
+  // =========================================================
   // MUSIC
-  //=========================================================
+  // =========================================================
 
   Future<void> toggleMusic(bool value) async {
     try {
@@ -64,54 +64,33 @@ class SettingsController {
     }
   }
 
-  //=========================================================
+  // =========================================================
   // SOUND EFFECTS
-  //=========================================================
+  // =========================================================
 
   Future<void> toggleSound(bool value) async {
     try {
-      await StorageService.saveSfxEnabled(value);
+      await StorageService.saveSfxEnabled(
+        value,
+      );
 
-      AudioService.setSoundEnabled(value);
+      AudioService.setSoundEnabled(
+        value,
+      );
 
       state.value = state.value.copyWith(
         soundEnabled: value,
       );
     } catch (e) {
-      debugPrint('Toggle sound error: $e');
-    }
-  }
-
-  //=========================================================
-  // VIBRATION
-  //=========================================================
-
-  Future<void> toggleVibration(
-      bool value,
-      ) async {
-    try {
-      await StorageService
-          .saveVibrationEnabled(
-        value,
-      );
-
-      state.value = state.value.copyWith(
-        vibrationEnabled: value,
-      );
-
-      if (value) {
-        await HapticService.light();
-      }
-    } catch (e) {
       debugPrint(
-        'Toggle vibration error: $e',
+        'Toggle sound error: $e',
       );
     }
   }
 
-  //=========================================================
+  // =========================================================
   // NOTIFICATIONS
-  //=========================================================
+  // =========================================================
 
   Future<void> toggleNotifications(
       bool value,
@@ -121,16 +100,14 @@ class SettingsController {
     );
   }
 
-  //=========================================================
+  // =========================================================
   // RESET PROGRESS
-  //=========================================================
+  // =========================================================
 
   Future<void> resetProgress() async {
     try {
-      await StorageService
-          .resetGameProgress();
+      await StorageService.resetGameProgress();
 
-      // Reload settings after reset
       await initialize();
     } catch (e) {
       debugPrint(
@@ -139,9 +116,9 @@ class SettingsController {
     }
   }
 
-  //=========================================================
+  // =========================================================
   // DISPOSE
-  //=========================================================
+  // =========================================================
 
   void dispose() {
     state.dispose();

@@ -1,10 +1,12 @@
 import 'dart:math';
+import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/services.dart';
 
 import '../components/block_component.dart';
 
@@ -16,12 +18,9 @@ import '../effects/perfect_text.dart';
 import '../effects/milestone_text.dart';
 
 import '../../core/services/storage/storage_service.dart';
-import '../../core/services/haptics/haptic_service.dart';
 import '../../core/services/audio/audio_service.dart';
 import '../../core/services/ads/ad_service.dart';
 
-import '../../features/themes/domain/theme_manager.dart';
-import '../../features/themes/models/game_theme.dart';
 import '../../features/themes/data/theme_catalog.dart';
 
 class StackGame extends FlameGame
@@ -91,7 +90,7 @@ class StackGame extends FlameGame
       );
     }
 
-    HapticService.heavy();
+    // HapticService.heavy();
   }
 
   final List<BlockComponent> towerBlocks = [];
@@ -134,10 +133,9 @@ class StackGame extends FlameGame
     selectedTheme =
     await StorageService.getSelectedTheme();
 
-    palette = ThemeManager.getPalette(
-      selectedTheme,
-    );
-
+    palette =
+        ThemeCatalog.palettes[selectedTheme] ??
+            ThemeCatalog.palettes['neon']!;
     bestScore = await StorageService.getBestScore();
 
     currentY = size.y * 0.78;
@@ -150,22 +148,6 @@ class StackGame extends FlameGame
       );
     }
 
-    /// Platform
-    // add(
-    //   RectangleComponent(
-    //     position: Vector2(
-    //       size.x / 2 - 170,
-    //       currentY + 65,
-    //     ),
-    //     size: Vector2(
-    //       340,
-    //       25,
-    //     ),
-    //     paint: Paint()
-    //       ..color = const Color(0xFF1E293B),
-    //   ),
-    // );
-
     /// Base Block
     final baseBlock = BlockComponent(
       position: Vector2(
@@ -176,7 +158,7 @@ class StackGame extends FlameGame
         blockWidth,
         blockHeight,
       ),
-      color: const Color(0xFF334155),
+      color: palette.first,
     );
 
     add(baseBlock);
@@ -226,6 +208,10 @@ class StackGame extends FlameGame
   void update(double dt) {
     super.update(dt);
 
+    if (dt > 0.03) {
+      print("FPS DROP: ${1 / dt}");
+    }
+
     if (gameEnded) return;
 
     if (movingRight) {
@@ -240,7 +226,13 @@ class StackGame extends FlameGame
       if (movingBlock.x <= -movingBlock.size.x) {
         movingRight = true;
       }
+
+      if (children.length > 300) {
+        print('COMPONENTS: ${children.length}');
+      }
     }
+
+
 
     /// SCREEN SHAKE
     if (shakeTimer > 0) {
@@ -347,11 +339,11 @@ class StackGame extends FlameGame
     towerBlocks.add(placedBlock);
     placedBlock.triggerPulse();
 
-    AudioService.playDrop();
+    // unawaited(
+    //   AudioService.playDrop(),
+    // );
 
-    HapticService.light();
-
-    // placedBlock.triggerGlowPulse();
+    // HapticService.light();
 
     for (int i = 0; i < 8; i++) {
       add(
@@ -376,6 +368,9 @@ class StackGame extends FlameGame
     ).toDouble();
 
     if (perfect) {
+
+      // HapticFeedback.mediumImpact();
+
       StorageService.incrementPerfectPlacements();
       placedBlock.x = previousBlock.x;
       perfectCombo++;
@@ -390,17 +385,11 @@ class StackGame extends FlameGame
 
       coinsEarned += 1;
       StorageService.addCoins(1);
-      AudioService.playCoin();
-
-      // placedBlock.glowPulse = 2.0;
+      // AudioService.playCoin();
 
       AudioService.playPerfect();
 
-      if (perfectCombo >= 3) {
-        AudioService.playCombo();
-      }
-
-      HapticService.medium();
+      // HapticService.medium();
 
       shakeTimer = 0.15;
 
@@ -433,7 +422,7 @@ class StackGame extends FlameGame
               left + overlap / 2,
               currentY,
             ),
-            color: Colors.amber,
+            color: palette.last,
           ),
         );
       }
@@ -495,9 +484,9 @@ class StackGame extends FlameGame
 
     AudioService.playGameOver();
 
-    AudioService.playAchievement();
+    // AudioService.playAchievement();
 
-    HapticService.heavy();
+    // HapticService.heavy();
 
     AdService.onGameOver();
 

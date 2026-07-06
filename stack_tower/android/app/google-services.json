@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "16300564879",
+    "project_id": "stacktower-62def",
+    "storage_bucket": "stacktower-62def.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16300564879:android:e1336ed887a148db956bfa",
+        "android_client_info": {
+          "package_name": "com.nishantgaur.stacktower"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4FEIlMKnE3Ztb3nOV4XiRSJFNbakNqow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

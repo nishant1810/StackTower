@@ -21,8 +21,8 @@ class AchievementsController {
     final bestScore =
     await StorageService.getBestScore();
 
-    final unlockedThemes =
-    await StorageService.getUnlockedThemes();
+    // final unlockedThemes =
+    // await StorageService.getUnlockedThemes();
 
     return [
       //=========================================================
@@ -401,53 +401,53 @@ class AchievementsController {
       // THEMES
       //=========================================================
 
-      AchievementModel(
-        id: AchievementIds.themes3,
-        title: 'Collector',
-        description: 'Unlock 3 themes',
-        icon: Icons.palette_outlined,
-        target: 3,
-        progress: unlockedThemes.length,
-        unlocked: unlockedThemes.length >= 3,
-        reward: 250,
-        rewardClaimed:
-        await StorageService
-            .isAchievementRewardClaimed(
-          AchievementIds.themes3,
-        ),
-      ),
+      // AchievementModel(
+      //   id: AchievementIds.themes3,
+      //   title: 'Collector',
+      //   description: 'Unlock 3 themes',
+      //   icon: Icons.palette_outlined,
+      //   target: 3,
+      //   progress: unlockedThemes.length,
+      //   unlocked: unlockedThemes.length >= 3,
+      //   reward: 250,
+      //   rewardClaimed:
+      //   await StorageService
+      //       .isAchievementRewardClaimed(
+      //     AchievementIds.themes3,
+      //   ),
+      // ),
 
-      AchievementModel(
-        id: AchievementIds.themes4,
-        title: 'Theme Enthusiast',
-        description: 'Unlock 4 themes',
-        icon: Icons.color_lens,
-        target: 4,
-        progress: unlockedThemes.length,
-        unlocked: unlockedThemes.length >= 4,
-        reward: 400,
-        rewardClaimed:
-        await StorageService
-            .isAchievementRewardClaimed(
-          AchievementIds.themes4,
-        ),
-      ),
+      // AchievementModel(
+      //   id: AchievementIds.themes4,
+      //   title: 'Theme Enthusiast',
+      //   description: 'Unlock 4 themes',
+      //   icon: Icons.color_lens,
+      //   target: 4,
+      //   progress: unlockedThemes.length,
+      //   unlocked: unlockedThemes.length >= 4,
+      //   reward: 400,
+      //   rewardClaimed:
+      //   await StorageService
+      //       .isAchievementRewardClaimed(
+      //     AchievementIds.themes4,
+      //   ),
+      // ),
 
-      AchievementModel(
-        id: AchievementIds.themeHunter,
-        title: 'Theme Hunter',
-        description: 'Unlock all themes',
-        icon: Icons.palette,
-        target: 5,
-        progress: unlockedThemes.length,
-        unlocked: unlockedThemes.length >= 5,
-        reward: 750,
-        rewardClaimed:
-        await StorageService
-            .isAchievementRewardClaimed(
-          AchievementIds.themeHunter,
-        ),
-      ),
+      // AchievementModel(
+      //   id: AchievementIds.themeHunter,
+      //   title: 'Theme Hunter',
+      //   description: 'Unlock all themes',
+      //   icon: Icons.palette,
+      //   target: 5,
+      //   progress: unlockedThemes.length,
+      //   unlocked: unlockedThemes.length >= 5,
+      //   reward: 750,
+      //   rewardClaimed:
+      //   await StorageService
+      //       .isAchievementRewardClaimed(
+      //     AchievementIds.themeHunter,
+      //   ),
+      // ),
     ];
   }
 
@@ -466,5 +466,5 @@ class AchievementsController {
         .claimAchievementReward(
       achievement.id,
     );
-  }
-}
+   }
+ }

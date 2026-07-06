@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 class GameTheme {
   final String id;
   final String name;
-  final int cost;
+  final String previewImage;
 
-  final Color primary;
-  final Color secondary;
-  final Color glow;
+  final int coinCost;
+  final int diamondCost;
+
+  final bool isPremium;
+
+  final List<Color> colors;
 
   const GameTheme({
     required this.id,
     required this.name,
-    required this.cost,
-    required this.primary,
-    required this.secondary,
-    required this.glow,
+    required this.previewImage,
+    required this.coinCost,
+    required this.diamondCost,
+    required this.isPremium,
+    required this.colors,
   });
 }

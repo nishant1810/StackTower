@@ -41,9 +41,6 @@ class AppAssets {
   static const crown =
       'assets/images/daily_reward/crown.png';
 
-  // static const coinStack =
-  //     'assets/images/daily_reward/coin_stack.png';
-
   static const crystalPurple =
       'assets/images/daily_reward/crystal_purple.png';
 
@@ -76,6 +73,37 @@ class AppAssets {
 
   static const themesBackground =
       'assets/images/themes/theme_bg.png';
+
+  static const neonTheme =
+      'assets/images/themes/neon.png';
+
+  static const purpleStormTheme =
+      'assets/images/themes/purple_storm.png';
+
+  static const emeraldGlowTheme =
+      'assets/images/themes/emerald_glow.png';
+
+  static const lavaTheme =
+      'assets/images/themes/lava.png';
+
+  static const galaxyTheme =
+      'assets/images/themes/galaxy.png';
+
+  // =========================
+// SHOP
+// =========================
+
+  static const shopBackground =
+      'assets/images/shop/shop_bg.png';
+
+  static const coinPackIcon =
+      'assets/images/shop/coin_pack.png';
+
+  static const diamondPackIcon =
+      'assets/images/shop/diamond_pack.png';
+
+  static const featuredBundle =
+      'assets/images/shop/featured_bundle.png';
 
   // =========================
   // ICONS

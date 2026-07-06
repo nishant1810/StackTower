@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:stack_tower/features/shop/pages/shop_page.dart';
 
 import '../../../core/services/storage/storage_service.dart';
 
 import '../../achievements/pages/achievements_page.dart';
 import '../../settings/pages/settings_page.dart';
-import '../../themes/pages/theme_shop_page.dart';
-
 import '../models/home_state.dart';
 
 class HomeController {
@@ -18,12 +17,7 @@ class HomeController {
 
   bool _initialized = false;
 
-  //=========================================================
-  // STATE
-  //=========================================================
-
-  final ValueNotifier<HomeState> state =
-  ValueNotifier(
+  final ValueNotifier<HomeState> state = ValueNotifier(
     const HomeState(
       playerName: 'Player',
       level: 1,
@@ -35,56 +29,23 @@ class HomeController {
     ),
   );
 
-  final ValueNotifier<bool> isLoading =
-  ValueNotifier(false);
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
   final ValueNotifier<String> selectedTheme =
   ValueNotifier('neon');
 
-  //=========================================================
-  // ANIMATION CONTROLLERS
-  //=========================================================
+  late final AnimationController entranceController;
+  late final AnimationController playGlowController;
+  late final AnimationController towerFloatController;
 
-  late final AnimationController
-  entranceController;
-
-  late final AnimationController
-  playGlowController;
-
-  late final AnimationController
-  towerFloatController;
-
-  //=========================================================
-  // ANIMATIONS
-  //=========================================================
-
-  late final Animation<Offset>
-  topBarSlideAnimation;
-
-  late final Animation<double>
-  towerOpacityAnimation;
-
-  late final Animation<double>
-  towerScaleAnimation;
-
-  late final Animation<double>
-  playOpacityAnimation;
-
-  late final Animation<double>
-  dockOpacityAnimation;
-
-  late final Animation<Offset>
-  dockSlideAnimation;
-
-  late final Animation<double>
-  playGlowAnimation;
-
-  late final Animation<double>
-  towerFloatAnimation;
-
-  //=========================================================
-  // INITIALIZE
-  //=========================================================
+  late final Animation<Offset> topBarSlideAnimation;
+  late final Animation<double> towerOpacityAnimation;
+  late final Animation<double> towerScaleAnimation;
+  late final Animation<double> playOpacityAnimation;
+  late final Animation<double> dockOpacityAnimation;
+  late final Animation<Offset> dockSlideAnimation;
+  late final Animation<double> playGlowAnimation;
+  late final Animation<double> towerFloatAnimation;
 
   void initialize() {
     if (_initialized) return;
@@ -98,160 +59,128 @@ class HomeController {
     refresh();
   }
 
-  //=========================================================
-  // CONTROLLERS
-  //=========================================================
-
   void _initializeControllers() {
-    entranceController =
-        AnimationController(
-          vsync: _vsync,
-          duration: const Duration(
-            milliseconds: 900,
-          ),
-        );
+    entranceController = AnimationController(
+      vsync: _vsync,
+      duration: const Duration(milliseconds: 900),
+    );
 
-    playGlowController =
-        AnimationController(
-          vsync: _vsync,
-          duration: const Duration(
-            seconds: 2,
-          ),
-        );
+    playGlowController = AnimationController(
+      vsync: _vsync,
+      duration: const Duration(seconds: 2),
+    );
 
-    towerFloatController =
-        AnimationController(
-          vsync: _vsync,
-          duration: const Duration(
-            seconds: 5,
-          ),
-        );
+    towerFloatController = AnimationController(
+      vsync: _vsync,
+      duration: const Duration(seconds: 5),
+    );
   }
-
-  //=========================================================
-  // ANIMATIONS
-  //=========================================================
 
   void _initializeAnimations() {
-    topBarSlideAnimation =
-        Tween<Offset>(
-          begin: const Offset(0, -0.35),
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: entranceController,
-            curve: const Interval(
-              0.0,
-              0.35,
-              curve: Curves.easeOutCubic,
-            ),
-          ),
-        );
+    topBarSlideAnimation = Tween<Offset>(
+      begin: const Offset(0, -0.35),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: entranceController,
+        curve: const Interval(
+          0.0,
+          0.35,
+          curve: Curves.easeOutCubic,
+        ),
+      ),
+    );
 
-    towerOpacityAnimation =
-        Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: entranceController,
-            curve: const Interval(
-              0.15,
-              0.65,
-              curve: Curves.easeOut,
-            ),
-          ),
-        );
+    towerOpacityAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: entranceController,
+        curve: const Interval(
+          0.15,
+          0.65,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
 
-    towerScaleAnimation =
-        Tween<double>(
-          begin: 0.75,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: entranceController,
-            curve: const Interval(
-              0.15,
-              0.65,
-              curve: Curves.easeOutBack,
-            ),
-          ),
-        );
+    towerScaleAnimation = Tween<double>(
+      begin: 0.75,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: entranceController,
+        curve: const Interval(
+          0.15,
+          0.65,
+          curve: Curves.easeOutBack,
+        ),
+      ),
+    );
 
-    playOpacityAnimation =
-        Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: entranceController,
-            curve: const Interval(
-              0.45,
-              0.85,
-              curve: Curves.easeOut,
-            ),
-          ),
-        );
+    playOpacityAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: entranceController,
+        curve: const Interval(
+          0.45,
+          0.85,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
 
-    dockOpacityAnimation =
-        Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: entranceController,
-            curve: const Interval(
-              0.60,
-              1.00,
-              curve: Curves.easeOut,
-            ),
-          ),
-        );
+    dockOpacityAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: entranceController,
+        curve: const Interval(
+          0.60,
+          1.00,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
 
-    dockSlideAnimation =
-        Tween<Offset>(
-          begin: const Offset(
-            0,
-            0.40,
-          ),
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: entranceController,
-            curve: const Interval(
-              0.60,
-              1.00,
-              curve: Curves.easeOutCubic,
-            ),
-          ),
-        );
+    dockSlideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.40),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: entranceController,
+        curve: const Interval(
+          0.60,
+          1.00,
+          curve: Curves.easeOutCubic,
+        ),
+      ),
+    );
 
-    playGlowAnimation =
-        Tween<double>(
-          begin: 0.96,
-          end: 1.04,
-        ).animate(
-          CurvedAnimation(
-            parent: playGlowController,
-            curve: Curves.easeInOut,
-          ),
-        );
+    playGlowAnimation = Tween<double>(
+      begin: 0.96,
+      end: 1.04,
+    ).animate(
+      CurvedAnimation(
+        parent: playGlowController,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    towerFloatAnimation =
-        Tween<double>(
-          begin: -8,
-          end: 8,
-        ).animate(
-          CurvedAnimation(
-            parent: towerFloatController,
-            curve: Curves.easeInOut,
-          ),
-        );
+    towerFloatAnimation = Tween<double>(
+      begin: -8,
+      end: 8,
+    ).animate(
+      CurvedAnimation(
+        parent: towerFloatController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
-
-  //=========================================================
-  // START ANIMATIONS
-  //=========================================================
 
   void _startAnimations() {
     entranceController.forward();
@@ -264,10 +193,6 @@ class HomeController {
       reverse: true,
     );
   }
-
-  //=========================================================
-  // LOAD DATA
-  //=========================================================
 
   Future<void> _loadPlayerData() async {
     isLoading.value = true;
@@ -282,10 +207,7 @@ class HomeController {
       final diamonds =
       await StorageService.getDiamonds();
 
-      final theme =
-      await StorageService.getSelectedTheme();
-
-      selectedTheme.value = theme;
+      selectedTheme.value = 'neon';
 
       state.value = state.value.copyWith(
         bestScore: bestScore,
@@ -304,10 +226,6 @@ class HomeController {
   Future<void> refresh() async {
     await _loadPlayerData();
   }
-
-  //=========================================================
-  // ACTIONS
-  //=========================================================
 
   Future<void> addCoins(int amount) async {
     final newValue =
@@ -349,17 +267,20 @@ class HomeController {
     );
   }
 
-  //=========================================================
-  // NAVIGATION
-  //=========================================================
+  void startGame(BuildContext context) {}
 
-  void startGame(
+  Future<void> openShop(
       BuildContext context,
-      ) {}
+      ) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const ShopPage(),
+      ),
+    );
 
-  void openShop(
-      BuildContext context,
-      ) {}
+    await refresh();
+  }
 
   void openLeaderboard(
       BuildContext context,
@@ -406,20 +327,8 @@ class HomeController {
   Future<void> openThemes(
       BuildContext context,
       ) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-        const ThemeShopPage(),
-      ),
-    );
-
-    await refresh();
+    // Themes disabled temporarily
   }
-
-  //=========================================================
-  // DISPOSE
-  //=========================================================
 
   void dispose() {
     if (_initialized) {

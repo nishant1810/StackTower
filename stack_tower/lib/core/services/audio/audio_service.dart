@@ -8,6 +8,8 @@ class AudioService {
   static bool _soundEnabled = true;
   static bool _musicStarted = false;
 
+  static DateTime? _lastDropTime;
+
   static bool get musicEnabled => _musicEnabled;
   static bool get soundEnabled => _soundEnabled;
 
@@ -20,13 +22,9 @@ class AudioService {
 
     await FlameAudio.audioCache.loadAll([
       'bg_music.mp3',
-      'drop.mp3',
-      'perfect.mp3',
-      'combo.mp3',
-      'coin.mp3',
-      'reward.mp3',
-      'achievement.mp3',
+      // 'drop.mp3',
       'game_over.mp3',
+      'perfect.mp3',
     ]);
 
     await FlameAudio.bgm.initialize();
@@ -38,11 +36,10 @@ class AudioService {
   // MUSIC
   // ==========================================
 
-  static Future<void> setMusicEnabled(bool value) async {
-    _musicEnabled = value;
+  static Future<void> setMusicEnabled(bool enabled) async {
+    _musicEnabled = enabled;
 
-    if (value) {
-      _musicStarted = false;
+    if (enabled) {
       await startBackgroundMusic();
     } else {
       await stopBackgroundMusic();
@@ -56,9 +53,9 @@ class AudioService {
     try {
       _musicStarted = true;
 
-      await FlameAudio.bgm.play(
+      FlameAudio.bgm.play(
         'bg_music.mp3',
-        volume: 0.8,
+        volume: 0.35,
       );
     } catch (_) {
       _musicStarted = false;
@@ -73,46 +70,61 @@ class AudioService {
   }
 
   // ==========================================
+  // SOUND SETTINGS
+  // ==========================================
+
+  static void setSoundEnabled(bool enabled) {
+    _soundEnabled = enabled;
+  }
+
+  // ==========================================
   // SOUND EFFECTS
   // ==========================================
 
-  static void setSoundEnabled(bool value) {
-    _soundEnabled = value;
-  }
-
-  static void playDrop() {
-    if (!_soundEnabled) return;
-    FlameAudio.play('drop.mp3', volume: 0.8);
-  }
+  // static Future<void> playDrop() async {
+  //   if (!_soundEnabled) return;
+  //
+  //   final now = DateTime.now();
+  //
+  //   if (_lastDropTime != null &&
+  //       now.difference(_lastDropTime!).inMilliseconds < 60) {
+  //     return;
+  //   }
+  //
+  //   _lastDropTime = now;
+  //
+  //   try {
+  //     FlameAudio.play(
+  //       'drop.mp3',
+  //       volume: 0.8,
+  //     );
+  //   } catch (_) {}
+  // }
 
   static void playPerfect() {
-    if (!_soundEnabled) return;
-    FlameAudio.play('perfect.mp3');
-  }
+    print("PERFECT SOUND CALLED");
 
-  static void playCombo() {
     if (!_soundEnabled) return;
-    FlameAudio.play('combo.mp3');
-  }
 
-  static void playCoin() {
-    if (!_soundEnabled) return;
-    FlameAudio.play('coin.mp3');
-  }
-
-  static void playReward() {
-    if (!_soundEnabled) return;
-    FlameAudio.play('reward.mp3');
-  }
-
-  static void playAchievement() {
-    if (!_soundEnabled) return;
-    FlameAudio.play('achievement.mp3');
+    try {
+      FlameAudio.play(
+        'perfect.mp3',
+        volume: 1.0,
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   static void playGameOver() {
     if (!_soundEnabled) return;
-    FlameAudio.play('game_over.mp3');
+
+    try {
+      FlameAudio.play(
+        'game_over.mp3',
+        volume: 2.8,
+      );
+    } catch (_) {}
   }
 
   // ==========================================

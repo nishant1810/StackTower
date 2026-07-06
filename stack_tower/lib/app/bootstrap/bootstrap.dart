@@ -1,16 +1,21 @@
-import '../di/injector.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import '../../core/services/ads/ad_service.dart';
 import '../../core/services/audio/audio_service.dart';
-import '../../core/services/settings/settings_service.dart';
-import '../../core/services/vibration/vibration_service.dart';
+import '../../core/services/storage/storage_service.dart';
 
 Future<void> bootstrap() async {
-  await setupDependencies();
+  await Firebase.initializeApp();
 
-  await SettingsService.load();
+  await AudioService.initialize();
+
+  AudioService.setSoundEnabled(
+    await StorageService.getSfxEnabled(),
+  );
+
+  await AudioService.setMusicEnabled(
+    await StorageService.getMusicEnabled(),
+  );
 
   await AdService.initialize();
-
-  await VibrationService.initialize();
 }

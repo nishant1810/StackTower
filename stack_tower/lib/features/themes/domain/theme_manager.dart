@@ -1,126 +1,31 @@
-import 'dart:math';
-import 'package:flutter/material.dart';
+import '../../../core/services/storage/storage_service.dart';
 
 class ThemeManager {
-  static final Random _random = Random();
+  ThemeManager._();
 
-  /// Theme block palette
-  static List<Color> getPalette(
-      String themeId,
-      ) {
-    switch (themeId) {
-      case "purple":
-        return [
-          const Color(0xFF8B5CF6),
-          const Color(0xFFA855F7),
-          const Color(0xFFEC4899),
-        ];
-
-      case "emerald":
-        return [
-          const Color(0xFF10B981),
-          const Color(0xFF22C55E),
-          const Color(0xFF34D399),
-        ];
-
-      case "lava":
-        return [
-          const Color(0xFFF97316),
-          const Color(0xFFEF4444),
-          const Color(0xFFDC2626),
-        ];
-
-      case "galaxy":
-        return [
-          const Color(0xFF8B5CF6),
-          const Color(0xFFEC4899),
-          const Color(0xFF3B82F6),
-          const Color(0xFF06B6D4),
-          Colors.white,
-        ];
-
-      default:
-        return [
-          const Color(0xFF3B82F6),
-          const Color(0xFF06B6D4),
-          const Color(0xFF22C55E),
-          const Color(0xFFEAB308),
-          const Color(0xFFF97316),
-          const Color(0xFFEF4444),
-          const Color(0xFFEC4899),
-          const Color(0xFF8B5CF6),
-        ];
-    }
+  static Future<String> getSelectedTheme() async {
+    return await StorageService.getSelectedTheme();
   }
 
-  /// Particle colors
-  static Color getParticleColor(
+  static Future<void> equipTheme(
       String themeId,
-      ) {
-    switch (themeId) {
-      case "purple":
-        return const Color(0xFF8B5CF6);
-
-      case "emerald":
-        return const Color(0xFF10B981);
-
-      case "lava":
-        return const Color(0xFFF97316);
-
-      case "galaxy":
-        final galaxyColors = [
-          const Color(0xFF8B5CF6),
-          const Color(0xFFEC4899),
-          const Color(0xFF3B82F6),
-          const Color(0xFF06B6D4),
-          Colors.white,
-        ];
-
-        return galaxyColors[
-        _random.nextInt(
-          galaxyColors.length,
-        )];
-
-      default:
-        return const Color(0xFF3B82F6);
-    }
+      ) async {
+    await StorageService.saveSelectedTheme(
+      themeId,
+    );
   }
 
-  /// Glow multiplier
-  static double getGlowStrength(
+  static Future<bool> isUnlocked(
       String themeId,
-      ) {
-    switch (themeId) {
-      case "lava":
-        return 1.5;
-
-      case "galaxy":
-        return 2.0;
-
-      default:
-        return 1.0;
-    }
+      ) async {
+    return await StorageService
+        .isThemeUnlocked(themeId);
   }
 
-  /// PERFECT text color
-  static Color getPerfectTextColor(
+  static Future<bool> unlockTheme(
       String themeId,
-      ) {
-    switch (themeId) {
-      case "purple":
-        return const Color(0xFF8B5CF6);
-
-      case "emerald":
-        return const Color(0xFF10B981);
-
-      case "lava":
-        return const Color(0xFFF97316);
-
-      case "galaxy":
-        return Colors.white;
-
-      default:
-        return Colors.amber;
-    }
+      ) async {
+    return await StorageService
+        .unlockTheme(themeId);
   }
 }
