@@ -5,10 +5,10 @@ import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
 import '../../../core/services/audio/audio_service.dart';
 import '../../../core/services/storage/storage_service.dart';
-import '../../../core/services/auth/auth_service.dart';
 
+import '../../../core/services/auth/auth_service.dart';
 import '../../auth/pages/login_page.dart';
-import '../../profile/pages/profile_page.dart';
+
 import '../../leaderboard/pages/leaderboard_page.dart';
 import '../controllers/home_controller.dart';
 import '../../themes/pages/theme_page.dart';
@@ -211,55 +211,6 @@ class _HomePageState extends State<HomePage>
               ),
             ),
 
-            // 👇 ADD HERE
-            Positioned(
-              top: 60,
-              right: 20,
-              child: GestureDetector(
-                onTap: () async {
-                  if (AuthService.isLoggedIn || AuthService.isGuest) {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ProfilePage(),
-                      ),
-                    );
-                  } else {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const LoginPage(),
-                      ),
-                    );
-
-                    if (mounted) {
-                      setState(() {});
-                    }
-                  }
-
-                  if (mounted) {
-                    setState(() {});
-                  }
-                },
-                child: CircleAvatar(
-                  radius: 24,
-                  backgroundColor: const Color(0xFF1A2238),
-                  backgroundImage: AuthService.photoUrl != null
-                      ? NetworkImage(AuthService.photoUrl!)
-                      : null,
-                  child: AuthService.photoUrl == null
-                      ? Text(
-                    AuthService.playerName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                      : null,
-                ),
-              ),
-            ),
-
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -271,9 +222,7 @@ class _HomePageState extends State<HomePage>
                     HomeHud(
                       controller: controller,
                       onSettingsTap: () =>
-                          controller.openSettings(
-                            context,
-                          ),
+                          controller.openSettings(context),
                     ),
 
                     const SizedBox(height: 16),
@@ -303,10 +252,10 @@ class _HomePageState extends State<HomePage>
                               Positioned(
                                 right: isSmallPhone
                                     ? 0
-                                    : 8,
+                                    : 6,
                                 top: isSmallPhone
-                                    ? 70
-                                    : 90,
+                                    ? 40
+                                    : 55,
                                 child:
                                 HomeRightPanel(
                                   controller:

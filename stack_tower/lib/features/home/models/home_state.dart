@@ -6,6 +6,7 @@ class HomeState {
     required this.playerName,
     required this.level,
     required this.xp,
+    required this.xpRequired,
     required this.coins,
     required this.gems,
     required this.bestScore,
@@ -14,16 +15,26 @@ class HomeState {
 
   final String playerName;
   final int level;
-  final double xp;
+
+  /// Current XP
+  final int xp;
+
+  /// XP needed for next level
+  final int xpRequired;
+
   final int coins;
   final int gems;
   final int bestScore;
   final bool dailyRewardAvailable;
 
+  double get progress =>
+      xpRequired == 0 ? 0 : xp / xpRequired;
+
   HomeState copyWith({
     String? playerName,
     int? level,
-    double? xp,
+    int? xp,
+    int? xpRequired,
     int? coins,
     int? gems,
     int? bestScore,
@@ -33,6 +44,7 @@ class HomeState {
       playerName: playerName ?? this.playerName,
       level: level ?? this.level,
       xp: xp ?? this.xp,
+      xpRequired: xpRequired ?? this.xpRequired,
       coins: coins ?? this.coins,
       gems: gems ?? this.gems,
       bestScore: bestScore ?? this.bestScore,
@@ -47,6 +59,7 @@ class HomeState {
         'playerName: $playerName, '
         'level: $level, '
         'xp: $xp, '
+        'xpRequired: $xpRequired, '
         'coins: $coins, '
         'gems: $gems, '
         'bestScore: $bestScore, '
@@ -58,14 +71,15 @@ class HomeState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is HomeState &&
-            runtimeType == other.runtimeType &&
             playerName == other.playerName &&
             level == other.level &&
             xp == other.xp &&
+            xpRequired == other.xpRequired &&
             coins == other.coins &&
             gems == other.gems &&
             bestScore == other.bestScore &&
-            dailyRewardAvailable == other.dailyRewardAvailable;
+            dailyRewardAvailable ==
+                other.dailyRewardAvailable;
   }
 
   @override
@@ -73,6 +87,7 @@ class HomeState {
     playerName,
     level,
     xp,
+    xpRequired,
     coins,
     gems,
     bestScore,

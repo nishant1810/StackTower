@@ -16,14 +16,11 @@ class SettingsFooter extends StatelessWidget {
         vertical: 20,
       ),
       decoration: BoxDecoration(
-        borderRadius:
-        BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: const Color(
             0xFF6F63FF,
-          ).withValues(
-            alpha: 0.4,
-          ),
+          ).withOpacity(0.4),
         ),
         gradient: const LinearGradient(
           colors: [

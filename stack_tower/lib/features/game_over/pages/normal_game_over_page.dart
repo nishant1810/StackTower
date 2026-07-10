@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/utils/responsive.dart';
-
-import '../widgets/best_score_card.dart';
-import '../widgets/coin_reward_card.dart';
-import '../widgets/primary_action_button.dart';
-import '../widgets/score_display.dart';
-import '../widgets/secondary_action_button.dart';
-import '../widgets/star_rating.dart';
-
 class NormalGameOverPage extends StatelessWidget {
   final int score;
   final int bestScore;
   final int coins;
+  final String themeId;
 
   final VoidCallback onReplay;
   final VoidCallback onHome;
@@ -23,272 +15,322 @@ class NormalGameOverPage extends StatelessWidget {
     required this.score,
     required this.bestScore,
     required this.coins,
+    required this.themeId,
     required this.onReplay,
     required this.onHome,
     required this.onReward,
   });
 
-  int get stars {
-    if (score >= 500) return 3;
-    if (score >= 250) return 2;
-    if (score >= 100) return 1;
-    return 0;
-  }
-
-  bool get isNewBest => score >= bestScore;
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(
-          horizontal: Responsive.w(context, 0.05),
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 340,
-          ),
-          child: TweenAnimationBuilder<double>(
-            tween: Tween(
-              begin: 0,
-              end: 1,
-            ),
-            duration: const Duration(
-              milliseconds: 700,
-            ),
-            curve: Curves.easeOutCubic,
-            builder: (context, value, child) {
-              return Opacity(
-                opacity: value,
-                child: Transform.scale(
-                  scale: 0.9 + (value * 0.1),
-                  child: child,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final height = constraints.maxHeight;
+
+        final buttonWidth = width * 0.26;
+        final buttonHeight = height * 0.12;
+
+        double finalLabelTop;
+        double finalValueTop;
+
+        double bestLabelTop;
+        double bestValueTop;
+
+        double coinsLabelTop;
+        double coinsValueTop;
+
+        double homeLeft;
+        double retryLeft;
+        double reviveRight;
+        double buttonBottom;
+
+        switch (themeId) {
+          case 'sky':
+            finalLabelTop = 0.487;
+            finalValueTop = 0.511;
+
+            bestLabelTop = 0.588;
+            bestValueTop = 0.607;
+
+            coinsLabelTop = 0.676;
+            coinsValueTop = 0.697;
+
+            homeLeft = 0.05;
+            retryLeft = 0.38;
+            reviveRight = 0.05;
+            buttonBottom = 0.07;
+            break;
+
+          case 'neon':
+            finalLabelTop = 0.535;
+            finalValueTop = 0.562;
+
+            bestLabelTop = 0.636;
+            bestValueTop = 0.661;
+
+            coinsLabelTop = 0.724;
+            coinsValueTop = 0.743;
+
+            homeLeft = 0.04;
+            retryLeft = 0.37;
+            reviveRight = 0.04;
+            buttonBottom = 0.025;
+            break;
+
+          case 'purple':
+            finalLabelTop = 0.524;
+            finalValueTop = 0.538;
+
+            bestLabelTop = 0.618;
+            bestValueTop = 0.641;
+
+            coinsLabelTop = 0.715;
+            coinsValueTop = 0.735;
+
+            homeLeft = 0.05;
+            retryLeft = 0.38;
+            reviveRight = 0.05;
+            buttonBottom = 0.07;
+            break;
+
+          case 'emerald':
+            finalLabelTop = 0.481;
+            finalValueTop = 0.508;
+
+            bestLabelTop = 0.58;
+            bestValueTop = 0.605;
+
+            coinsLabelTop = 0.681;
+            coinsValueTop = 0.701;
+
+            homeLeft = 0.05;
+            retryLeft = 0.38;
+            reviveRight = 0.05;
+            buttonBottom = 0.07;
+            break;
+
+          case 'lava':
+            finalLabelTop = 0.523;
+            finalValueTop = 0.545;
+
+            bestLabelTop = 0.623;
+            bestValueTop = 0.645;
+
+            coinsLabelTop = 0.72;
+            coinsValueTop = 0.741;
+
+            homeLeft = 0.05;
+            retryLeft = 0.38;
+            reviveRight = 0.05;
+            buttonBottom = 0.04;
+            break;
+
+          case 'galaxy':
+            finalLabelTop = 0.568;
+            finalValueTop = 0.589;
+
+            bestLabelTop = 0.651;
+            bestValueTop = 0.671;
+
+            coinsLabelTop = 0.738;
+            coinsValueTop = 0.755;
+
+            homeLeft = 0.03;
+            retryLeft = 0.36;
+            reviveRight = 0.03;
+            buttonBottom = 0.02;
+            break;
+
+          default:
+            finalLabelTop = 0.49;
+            finalValueTop = 0.535;
+
+            bestLabelTop = 0.60;
+            bestValueTop = 0.645;
+
+            coinsLabelTop = 0.71;
+            coinsValueTop = 0.755;
+
+            homeLeft = 0.05;
+            retryLeft = 0.38;
+            reviveRight = 0.05;
+            buttonBottom = 0.03;
+        }
+
+        return Stack(
+          children: [
+            /// FINAL SCORE LABEL
+            Positioned(
+              top: height * finalLabelTop,
+              left: 0,
+              right: 0,
+              child: const Center(
+                child: Text(
+                  'FINAL SCORE',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              );
-            },
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(
-                24,
-                28,
-                24,
-                24,
               ),
-              decoration: BoxDecoration(
-                borderRadius:
-                BorderRadius.circular(32),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withValues(
-                      alpha: 0.08,
+            ),
+
+            /// FINAL SCORE VALUE
+            Positioned(
+              top: height * finalValueTop,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Text(
+                  '$score',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            /// BEST SCORE LABEL
+            Positioned(
+              top: height * bestLabelTop,
+              left: 0,
+              right: 0,
+              child: const Center(
+                child: Text(
+                  'BEST SCORE',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+
+            /// BEST SCORE VALUE
+            Positioned(
+              top: height * bestValueTop,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.emoji_events_rounded,
+                      color: Colors.white,
+                      size: 20,
                     ),
-                    Colors.white.withValues(
-                      alpha: 0.03,
+                    const SizedBox(width: 6),
+                    Text(
+                      '$bestScore',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
-                border: Border.all(
-                  color: const Color(
-                    0xFFB15DFF,
-                  ).withValues(
-                    alpha: 0.18,
-                  ),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(
-                      0xFFB15DFF,
-                    ).withValues(
-                      alpha: 0.10,
-                    ),
-                    blurRadius: 35,
-                    spreadRadius: 1,
-                  ),
-                  BoxShadow(
-                    color: const Color(
-                      0xFF6EDBFF,
-                    ).withValues(
-                      alpha: 0.05,
-                    ),
-                    blurRadius: 50,
-                  ),
-                ],
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'GAME OVER',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: const Color(
-                        0xFFE8D8FF,
-                      ),
-                      fontSize: Responsive.sp(
-                        context,
-                        34,
-                      ),
-                      fontWeight:
-                      FontWeight.w900,
-                      letterSpacing: 2,
-                    ),
+            ),
+
+            /// COINS EARNED LABEL
+            Positioned(
+              top: height * coinsLabelTop,
+              left: 0,
+              right: 0,
+              child: const Center(
+                child: Text(
+                  'COINS EARNED',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                   ),
+                ),
+              ),
+            ),
 
-                  if (isNewBest) ...[
-                    const SizedBox(height: 10),
-
-                    Container(
-                      padding:
-                      const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 7,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(
-                          20,
-                        ),
-                        color: const Color(
-                          0xFFFFC857,
-                        ).withValues(
-                          alpha: 0.15,
-                        ),
-                        border: Border.all(
-                          color: const Color(
-                            0xFFFFC857,
-                          ).withValues(
-                            alpha: 0.6,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        "🏆 NEW BEST",
-                        style: TextStyle(
-                          color:
-                          Color(0xFFFFD56A),
-                          fontWeight:
-                          FontWeight.w800,
-                          letterSpacing: 1,
-                        ),
+            /// COINS EARNED VALUE
+            Positioned(
+              top: height * coinsValueTop,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.monetization_on_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$coins',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
-
-                  SizedBox(
-                    height: Responsive.h(
-                      context,
-                      0.02,
-                    ),
-                  ),
-
-                  StarRating(
-                    stars: stars,
-                  ),
-
-                  SizedBox(
-                    height: Responsive.h(
-                      context,
-                      0.02,
-                    ),
-                  ),
-
-                  ScoreDisplay(
-                    score: score,
-                  ),
-
-                  SizedBox(
-                    height: Responsive.h(
-                      context,
-                      0.015,
-                    ),
-                  ),
-
-                  BestScoreCard(
-                    bestScore: bestScore,
-                  ),
-
-                  SizedBox(
-                    height: Responsive.h(
-                      context,
-                      0.015,
-                    ),
-                  ),
-
-                  CoinRewardCard(
-                    coins: coins,
-                  ),
-
-                  SizedBox(
-                    height: Responsive.h(
-                      context,
-                      0.03,
-                    ),
-                  ),
-
-                  SizedBox(
-                    width: double.infinity,
-                    height: 68,
-                    child: PrimaryActionButton(
-                      title: '',
-                      icon:
-                      Icons.play_arrow_rounded,
-                      onTap: onReplay,
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: Responsive.h(
-                      context,
-                      0.02,
-                    ),
-                  ),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child:
-                        SecondaryActionButton(
-                          icon:
-                          Icons.home_rounded,
-                          label: 'HOME',
-                          glowColor:
-                          const Color(
-                            0xFFB15DFF,
-                          ),
-                          onTap: onHome,
-                        ),
-                      ),
-
-                      SizedBox(
-                        width: Responsive.w(
-                          context,
-                          0.03,
-                        ),
-                      ),
-
-                      Expanded(
-                        child:
-                        SecondaryActionButton(
-                          icon: Icons
-                              .play_circle_fill_rounded,
-                          label: '2X COINS',
-                          glowColor:
-                          const Color(
-                            0xFFFFA726,
-                          ),
-                          onTap: onReward,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
+
+            /// HOME BUTTON TAP AREA
+            Positioned(
+              left: width * homeLeft,
+              bottom: height * buttonBottom,
+              width: buttonWidth,
+              height: buttonHeight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onHome,
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+
+            /// RETRY BUTTON TAP AREA
+            Positioned(
+              left: width * retryLeft,
+              bottom: height * buttonBottom,
+              width: buttonWidth,
+              height: buttonHeight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onReplay,
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+
+            /// REVIVE BUTTON TAP AREA
+            Positioned(
+              right: width * reviveRight,
+              bottom: height * buttonBottom,
+              width: buttonWidth,
+              height: buttonHeight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onReward,
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

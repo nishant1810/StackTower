@@ -12,189 +12,275 @@ class ShopPackCard extends StatelessWidget {
     required this.onBuy,
   });
 
-  bool get isBestValue {
-    final amount = _extractAmount();
-    return amount >= 10000;
-  }
+  @override
+  Widget build(BuildContext context) {
+    final isDiamond = item.isDiamond;
 
-  bool get isPopular {
-    final amount = _extractAmount();
-    return amount >= 5000 && amount < 10000;
-  }
+    final borderColor = item.isBestValue
+        ? const Color(0xFFFF4DA6)
+        : item.isPopular
+        ? const Color(0xFF44D16A)
+        : isDiamond
+        ? const Color(0xFF42CFFF)
+        : const Color(0xFFFFC107);
 
-  int _extractAmount() {
-    final numbers = RegExp(r'\d+')
-        .allMatches(item.title)
-        .map((e) => int.tryParse(e.group(0) ?? '0') ?? 0)
-        .toList();
+    return Container(
+      height: 140,
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDiamond
+              ? const [
+            Color(0xFF1A1142),
+            Color(0xFF090E21),
+          ]
+              : const [
+            Color(0xFF241544),
+            Color(0xFF0C1024),
+          ],
+        ),
+        border: Border.all(
+          color: borderColor,
+          width: 1.8,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: borderColor.withOpacity(.35),
+            blurRadius: 24,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          if (item.hasBonus)
+            Positioned(
+              top: 10,
+              right: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: borderColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '+${item.bonusPercent}% BONUS',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ),
 
-    if (numbers.isEmpty) return 0;
-    return numbers.first;
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 10,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 72,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    gradient: LinearGradient(
+                      colors: [
+                        borderColor.withOpacity(.25),
+                        borderColor.withOpacity(.05),
+                      ],
+                    ),
+                    border: Border.all(
+                      color: borderColor.withOpacity(.4),
+                    ),
+                  ),
+                  child: Icon(
+                    isDiamond
+                        ? Icons.diamond
+                        : Icons.monetization_on,
+                    color: borderColor,
+                    size: 40,
+                  ),
+                ),
+
+                const SizedBox(width: 14),
+
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    mainAxisAlignment:
+                    MainAxisAlignment.center,
+                    crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.title,
+                        maxLines: 1,
+                        overflow:
+                        TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+
+                      const SizedBox(height: 4),
+
+                      Text(
+                        isDiamond
+                            ? 'Premium Currency'
+                            : 'Upgrade your tower',
+                        maxLines: 2,
+                        overflow:
+                        TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      if (item.isBestValue)
+                        const _Badge(
+                          title: 'BEST VALUE',
+                          color: Color(0xFFFF4DA6),
+                        )
+                      else if (item.isPopular)
+                        const _Badge(
+                          title: 'POPULAR',
+                          color: Color(0xFF44D16A),
+                        ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(width: 8),
+
+                SizedBox(
+                  width: 95,
+                  child: Column(
+                    mainAxisAlignment:
+                    MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        item.price,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Container(
+                        height: 42,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(
+                            14,
+                          ),
+                          gradient:
+                          LinearGradient(
+                            colors: [
+                              borderColor,
+                              borderColor
+                                  .withOpacity(.75),
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: borderColor
+                                  .withOpacity(.35),
+                              blurRadius: 12,
+                            ),
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius:
+                            BorderRadius.circular(
+                              14,
+                            ),
+                            onTap: onBuy,
+                            child: const Center(
+                              child: Text(
+                                'BUY',
+                                style: TextStyle(
+                                  color:
+                                  Colors.white,
+                                  fontSize: 13,
+                                  fontWeight:
+                                  FontWeight
+                                      .w900,
+                                  letterSpacing:
+                                  1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
+}
+
+class _Badge extends StatelessWidget {
+  final String title;
+  final Color color;
+
+  const _Badge({
+    required this.title,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 4,
       ),
-      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: LinearGradient(
-          colors: [
-            Colors.white.withOpacity(0.08),
-            Colors.white.withOpacity(0.03),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        border: Border.all(
-          color: isBestValue
-              ? const Color(0xFFFFD54F)
-              : Colors.white12,
-          width: 1.4,
-        ),
+        color: color,
+        borderRadius:
+        BorderRadius.circular(20),
         boxShadow: [
-          if (isBestValue)
-            const BoxShadow(
-              color: Color(0x33FFD54F),
-              blurRadius: 20,
-              spreadRadius: 2,
-            ),
+          BoxShadow(
+            color: color.withOpacity(.4),
+            blurRadius: 10,
+          ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
-        children: [
-          if (isBestValue)
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 4,
-              ),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFD54F)
-                    .withOpacity(0.15),
-                borderRadius:
-                BorderRadius.circular(12),
-              ),
-              child: const Text(
-                '🔥 BEST VALUE',
-                style: TextStyle(
-                  color: Color(0xFFFFD54F),
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-          if (isPopular)
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 4,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.15),
-                borderRadius:
-                BorderRadius.circular(12),
-              ),
-              child: const Text(
-                '⭐ MOST POPULAR',
-                style: TextStyle(
-                  color: Colors.lightBlueAccent,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-          const SizedBox(height: 16),
-
-          Row(
-            children: [
-              Text(
-                item.title.contains('Diamond')
-                    ? '💎'
-                    : '🪙',
-                style: const TextStyle(
-                  fontSize: 32,
-                ),
-              ),
-
-              const SizedBox(width: 12),
-
-              Expanded(
-                child: Text(
-                  item.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          Text(
-            'Instant delivery',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.65),
-              fontSize: 13,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          Row(
-            children: [
-              Text(
-                item.price,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const Spacer(),
-
-              SizedBox(
-                height: 44,
-                child: ElevatedButton(
-                  onPressed: onBuy,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                    const Color(0xFF8B5CF6),
-                    elevation: 0,
-                    padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 24,
-                    ),
-                    shape:
-                    RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: const Text(
-                    'BUY',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.w900,
+        ),
       ),
     );
   }

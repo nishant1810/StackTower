@@ -10,46 +10,22 @@ class StorageService {
   static const String bestScoreKey = 'best_score';
   static const String coinsKey = 'coins';
   static const String diamondsKey = 'diamonds';
-
-  static const String lastRewardDateKey =
-      'last_reward_date';
-
-  static const String rewardDayKey =
-      'reward_day';
-
-  static const String selectedThemeKey =
-      'selected_theme';
-
-  static const String unlockedThemesKey =
-      'unlocked_themes';
-
-  static const String selectedBlockKey =
-      'selected_block';
-
-  static const String unlockedBlocksKey =
-      'unlocked_blocks';
-
-  static const String gamesPlayedKey =
-      'games_played';
-
-  static const String musicEnabledKey =
-      'music_enabled';
-
-  static const String sfxEnabledKey =
-      'sfx_enabled';
-
-  static const String vibrationEnabledKey =
-      'vibration_enabled';
-
-  static const String highestComboKey =
-      'highest_combo';
-
-  static const String perfectPlacementsKey =
-      'perfect_placements';
-
-  static const String achievementsKey =
-      'achievements';
-
+  static const String gamesPlayedKey = 'games_played';
+  static const String totalXpKey = 'total_xp';
+  static const String perfectRecordKey = 'perfect_record';
+  static const String highestComboKey = 'highest_combo';
+  static const String playerNameKey = 'player_name';
+  static const String lastRewardDateKey = 'last_reward_date';
+  static const String rewardDayKey = 'reward_day';
+  static const String selectedThemeKey = 'selected_theme';
+  static const String unlockedThemesKey = 'unlocked_themes';
+  static const String selectedBlockKey = 'selected_block';
+  static const String unlockedBlocksKey = 'unlocked_blocks';
+  static const String musicEnabledKey = 'music_enabled';
+  static const String sfxEnabledKey = 'sfx_enabled';
+  static const String vibrationEnabledKey = 'vibration_enabled';
+  static const String perfectPlacementsKey = 'perfect_placements';
+  static const String achievementsKey = 'achievements';
   static const _topScoresKey = 'top_scores';
 
   //=========================================================
@@ -86,6 +62,69 @@ class StorageService {
     } catch (e) {
       print('GET GUEST MODE ERROR: $e');
       return false;
+    }
+  }
+
+  static Future<String> getPlayerName() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getString(
+        playerNameKey,
+      ) ??
+          'Tower Master';
+    } catch (e) {
+      print('GET PLAYER NAME ERROR: $e');
+      return 'Tower Master';
+    }
+  }
+
+  static Future<void> savePlayerName(
+      String name) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      await prefs.setString(
+        playerNameKey,
+        name,
+      );
+    } catch (e) {
+      print('SAVE PLAYER NAME ERROR: $e');
+    }
+  }
+
+  static Future<int> getTotalXp() async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      return prefs.getInt(
+        totalXpKey,
+      ) ??
+          0;
+    } catch (e) {
+      print('GET XP ERROR: $e');
+      return 0;
+    }
+  }
+
+  static Future<void> addXp(
+      int amount) async {
+    try {
+      final prefs =
+      await SharedPreferences.getInstance();
+
+      final current =
+          prefs.getInt(totalXpKey) ?? 0;
+
+      await prefs.setInt(
+        totalXpKey,
+        current + amount,
+      );
+    } catch (e) {
+      print('ADD XP ERROR: $e');
     }
   }
 
@@ -671,6 +710,10 @@ class StorageService {
     } catch (e) {
       print('ADD PERFECTS ERROR: $e');
     }
+  }
+
+  static Future<int> getPerfectRecord() async {
+    return getPerfectPlacements();
   }
 
   //=========================================================

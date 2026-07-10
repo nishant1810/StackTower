@@ -5,9 +5,20 @@ import '../models/theme_data.dart';
 
 const themes = [
   GameTheme(
-    id: "neon",
-    name: "Neon Blue",
+    id: "sky",
+    name: "Sky Citadel",
     cost: 0,
+    previewImage: AppAssets.skyTheme,
+    colors: [
+      Color(0xFF3B82F6),
+      Color(0xFF06B6D4),
+    ],
+  ),
+
+  GameTheme(
+    id: "neon",
+    name: "Neon Cyber",
+    cost: 500,
     previewImage: AppAssets.neonTheme,
     colors: [
       Color(0xFF3B82F6),
@@ -17,8 +28,8 @@ const themes = [
 
   GameTheme(
     id: "purple",
-    name: "Cyber Purple",
-    cost: 500,
+    name: "Purple Crystal Storm",
+    cost: 1000,
     previewImage: AppAssets.purpleStormTheme,
     colors: [
       Color(0xFF8B5CF6),
@@ -28,8 +39,8 @@ const themes = [
 
   GameTheme(
     id: "emerald",
-    name: "Emerald",
-    cost: 1200,
+    name: "Emerald Crystal",
+    cost: 1500,
     previewImage: AppAssets.emeraldGlowTheme,
     colors: [
       Color(0xFF22C55E),
@@ -39,7 +50,7 @@ const themes = [
 
   GameTheme(
     id: "lava",
-    name: "Lava",
+    name: "Lava Inferno",
     cost: 2500,
     previewImage: AppAssets.lavaTheme,
     colors: [

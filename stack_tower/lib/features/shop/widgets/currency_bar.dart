@@ -10,25 +10,48 @@ class CurrencyBar extends StatelessWidget {
     required this.diamonds,
   });
 
+  String _formatNumber(int value) {
+    if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(1)}M';
+    }
+
+    if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(1)}K';
+    }
+
+    return value.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 88,
+      height: 92,
       margin: const EdgeInsets.symmetric(
-        horizontal: 16,
+        horizontal: 12,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        color: const Color(0xFF0B0820),
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF241544),
+            Color(0xFF0A1024),
+          ],
+        ),
         border: Border.all(
-          color: const Color(0xFF5A2DFF),
-          width: 1.5,
+          color: const Color(0xFF8B5CF6),
+          width: 2,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF7B3FFF)
-                .withOpacity(0.3),
-            blurRadius: 20,
+            color: const Color(0xFF8B5CF6)
+                .withOpacity(.30),
+            blurRadius: 28,
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -37,26 +60,40 @@ class CurrencyBar extends StatelessWidget {
           Expanded(
             child: _CurrencyPanel(
               icon: Icons.monetization_on,
-              value: coins.toString(),
+              value: _formatNumber(coins),
               label: 'COINS',
-              iconColor: const Color(0xFFFFC107),
-              borderColor: const Color(0xFFFFB300),
+              iconColor:
+              const Color(0xFFFFC107),
+              borderColor:
+              const Color(0xFFFFC107),
             ),
           ),
 
           Container(
-            width: 1,
-            height: 50,
-            color: Colors.white24,
+            width: 2,
+            height: 48,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.white30,
+                  Colors.transparent,
+                ],
+              ),
+            ),
           ),
 
           Expanded(
             child: _CurrencyPanel(
               icon: Icons.diamond,
-              value: diamonds.toString(),
+              value: _formatNumber(diamonds),
               label: 'DIAMONDS',
-              iconColor: const Color(0xFF4FC3F7),
-              borderColor: const Color(0xFF00E5FF),
+              iconColor:
+              const Color(0xFF42CFFF),
+              borderColor:
+              const Color(0xFF42CFFF),
             ),
           ),
         ],
@@ -82,78 +119,112 @@ class _CurrencyPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: iconColor.withOpacity(0.12),
-              border: Border.all(
-                color: iconColor,
+    return Row(
+      children: [
+        Container(
+          width: 46,
+          height: 46,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [
+                iconColor.withOpacity(.35),
+                iconColor.withOpacity(.08),
+              ],
+            ),
+            border: Border.all(
+              color: borderColor,
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: borderColor
+                    .withOpacity(.35),
+                blurRadius: 12,
               ),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 28,
-            ),
+            ],
           ),
+          child: Icon(
+            icon,
+            color: iconColor,
+            size: 24,
+          ),
+        ),
 
-          const SizedBox(width: 12),
+        const SizedBox(width: 8),
 
-          Expanded(
-            child: Column(
-              mainAxisAlignment:
-              MainAxisAlignment.center,
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Text(
+        Expanded(
+          child: Column(
+            mainAxisAlignment:
+            MainAxisAlignment.center,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment:
+                Alignment.centerLeft,
+                child: Text(
                   value,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
+                    fontSize: 20,
+                    fontWeight:
+                    FontWeight.w900,
                   ),
                 ),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    value,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                    ),
+              ),
+
+              const SizedBox(height: 2),
+
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment:
+                Alignment.centerLeft,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: iconColor,
+                    fontSize: 10,
+                    fontWeight:
+                    FontWeight.w900,
+                    letterSpacing: .8,
                   ),
                 ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(width: 4),
+
+        Container(
+          width: 28,
+          height: 28,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [
+                borderColor,
+                borderColor
+                    .withOpacity(.75),
               ],
             ),
-          ),
-
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: borderColor,
+            boxShadow: [
+              BoxShadow(
+                color: borderColor
+                    .withOpacity(.35),
+                blurRadius: 10,
               ),
-            ),
-            child: Icon(
-              Icons.add,
-              color: borderColor,
-              size: 20,
-            ),
+            ],
           ),
-        ],
-      ),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 16,
+          ),
+        ),
+      ],
     );
   }
 }

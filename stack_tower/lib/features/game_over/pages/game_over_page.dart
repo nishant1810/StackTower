@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:stack_tower/core/assets/app_assets.dart';
 import 'package:stack_tower/features/game_over/pages/new_best_game_over_page.dart';
 import 'package:stack_tower/features/game_over/pages/normal_game_over_page.dart';
-import 'package:stack_tower/features/gameplay/pages/gameplay_page.dart';
 
 import '../../../core/services/ads/ad_service.dart';
 import '../../../core/services/storage/storage_service.dart';
@@ -12,42 +11,72 @@ class GameOverPage extends StatefulWidget {
   final int score;
   final int bestScore;
   final int coinsEarned;
+  final String themeId;
+
+  final VoidCallback onRetry;
+  final VoidCallback onHome;
+  final VoidCallback onRevive;
 
   const GameOverPage({
     super.key,
     required this.score,
     required this.bestScore,
     required this.coinsEarned,
+    required this.themeId,
+    required this.onRetry,
+    required this.onHome,
+    required this.onRevive,
   });
 
   @override
-  State<GameOverPage> createState() =>
-      _GameOverPageState();
+  State<GameOverPage> createState() => _GameOverPageState();
 }
 
-class _GameOverPageState
-    extends State<GameOverPage> {
+class _GameOverPageState extends State<GameOverPage> {
   bool _rewardClaimed = false;
 
-  bool get isNewBest =>
-      widget.score >= widget.bestScore;
+  String _getThemeGameOver() {
+    switch (widget.themeId) {
+      case 'sky':
+        return AppAssets.skyGameOver;
 
-  void _restartGame(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => const GameplayPage(),
-      ),
+      case 'neon':
+        return AppAssets.neonGameOver;
+
+      case 'purple':
+        return AppAssets.purpleGameOver;
+
+      case 'emerald':
+        return AppAssets.emeraldGameOver;
+
+      case 'lava':
+        return AppAssets.lavaGameOver;
+
+      case 'galaxy':
+        return AppAssets.galaxyGameOver;
+
+      default:
+        return AppAssets.gameOverBackground;
+    }
+  }
+
+  Future<void> _revive() async {
+    if (_rewardClaimed) return;
+
+    AdService.showRewardedAd(
+      onRewardEarned: () async {
+        if (!mounted) return;
+
+        setState(() {
+          _rewardClaimed = true;
+        });
+
+        widget.onRevive();
+      },
     );
   }
 
-  void _goHome(BuildContext context) {
-    Navigator.of(context).popUntil(
-          (route) => route.isFirst,
-    );
-  }
-
-  Future<void> _showReward(
-      BuildContext context) async {
+  Future<void> _claimCoins() async {
     if (_rewardClaimed) return;
 
     AdService.showRewardedAd(
@@ -73,73 +102,55 @@ class _GameOverPageState
     );
   }
 
-  void _shareScore(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Share Feature Coming Soon',
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool showNewBestScreen =
         widget.score >= widget.bestScore;
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              showNewBestScreen
-                  ? AppAssets.newBestBackground
-                  : AppAssets.gameOverBackground,
-              fit: BoxFit.cover,
-            ),
-          ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
 
-          Positioned.fill(
-            child: Container(
-              color: Colors.black.withOpacity(
-                0.15,
+        widget.onHome();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                showNewBestScreen
+                    ? AppAssets.newBestBackground
+                    : _getThemeGameOver(),
+                fit: BoxFit.cover,
               ),
             ),
-          ),
 
-          SafeArea(
-            child: showNewBestScreen
-                ? NewBestGameOverPage(
-              score: widget.score,
-              onReplay: () =>
-                  _restartGame(context),
-              onReward: _rewardClaimed
-                  ? null
-                  : () => _showReward(context),
-            )
-                : NormalGameOverPage(
-              score: widget.score,
-              bestScore:
-              widget.bestScore,
-              coins:
-              widget.coinsEarned,
-              onReplay: () =>
-                  _restartGame(context),
-              onHome: () =>
-                  _goHome(context),
-
-              /// Rewarded Ad
-              onReward: _rewardClaimed
-                  ? null
-                  : () => _showReward(
-                context,
+            SafeArea(
+              child: showNewBestScreen
+                  ? NewBestGameOverPage(
+                score: widget.score,
+                onReplay: widget.onRetry,
+                onReward: _rewardClaimed
+                    ? null
+                    : _claimCoins,
+              )
+                  : NormalGameOverPage(
+                score: widget.score,
+                bestScore: widget.bestScore,
+                coins: widget.coinsEarned,
+                themeId: widget.themeId,
+                onReplay: widget.onRetry,
+                onHome: widget.onHome,
+                onReward: _rewardClaimed
+                    ? null
+                    : _revive,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

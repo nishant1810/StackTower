@@ -17,6 +17,7 @@ dependencies:
   shared_preferences: ^2.5.5
   google_mobile_ads: ^9.0.0
   google_fonts: ^6.3.2
+  in_app_purchase: ^3.2.0
 
   # Firebase
   firebase_core: ^4.0.0
@@ -42,9 +43,11 @@ flutter:
     - assets/images/daily_reward/
     - assets/images/achievement/
     - assets/images/leaderboard/
+    - assets/images/gameplay/
     - assets/images/themes/
     - assets/images/shop/
     - assets/images/game/
+    - assets/images/profile/
     - assets/images/icons/
     - assets/audio/
 

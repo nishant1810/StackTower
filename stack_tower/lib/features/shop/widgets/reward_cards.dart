@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/assets/app_assets.dart';
+
 class RewardCards extends StatelessWidget {
   final VoidCallback onClaimGift;
   final VoidCallback onWatchAd;
@@ -14,18 +16,18 @@ class RewardCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 16,
+        horizontal: 14,
       ),
       child: Row(
         children: [
           Expanded(
             child: _RewardCard(
               title: 'DAILY GIFT',
-              subtitle: 'FREE REWARDS',
-              icon: Icons.card_giftcard,
+              subtitle: '+500 COINS',
               buttonText: 'CLAIM',
-              accent: const Color(0xFFFFB300),
+              accent: const Color(0xFFFFC107),
               onTap: onClaimGift,
+              isGift: true,
             ),
           ),
 
@@ -34,11 +36,11 @@ class RewardCards extends StatelessWidget {
           Expanded(
             child: _RewardCard(
               title: 'WATCH AD',
-              subtitle: '+50 COINS',
-              icon: Icons.play_circle_fill,
+              subtitle: '+250 COINS',
               buttonText: 'WATCH',
-              accent: const Color(0xFF29B6F6),
+              accent: const Color(0xFF42CFFF),
               onTap: onWatchAd,
+              isGift: false,
             ),
           ),
         ],
@@ -51,93 +53,143 @@ class _RewardCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String buttonText;
-  final IconData icon;
   final Color accent;
   final VoidCallback onTap;
+  final bool isGift;
 
   const _RewardCard({
     required this.title,
     required this.subtitle,
     required this.buttonText,
-    required this.icon,
     required this.accent,
     required this.onTap,
+    required this.isGift,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
-      padding: const EdgeInsets.all(14),
+      height: 180,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.black.withOpacity(0.35),
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF25174A),
+            Color(0xFF0A1024),
+          ],
+        ),
         border: Border.all(
-          color: accent.withOpacity(0.6),
+          color: accent.withOpacity(.8),
+          width: 1.8,
         ),
         boxShadow: [
           BoxShadow(
-            color: accent.withOpacity(0.2),
-            blurRadius: 18,
+            color: accent.withOpacity(.25),
+            blurRadius: 20,
+            spreadRadius: 1,
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Icon(
-            icon,
-            color: accent,
-            size: 34,
-          ),
-
-          const Spacer(),
-
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              fontSize: 16,
-            ),
-          ),
-
-          const SizedBox(height: 4),
-
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: accent,
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          SizedBox(
-            width: double.infinity,
-            height: 34,
-            child: ElevatedButton(
-              onPressed: onTap,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: accent,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(12),
-                ),
-              ),
-              child: Text(
-                buttonText,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: isGift
+                    ? Container(
+                  width: 85,
+                  height: 85,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: accent.withOpacity(.45),
+                        blurRadius: 24,
+                      ),
+                    ],
+                  ),
+                  child: Image.asset(
+                    AppAssets.rewardChest,
+                    fit: BoxFit.contain,
+                  ),
+                )
+                    : Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [
+                        accent.withOpacity(.35),
+                        accent.withOpacity(.08),
+                      ],
+                    ),
+                    border: Border.all(
+                      color: accent,
+                      width: 2,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.smart_display_rounded,
+                    color: accent,
+                    size: 38,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                letterSpacing: .8,
+              ),
+            ),
+
+            const SizedBox(height: 4),
+
+            Text(
+              subtitle,
+              style: TextStyle(
+                color: accent,
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            SizedBox(
+              width: double.infinity,
+              height: 42,
+              child: ElevatedButton(
+                onPressed: onTap,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: accent,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.circular(14),
+                  ),
+                ),
+                child: Text(
+                  buttonText,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: .8,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

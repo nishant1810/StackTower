@@ -21,7 +21,8 @@ class HomeController {
     const HomeState(
       playerName: 'Player',
       level: 1,
-      xp: 0.0,
+      xp: 0,
+      xpRequired: 100,
       coins: 0,
       gems: 0,
       bestScore: 0,
@@ -207,9 +208,26 @@ class HomeController {
       final diamonds =
       await StorageService.getDiamonds();
 
-      selectedTheme.value = 'neon';
+      final playerName =
+      await StorageService.getPlayerName();
+
+      final totalXp =
+      await StorageService.getTotalXp();
+
+      final level =
+          (totalXp ~/ 1000) + 1;
+
+      final xpRequired =
+          level * 1000;
+
+      selectedTheme.value =
+      await StorageService.getSelectedTheme();
 
       state.value = state.value.copyWith(
+        playerName: playerName,
+        level: level,
+        xp: totalXp,
+        xpRequired: xpRequired,
         bestScore: bestScore,
         coins: coins,
         gems: diamonds,

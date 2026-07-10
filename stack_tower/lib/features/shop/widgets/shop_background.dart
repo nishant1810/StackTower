@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constants/app_assets.dart';
+import '../../../core/assets/app_assets.dart';
 
 class ShopBackground extends StatelessWidget {
   const ShopBackground({super.key});

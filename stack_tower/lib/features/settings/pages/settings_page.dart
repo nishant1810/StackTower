@@ -22,7 +22,6 @@ class _SettingsPageState
   @override
   void initState() {
     super.initState();
-
     controller = SettingsController();
     controller.initialize();
   }
@@ -99,6 +98,8 @@ class _SettingsPageState
     );
   }
 
+  static void _emptyAction() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,15 +115,14 @@ class _SettingsPageState
 
           Positioned.fill(
             child: Container(
-              color: Colors.black.withValues(
-                alpha: 0.50,
+              color: Colors.black.withOpacity(
+                0.55,
               ),
             ),
           ),
 
           SafeArea(
-            child:
-            ValueListenableBuilder<
+            child: ValueListenableBuilder<
                 SettingsState>(
               valueListenable:
               controller.state,
@@ -139,44 +139,158 @@ class _SettingsPageState
                   ),
                   child: Column(
                     children: [
+                      /// HEADER
                       Row(
                         children: [
-                          IconButton(
-                            onPressed: () {
+                          GestureDetector(
+                            onTap: () {
                               Navigator.pop(
                                 context,
                               );
                             },
-                            icon: const Icon(
-                              Icons.arrow_back_ios,
-                              color:
-                              Colors.white,
+                            child: Container(
+                              width: 58,
+                              height: 58,
+                              decoration:
+                              BoxDecoration(
+                                borderRadius:
+                                BorderRadius
+                                    .circular(
+                                  18,
+                                ),
+                                gradient:
+                                const LinearGradient(
+                                  begin:
+                                  Alignment
+                                      .topLeft,
+                                  end: Alignment
+                                      .bottomRight,
+                                  colors: [
+                                    Color(
+                                      0xFF1B2A7A,
+                                    ),
+                                    Color(
+                                      0xFF0B1033,
+                                    ),
+                                  ],
+                                ),
+                                border:
+                                Border.all(
+                                  color:
+                                  const Color(
+                                    0xFF7B61FF,
+                                  ).withOpacity(
+                                    0.60,
+                                  ),
+                                  width: 1.5,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                    const Color(
+                                      0xFF6A5CFF,
+                                    ).withOpacity(
+                                      0.35,
+                                    ),
+                                    blurRadius:
+                                    22,
+                                    spreadRadius:
+                                    2,
+                                  ),
+                                ],
+                              ),
+                              child:
+                              const Center(
+                                child: Icon(
+                                  Icons
+                                      .arrow_back_rounded,
+                                  color: Colors
+                                      .white,
+                                  size: 30,
+                                ),
+                              ),
                             ),
                           ),
 
                           const SizedBox(
-                            width: 8,
+                            width: 18,
                           ),
 
-                          const Text(
-                            'SETTINGS',
-                            style: TextStyle(
-                              color:
-                              Colors.white,
-                              fontSize: 34,
-                              fontWeight:
-                              FontWeight
-                                  .w800,
-                              letterSpacing: 2,
+                          Expanded(
+                            child:
+                            ShaderMask(
+                              shaderCallback:
+                                  (
+                                  bounds,
+                                  ) {
+                                return const LinearGradient(
+                                  colors: [
+                                    Colors
+                                        .white,
+                                    Color(
+                                      0xFFB7C7FF,
+                                    ),
+                                  ],
+                                ).createShader(
+                                  bounds,
+                                );
+                              },
+                              child:
+                              const Text(
+                                'SETTINGS',
+                                style:
+                                TextStyle(
+                                  color: Colors
+                                      .white,
+                                  fontSize:
+                                  34,
+                                  fontWeight:
+                                  FontWeight
+                                      .w900,
+                                  letterSpacing:
+                                  3,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
 
                       const SizedBox(
-                        height: 8,
+                        height: 12,
                       ),
 
+                      Container(
+                        height: 2,
+                        decoration:
+                        BoxDecoration(
+                          borderRadius:
+                          BorderRadius
+                              .circular(
+                            10,
+                          ),
+                          gradient:
+                          LinearGradient(
+                            colors: [
+                              Colors
+                                  .transparent,
+                              const Color(
+                                0xFF7B61FF,
+                              ).withOpacity(
+                                0.9,
+                              ),
+                              Colors
+                                  .transparent,
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 24,
+                      ),
+
+                      /// AUDIO
                       SettingsSwitchTile(
                         icon: Icons
                             .music_note_rounded,
@@ -204,24 +318,11 @@ class _SettingsPageState
                             .toggleSound,
                       ),
 
-                      // SettingsSwitchTile(
-                      //   icon: Icons
-                      //       .vibration_rounded,
-                      //   iconColor: Colors
-                      //       .orangeAccent,
-                      //   title:
-                      //   'Vibration',
-                      //   value: state
-                      //       .vibrationEnabled,
-                      //   onChanged:
-                      //   controller
-                      //       .toggleVibration,
-                      // ),
-
                       const SizedBox(
-                        height: 4,
+                        height: 8,
                       ),
 
+                      /// ACTIONS
                       SettingsTile(
                         icon:
                         Icons.privacy_tip,
@@ -229,7 +330,8 @@ class _SettingsPageState
                             .greenAccent,
                         title:
                         'Privacy Policy',
-                        onTap: () {},
+                        onTap:
+                        _emptyAction,
                       ),
 
                       SettingsTile(
@@ -237,17 +339,21 @@ class _SettingsPageState
                         Icons.star_rate,
                         iconColor:
                         Colors.amber,
-                        title: 'Rate App',
-                        onTap: () {},
+                        title:
+                        'Rate App',
+                        onTap:
+                        _emptyAction,
                       ),
 
                       SettingsTile(
-                        icon: Icons.share,
+                        icon:
+                        Icons.share,
                         iconColor: Colors
                             .lightBlue,
                         title:
                         'Share App',
-                        onTap: () {},
+                        onTap:
+                        _emptyAction,
                       ),
 
                       SettingsTile(
@@ -262,13 +368,13 @@ class _SettingsPageState
                       ),
 
                       const SizedBox(
-                        height: 5,
+                        height: 20,
                       ),
 
                       const SettingsFooter(),
 
                       const SizedBox(
-                        height: 5,
+                        height: 20,
                       ),
                     ],
                   ),

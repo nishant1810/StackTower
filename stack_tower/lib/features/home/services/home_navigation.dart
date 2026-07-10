@@ -7,6 +7,7 @@ import '../../missions/pages/missions_page.dart';
 import '../../settings/pages/settings_page.dart';
 import '../../shop/pages/shop_page.dart';
 import '../../gameplay/pages/gameplay_page.dart';
+import '../../profile/pages/profile_page.dart';
 
 class HomeNavigation {
   const HomeNavigation._();

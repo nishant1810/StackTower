@@ -13,177 +13,120 @@ class ThemesPage extends StatefulWidget {
 }
 
 class _ThemesPageState extends State<ThemesPage> {
-  final ThemesController controller = ThemesController();
+  final ThemeController controller =
+      ThemeController.instance;
 
   @override
   void initState() {
     super.initState();
-    controller.load();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+    controller.loadTheme();
   }
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
+    final topPadding =
+        MediaQuery.of(context).padding.top;
 
     return AnimatedBuilder(
       animation: controller,
-      builder: (context, _) {
+      builder: (_, __) {
         return Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black,
           body: Stack(
             fit: StackFit.expand,
             children: [
-              /// Background
               Image.asset(
                 AppAssets.themesBackground,
                 fit: BoxFit.cover,
-                alignment: Alignment.center,
               ),
 
-              /// Dark Overlay
               Container(
-                color: Colors.black.withOpacity(0.35),
-              ),
-
-              /// Back Button
-              Positioned(
-                top: topPadding + 8,
-                left: 12,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Colors.white,
-                    size: 28,
-                  ),
+                color: Colors.black.withValues(
+                  alpha: 0.65,
                 ),
               ),
 
-              /// Title
-              Positioned(
-                top: topPadding + 18,
-                left: 0,
-                right: 0,
-                child: const Center(
-                  child: Text(
-                    'THEMES',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 2,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black,
-                          blurRadius: 15,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              /// Currency Header
-              Positioned(
-                top: topPadding + 70,
-                left: 16,
-                right: 16,
-                child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              SafeArea(
+                child: Column(
                   children: [
-                    _currencyCard(
-                      icon: Icons.monetization_on,
-                      value: controller.coins.toString(),
-                      color: Colors.amber,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        16,
+                        12,
+                        16,
+                        12,
+                      ),
+                      child: Row(
+                        children: [
+                          _BackButton(
+                            onTap: () =>
+                                Navigator.pop(
+                                  context,
+                                ),
+                          ),
+
+                          const SizedBox(width: 16),
+
+                          const Expanded(
+                            child: Text(
+                              'THEMES',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32,
+                                fontWeight:
+                                FontWeight.w900,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    _currencyCard(
-                      icon: Icons.diamond,
-                      value: controller.diamonds.toString(),
-                      color: Colors.cyan,
+
+                    Expanded(
+                      child: ListView.builder(
+                        padding:
+                        const EdgeInsets.all(16),
+                        itemCount:
+                        ThemeCatalog.themes.length,
+                        itemBuilder:
+                            (context, index) {
+                          final theme =
+                          ThemeCatalog
+                              .themes[index];
+
+                          return ThemeCard(
+                            theme: theme,
+                            unlocked: true,
+                            selected:
+                            controller.themeId ==
+                                theme.id,
+                            onSelect: () async {
+                              await controller
+                                  .changeTheme(
+                                theme.id,
+                              );
+
+                              if (!mounted) {
+                                return;
+                              }
+
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '${theme.name} selected',
+                                  ),
+                                ),
+                              );
+                            },
+                            onBuy: () {},
+                          );
+                        },
+                      ),
                     ),
                   ],
-                ),
-              ),
-
-              /// Theme List
-              Padding(
-                padding: EdgeInsets.only(
-                  top: topPadding + 130,
-                ),
-                child: ListView.builder(
-                  physics:
-                  const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(
-                    16,
-                    8,
-                    16,
-                    24,
-                  ),
-                  itemCount:
-                  ThemeCatalog.themes.length,
-                  itemBuilder: (context, index) {
-                    final theme =
-                    ThemeCatalog.themes[index];
-
-                    return ThemeCard(
-                      theme: theme,
-                      unlocked: controller
-                          .unlockedThemes
-                          .contains(theme.id),
-                      selected:
-                      controller.selectedTheme ==
-                          theme.id,
-
-                      onSelect: () async {
-                        await controller
-                            .selectTheme(
-                          theme.id,
-                        );
-
-                        if (!mounted) return;
-
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '${theme.name} selected',
-                            ),
-                          ),
-                        );
-                      },
-
-                      onBuy: () async {
-                        final success =
-                        await controller.buyTheme(
-                          theme,
-                        );
-
-                        if (!mounted) return;
-
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              success
-                                  ? '${theme.name} unlocked!'
-                                  : 'Not enough ${theme.isPremium ? 'diamonds' : 'coins'}',
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
                 ),
               ),
             ],
@@ -192,43 +135,52 @@ class _ThemesPageState extends State<ThemesPage> {
       },
     );
   }
+}
 
-  Widget _currencyCard({
-    required IconData icon,
-    required String value,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 8,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.6),
-        borderRadius:
-        BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.white24,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            color: color,
-            size: 22,
+class _BackButton extends StatelessWidget {
+  const _BackButton({
+    required this.onTap,
+  });
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius:
+      BorderRadius.circular(20),
+      onTap: onTap,
+      child: Container(
+        width: 64,
+        height: 64,
+        decoration: BoxDecoration(
+          borderRadius:
+          BorderRadius.circular(20),
+          border: Border.all(
+            color: const Color(
+              0xFF7B61FF,
+            ).withValues(alpha: 0.45),
+            width: 1.4,
           ),
-          const SizedBox(width: 6),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFF0B1033),
+              Color(0xFF131A4D),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(
+                0xFF6A5CFF,
+              ).withValues(alpha: 0.15),
+              blurRadius: 16,
             ),
-          ),
-        ],
+          ],
+        ),
+        child: const Icon(
+          Icons.arrow_back_ios_new,
+          color: Colors.white,
+        ),
       ),
     );
   }

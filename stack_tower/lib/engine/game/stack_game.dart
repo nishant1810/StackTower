@@ -33,6 +33,7 @@ class StackGame extends FlameGame
 
   @override
   Color backgroundColor() => Colors.transparent;
+
   void _checkMilestone() {
     String? message;
 
@@ -65,7 +66,8 @@ class StackGame extends FlameGame
     shakeStrength = 15;
 
     add(
-      PerfectFlash()..size = size,
+      PerfectFlash()
+        ..size = size,
     );
 
     add(
@@ -116,6 +118,12 @@ class StackGame extends FlameGame
   bool movingRight = true;
   bool gameEnded = false;
 
+  bool reviveUsed = false;
+
+  double savedBlockX = 0;
+  double savedBlockY = 0;
+  double savedBlockWidth = 0;
+
   double currentY = 0;
   double shakeTimer = 0;
   double shakeStrength = 0;
@@ -133,9 +141,9 @@ class StackGame extends FlameGame
     selectedTheme =
     await StorageService.getSelectedTheme();
 
-    palette =
-        ThemeCatalog.palettes[selectedTheme] ??
-            ThemeCatalog.palettes['neon']!;
+    palette = ThemeCatalog.getPalette(
+      selectedTheme,
+    );
     bestScore = await StorageService.getBestScore();
 
     currentY = size.y * 0.78;
@@ -203,7 +211,6 @@ class StackGame extends FlameGame
   }
 
 
-
   @override
   void update(double dt) {
     super.update(dt);
@@ -231,7 +238,6 @@ class StackGame extends FlameGame
         print('COMPONENTS: ${children.length}');
       }
     }
-
 
 
     /// SCREEN SHAKE
@@ -279,6 +285,9 @@ class StackGame extends FlameGame
     final double overlap = right - left;
 
     if (overlap <= 0) {
+      savedBlockX = movingBlock.x;
+      savedBlockY = movingBlock.y;
+      savedBlockWidth = movingBlock.size.x;
       _gameOver();
       return;
     }
@@ -368,7 +377,6 @@ class StackGame extends FlameGame
     ).toDouble();
 
     if (perfect) {
-
       // HapticFeedback.mediumImpact();
 
       StorageService.incrementPerfectPlacements();
@@ -429,7 +437,6 @@ class StackGame extends FlameGame
     } else {
       perfectCombo = 0;
       score += 1;
-
     }
 
     if (score > bestScore) {
@@ -493,5 +500,33 @@ class StackGame extends FlameGame
     pauseEngine();
 
     onGameOver();
+  }
+
+  void revivePlayer() {
+    if (reviveUsed) return;
+
+    reviveUsed = true;
+
+    gameEnded = false;
+
+    movingBlock.removeFromParent();
+
+    movingBlock = BlockComponent(
+      position: Vector2(
+        savedBlockX,
+        savedBlockY,
+      ),
+      blockSize: Vector2(
+        savedBlockWidth,
+        blockHeight,
+      ),
+      color: palette[random.nextInt(palette.length)],
+    );
+
+    add(movingBlock);
+
+    resumeEngine();
+
+    notifyListeners();
   }
 }
