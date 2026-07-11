@@ -16,17 +16,33 @@ class SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final tileHeight =
+    (size.height * 0.09).clamp(64.0, 80.0);
+
+    final iconSize =
+    (size.width * 0.07).clamp(22.0, 30.0);
+
+    final titleSize =
+    (size.width * 0.042).clamp(14.0, 18.0);
+
+    final horizontalPadding =
+    (size.width * 0.045).clamp(14.0, 22.0);
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(
+        bottom: size.height * 0.015,
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
           onTap: onTap,
           child: Container(
-            height: 72,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
+            height: tileHeight,
+            padding: EdgeInsets.symmetric(
+              horizontal: horizontalPadding,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
@@ -41,23 +57,39 @@ class SettingsTile extends StatelessWidget {
                 Icon(
                   icon,
                   color: iconColor,
-                  size: 28,
+                  size: iconSize,
                 ),
-                const SizedBox(width: 16),
+
+                SizedBox(
+                  width:
+                  (size.width * 0.04).clamp(
+                    12.0,
+                    18.0,
+                  ),
+                ),
+
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(
+                    maxLines: 1,
+                    overflow:
+                    TextOverflow.ellipsis,
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: titleSize,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                const Icon(
+
+                Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.white70,
-                  size: 18,
+                  size:
+                  (iconSize * 0.65).clamp(
+                    14.0,
+                    18.0,
+                  ),
                 ),
               ],
             ),

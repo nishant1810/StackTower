@@ -64,12 +64,61 @@ class _AchievementCardState
         ? achievement.target
         : achievement.progress;
 
+    final size =
+        MediaQuery.of(context).size;
+
+    final horizontalMargin =
+    (size.width * 0.04)
+        .clamp(12.0, 20.0);
+
+    final verticalMargin =
+    (size.height * 0.01)
+        .clamp(6.0, 12.0);
+
+    final cardPadding =
+    (size.width * 0.045)
+        .clamp(14.0, 20.0);
+
+    final avatarSize =
+    (size.width * 0.16)
+        .clamp(56.0, 72.0);
+
+    final achievementIconSize =
+    (size.width * 0.075)
+        .clamp(26.0, 34.0);
+
+    final titleSize =
+    (size.width * 0.045)
+        .clamp(16.0, 20.0);
+
+    final descSize =
+    (size.width * 0.033)
+        .clamp(12.0, 14.0);
+
+    final progressSize =
+    (size.width * 0.032)
+        .clamp(11.0, 13.0);
+
+    final rewardIconSize =
+    (size.width * 0.045)
+        .clamp(16.0, 20.0);
+
+    final statusIconSize =
+    (size.width * 0.07)
+        .clamp(22.0, 30.0);
+
+    final buttonHeight =
+    (size.height * 0.055)
+        .clamp(40.0, 48.0);
+
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
+      margin: EdgeInsets.symmetric(
+        horizontal: horizontalMargin,
+        vertical: verticalMargin,
       ),
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(
+        cardPadding,
+      ),
       decoration: BoxDecoration(
         borderRadius:
         BorderRadius.circular(24),
@@ -85,9 +134,9 @@ class _AchievementCardState
         boxShadow: [
           BoxShadow(
             color: isUnlocked
-                ? Colors.amber.withValues(
-              alpha: 0.22,
-            )
+                ? Colors.amber
+                .withValues(
+                alpha: 0.22)
                 : Colors.black26,
             blurRadius: 20,
             spreadRadius: 1,
@@ -99,8 +148,8 @@ class _AchievementCardState
         CrossAxisAlignment.start,
         children: [
           Container(
-            width: 68,
-            height: 68,
+            width: avatarSize,
+            height: avatarSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isUnlocked
@@ -111,52 +160,85 @@ class _AchievementCardState
             ),
             child: Icon(
               achievement.icon,
-              size: 32,
+              size:
+              achievementIconSize,
               color: isUnlocked
                   ? Colors.amber
                   : Colors.white70,
             ),
           ),
 
-          const SizedBox(width: 16),
+          SizedBox(
+            width: size.width * 0.04,
+          ),
 
           Expanded(
             child: Column(
               crossAxisAlignment:
-              CrossAxisAlignment.start,
+              CrossAxisAlignment
+                  .start,
               children: [
                 Text(
                   achievement.title,
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow
+                      .ellipsis,
                   style: TextStyle(
                     color: isUnlocked
                         ? Colors.white
-                        : Colors.white70,
-                    fontSize: 18,
+                        : Colors
+                        .white70,
+                    fontSize:
+                    titleSize,
                     fontWeight:
-                    FontWeight.w700,
+                    FontWeight
+                        .w700,
                   ),
                 ),
 
-                const SizedBox(height: 4),
+                SizedBox(
+                  height:
+                  size.height *
+                      0.005,
+                ),
 
                 Text(
-                  achievement.description,
-                  style: const TextStyle(
-                    color: Colors.white60,
-                    fontSize: 13,
+                  achievement
+                      .description,
+                  maxLines: 2,
+                  overflow:
+                  TextOverflow
+                      .ellipsis,
+                  style: TextStyle(
+                    color: Colors
+                        .white60,
+                    fontSize:
+                    descSize,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(
+                  height:
+                  size.height *
+                      0.015,
+                ),
 
                 ClipRRect(
                   borderRadius:
-                  BorderRadius.circular(
+                  BorderRadius
+                      .circular(
                     12,
                   ),
                   child:
                   LinearProgressIndicator(
-                    minHeight: 8,
+                    minHeight:
+                    (size.height *
+                        0.01)
+                        .clamp(
+                      6.0,
+                      10.0,
+                    ),
                     value: achievement
                         .progressPercent
                         .clamp(
@@ -164,71 +246,105 @@ class _AchievementCardState
                       1.0,
                     ),
                     backgroundColor:
-                    Colors.white10,
+                    Colors
+                        .white10,
                     valueColor:
                     AlwaysStoppedAnimation(
                       isUnlocked
-                          ? Colors.amber
-                          : Colors.cyan,
+                          ? Colors
+                          .amber
+                          : Colors
+                          .cyan,
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(
+                  height:
+                  size.height *
+                      0.01,
+                ),
 
                 Text(
                   '$displayProgress/${achievement.target}',
                   style:
-                  const TextStyle(
-                    color:
-                    Colors.white70,
-                    fontSize: 12,
+                  TextStyle(
+                    color: Colors
+                        .white70,
+                    fontSize:
+                    progressSize,
                     fontWeight:
-                    FontWeight.w600,
+                    FontWeight
+                        .w600,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(
+                  height:
+                  size.height *
+                      0.015,
+                ),
 
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                  EdgeInsets.symmetric(
+                    horizontal:
+                    size.width *
+                        0.025,
+                    vertical:
+                    size.height *
+                        0.008,
                   ),
                   decoration:
                   BoxDecoration(
                     borderRadius:
-                    BorderRadius.circular(
-                        12),
-                    color: Colors.amber
+                    BorderRadius
+                        .circular(
+                      12,
+                    ),
+                    color: Colors
+                        .amber
                         .withValues(
                       alpha: 0.15,
                     ),
                   ),
                   child: Row(
                     mainAxisSize:
-                    MainAxisSize.min,
+                    MainAxisSize
+                        .min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons
                             .monetization_on,
-                        color:
-                        Colors.amber,
-                        size: 18,
+                        color: Colors
+                            .amber,
+                        size:
+                        rewardIconSize,
                       ),
-                      const SizedBox(
-                        width: 6,
+
+                      SizedBox(
+                        width:
+                        size.width *
+                            0.015,
                       ),
-                      Text(
-                        '${achievement.reward} Coins',
-                        style:
-                        const TextStyle(
-                          color:
-                          Colors.amber,
-                          fontWeight:
-                          FontWeight
-                              .w700,
+
+                      Flexible(
+                        child: Text(
+                          '${achievement.reward} Coins',
+                          overflow:
+                          TextOverflow
+                              .ellipsis,
+                          style:
+                          TextStyle(
+                            color: Colors
+                                .amber,
+                            fontWeight:
+                            FontWeight
+                                .w700,
+                            fontSize:
+                            progressSize +
+                                1,
+                          ),
                         ),
                       ),
                     ],
@@ -238,45 +354,55 @@ class _AchievementCardState
                 if (isUnlocked)
                   Padding(
                     padding:
-                    const EdgeInsets.only(
-                      top: 12,
+                    EdgeInsets.only(
+                      top: size.height *
+                          0.015,
                     ),
-                    child: rewardClaimed
+                    child:
+                    rewardClaimed
                         ? Container(
                       padding:
-                      const EdgeInsets
-                          .symmetric(
+                      EdgeInsets.symmetric(
                         horizontal:
-                        14,
-                        vertical: 8,
+                        size.width *
+                            0.035,
+                        vertical:
+                        size.height *
+                            0.01,
                       ),
                       decoration:
                       BoxDecoration(
                         color: Colors
                             .green
                             .withValues(
-                          alpha: 0.18,
+                          alpha:
+                          0.18,
                         ),
                         borderRadius:
-                        BorderRadius
-                            .circular(
+                        BorderRadius.circular(
                           12,
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize:
                         MainAxisSize
                             .min,
                         children: [
                           Icon(
-                            Icons.check,
-                            color: Colors
-                                .green,
-                            size: 18,
+                            Icons
+                                .check,
+                            color:
+                            Colors.green,
+                            size:
+                            rewardIconSize,
                           ),
+
                           SizedBox(
-                            width: 6,
+                            width:
+                            size.width *
+                                0.015,
                           ),
+
                           Text(
                             'CLAIMED',
                             style:
@@ -284,15 +410,18 @@ class _AchievementCardState
                               color: Colors
                                   .green,
                               fontWeight:
-                              FontWeight
-                                  .w700,
+                              FontWeight.w700,
+                              fontSize:
+                              progressSize +
+                                  1,
                             ),
                           ),
                         ],
                       ),
                     )
                         : SizedBox(
-                      height: 42,
+                      height:
+                      buttonHeight,
                       child:
                       ElevatedButton(
                         onPressed:
@@ -300,42 +429,43 @@ class _AchievementCardState
                             ? null
                             : _claimReward,
                         style:
-                        ElevatedButton
-                            .styleFrom(
+                        ElevatedButton.styleFrom(
                           backgroundColor:
-                          Colors
-                              .amber,
+                          Colors.amber,
                           foregroundColor:
-                          Colors
-                              .black,
-                          elevation: 0,
+                          Colors.black,
+                          elevation:
+                          0,
                           shape:
                           RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius
-                                .circular(
+                            BorderRadius.circular(
                               12,
                             ),
                           ),
                         ),
-                        child: _claiming
-                            ? const SizedBox(
-                          width: 18,
+                        child:
+                        _claiming
+                            ? SizedBox(
+                          width:
+                          rewardIconSize,
                           height:
-                          18,
+                          rewardIconSize,
                           child:
-                          CircularProgressIndicator(
+                          const CircularProgressIndicator(
                             strokeWidth:
                             2,
                           ),
                         )
-                            : const Text(
+                            : Text(
                           'CLAIM',
                           style:
                           TextStyle(
                             fontWeight:
-                            FontWeight
-                                .w800,
+                            FontWeight.w800,
+                            fontSize:
+                            progressSize +
+                                2,
                           ),
                         ),
                       ),
@@ -345,7 +475,9 @@ class _AchievementCardState
             ),
           ),
 
-          const SizedBox(width: 12),
+          SizedBox(
+            width: size.width * 0.03,
+          ),
 
           Icon(
             isUnlocked
@@ -354,7 +486,7 @@ class _AchievementCardState
             color: isUnlocked
                 ? Colors.amber
                 : Colors.white54,
-            size: 28,
+            size: statusIconSize,
           ),
         ],
       ),

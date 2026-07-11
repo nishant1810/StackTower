@@ -102,6 +102,25 @@ class _SettingsPageState
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final backButtonSize =
+    (MediaQuery.of(context).size.width * 0.14)
+        .clamp(52.0, 68.0);
+
+    final titleSize =
+    (MediaQuery.of(context).size.width *
+        0.085)
+        .clamp(26.0, 38.0);
+
+    final horizontalPadding =
+    (size.width * 0.05)
+        .clamp(16.0, 24.0);
+
+    final verticalPadding =
+    (size.height * 0.02)
+        .clamp(12.0, 24.0);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -132,10 +151,9 @@ class _SettingsPageState
                   _,
                   ) {
                 return SingleChildScrollView(
-                  padding:
-                  const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: horizontalPadding,
+                    vertical: verticalPadding,
                   ),
                   child: Column(
                     children: [
@@ -144,150 +162,105 @@ class _SettingsPageState
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pop(
-                                context,
-                              );
+                              Navigator.pop(context);
                             },
                             child: Container(
-                              width: 58,
-                              height: 58,
-                              decoration:
-                              BoxDecoration(
-                                borderRadius:
-                                BorderRadius
-                                    .circular(
-                                  18,
-                                ),
-                                gradient:
-                                const LinearGradient(
-                                  begin:
-                                  Alignment
-                                      .topLeft,
-                                  end: Alignment
-                                      .bottomRight,
+                              width: backButtonSize,
+                              height: backButtonSize,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                   colors: [
-                                    Color(
-                                      0xFF1B2A7A,
-                                    ),
-                                    Color(
-                                      0xFF0B1033,
-                                    ),
+                                    Color(0xFF1B2A7A),
+                                    Color(0xFF0B1033),
                                   ],
                                 ),
-                                border:
-                                Border.all(
-                                  color:
-                                  const Color(
+                                border: Border.all(
+                                  color: const Color(
                                     0xFF7B61FF,
-                                  ).withOpacity(
-                                    0.60,
-                                  ),
+                                  ).withOpacity(0.60),
                                   width: 1.5,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color:
-                                    const Color(
+                                    color: const Color(
                                       0xFF6A5CFF,
-                                    ).withOpacity(
-                                      0.35,
-                                    ),
-                                    blurRadius:
-                                    22,
-                                    spreadRadius:
-                                    2,
+                                    ).withOpacity(0.35),
+                                    blurRadius: 22,
+                                    spreadRadius: 2,
                                   ),
                                 ],
                               ),
-                              child:
-                              const Center(
+                              child: Center(
                                 child: Icon(
-                                  Icons
-                                      .arrow_back_rounded,
-                                  color: Colors
-                                      .white,
-                                  size: 30,
+                                  Icons.arrow_back_rounded,
+                                  color: Colors.white,
+                                  size: (backButtonSize * 0.45)
+                                      .clamp(22.0, 30.0),
                                 ),
                               ),
                             ),
                           ),
 
-                          const SizedBox(
-                            width: 18,
+                          SizedBox(
+                            width: size.width * 0.04,
                           ),
 
                           Expanded(
-                            child:
-                            ShaderMask(
-                              shaderCallback:
-                                  (
-                                  bounds,
-                                  ) {
-                                return const LinearGradient(
-                                  colors: [
-                                    Colors
-                                        .white,
-                                    Color(
-                                      0xFFB7C7FF,
-                                    ),
-                                  ],
-                                ).createShader(
-                                  bounds,
-                                );
-                              },
-                              child:
-                              const Text(
-                                'SETTINGS',
-                                style:
-                                TextStyle(
-                                  color: Colors
-                                      .white,
-                                  fontSize:
-                                  34,
-                                  fontWeight:
-                                  FontWeight
-                                      .w900,
-                                  letterSpacing:
-                                  3,
+                            child: Center(
+                              child: ShaderMask(
+                                shaderCallback: (bounds) {
+                                  return const LinearGradient(
+                                    colors: [
+                                      Colors.white,
+                                      Color(0xFFB7C7FF),
+                                    ],
+                                  ).createShader(bounds);
+                                },
+                                child: Text(
+                                  'SETTINGS',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: titleSize,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 3,
+                                  ),
                                 ),
                               ),
                             ),
+                          ),
+
+                          SizedBox(
+                            width: backButtonSize,
                           ),
                         ],
                       ),
 
-                      const SizedBox(
-                        height: 12,
+                      SizedBox(
+                        height: size.height * 0.015,
                       ),
 
                       Container(
                         height: 2,
-                        decoration:
-                        BoxDecoration(
-                          borderRadius:
-                          BorderRadius
-                              .circular(
-                            10,
-                          ),
-                          gradient:
-                          LinearGradient(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
                             colors: [
-                              Colors
-                                  .transparent,
+                              Colors.transparent,
                               const Color(
                                 0xFF7B61FF,
-                              ).withOpacity(
-                                0.9,
-                              ),
-                              Colors
-                                  .transparent,
+                              ).withOpacity(0.9),
+                              Colors.transparent,
                             ],
                           ),
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 24,
+                      SizedBox(
+                        height: size.height * 0.03,
                       ),
 
                       /// AUDIO
@@ -318,8 +291,8 @@ class _SettingsPageState
                             .toggleSound,
                       ),
 
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: size.height * 0.01,
                       ),
 
                       /// ACTIONS
@@ -367,14 +340,14 @@ class _SettingsPageState
                         _showResetDialog,
                       ),
 
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: size.height * 0.025,
                       ),
 
                       const SettingsFooter(),
 
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: size.height * 0.025,
                       ),
                     ],
                   ),

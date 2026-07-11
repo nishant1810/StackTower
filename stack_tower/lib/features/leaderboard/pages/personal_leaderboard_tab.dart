@@ -36,35 +36,54 @@ class _PersonalLeaderboardTabState
     });
   }
 
-  Widget _buildRankIcon(int rank) {
+  Widget _buildRankIcon(
+      BuildContext context,
+      int rank,
+      ) {
+    final size = MediaQuery.of(context).size;
+
+    final emojiSize =
+    (size.width * 0.06).clamp(20.0, 28.0);
+
+    final avatarRadius =
+    (size.width * 0.04).clamp(14.0, 18.0);
+
     switch (rank) {
       case 1:
-        return const Text(
+        return Text(
           '🥇',
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(
+            fontSize: emojiSize,
+          ),
         );
 
       case 2:
-        return const Text(
+        return Text(
           '🥈',
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(
+            fontSize: emojiSize,
+          ),
         );
 
       case 3:
-        return const Text(
+        return Text(
           '🥉',
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(
+            fontSize: emojiSize,
+          ),
         );
 
       default:
         return CircleAvatar(
-          radius: 16,
+          radius: avatarRadius,
           backgroundColor: Colors.white12,
-          child: Text(
-            '$rank',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          child: FittedBox(
+            child: Text(
+              '$rank',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         );
@@ -73,6 +92,8 @@ class _PersonalLeaderboardTabState
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     if (loading) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -80,12 +101,15 @@ class _PersonalLeaderboardTabState
     }
 
     if (scores.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           'Play a game to create your leaderboard',
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize:
+            (size.width * 0.04)
+                .clamp(14.0, 18.0),
           ),
         ),
       );
@@ -94,17 +118,22 @@ class _PersonalLeaderboardTabState
     return RefreshIndicator(
       onRefresh: _loadScores,
       child: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(
+          size.width * 0.04,
+        ),
         itemCount: scores.length,
         itemBuilder: (_, index) {
           final rank = index + 1;
 
           return Container(
-            margin:
-            const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
+            margin: EdgeInsets.only(
+              bottom: size.height * 0.015,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal:
+              size.width * 0.04,
+              vertical:
+              size.height * 0.018,
             ),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(
@@ -118,29 +147,50 @@ class _PersonalLeaderboardTabState
             ),
             child: Row(
               children: [
-                _buildRankIcon(rank),
+                _buildRankIcon(
+                  context,
+                  rank,
+                ),
 
-                const SizedBox(width: 16),
+                SizedBox(
+                  width:
+                  size.width * 0.04,
+                ),
 
                 Expanded(
                   child: Text(
                     'Run #$rank',
-                    style: const TextStyle(
+                    maxLines: 1,
+                    overflow:
+                    TextOverflow.ellipsis,
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight:
                       FontWeight.w600,
-                      fontSize: 16,
+                      fontSize:
+                      (size.width * 0.04)
+                          .clamp(
+                        14.0,
+                        18.0,
+                      ),
                     ),
                   ),
                 ),
 
-                Text(
-                  '${scores[index]}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight:
-                    FontWeight.bold,
+                FittedBox(
+                  child: Text(
+                    '${scores[index]}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize:
+                      (size.width * 0.05)
+                          .clamp(
+                        16.0,
+                        22.0,
+                      ),
+                      fontWeight:
+                      FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

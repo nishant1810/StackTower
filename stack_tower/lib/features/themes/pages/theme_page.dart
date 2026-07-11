@@ -4,6 +4,7 @@ import '../../../core/assets/app_assets.dart';
 import '../controllers/theme_controller.dart';
 import '../data/theme_catalog.dart';
 import '../widgets/theme_card.dart';
+import '../../gameplay/pages/gameplay_page.dart';
 
 class ThemesPage extends StatefulWidget {
   const ThemesPage({super.key});
@@ -13,8 +14,7 @@ class ThemesPage extends StatefulWidget {
 }
 
 class _ThemesPageState extends State<ThemesPage> {
-  final ThemeController controller =
-      ThemeController.instance;
+  final ThemeController controller = ThemeController.instance;
 
   @override
   void initState() {
@@ -24,8 +24,7 @@ class _ThemesPageState extends State<ThemesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding =
-        MediaQuery.of(context).padding.top;
+    final size = MediaQuery.of(context).size;
 
     return AnimatedBuilder(
       animation: controller,
@@ -41,40 +40,37 @@ class _ThemesPageState extends State<ThemesPage> {
               ),
 
               Container(
-                color: Colors.black.withValues(
-                  alpha: 0.65,
-                ),
+                color: Colors.black.withOpacity(0.65),
               ),
 
               SafeArea(
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        16,
-                        12,
-                        16,
-                        12,
+                      padding: EdgeInsets.fromLTRB(
+                        size.width * 0.04,
+                        size.height * 0.015,
+                        size.width * 0.04,
+                        size.height * 0.015,
                       ),
                       child: Row(
                         children: [
                           _BackButton(
-                            onTap: () =>
-                                Navigator.pop(
-                                  context,
-                                ),
+                            onTap: () => Navigator.pop(context),
                           ),
 
-                          const SizedBox(width: 16),
+                          SizedBox(
+                            width: size.width * 0.04,
+                          ),
 
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               'THEMES',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 32,
-                                fontWeight:
-                                FontWeight.w900,
+                                fontSize: (size.width * 0.08)
+                                    .clamp(24.0, 36.0),
+                                fontWeight: FontWeight.w900,
                                 letterSpacing: 2,
                               ),
                             ),
@@ -85,15 +81,13 @@ class _ThemesPageState extends State<ThemesPage> {
 
                     Expanded(
                       child: ListView.builder(
-                        padding:
-                        const EdgeInsets.all(16),
-                        itemCount:
-                        ThemeCatalog.themes.length,
-                        itemBuilder:
-                            (context, index) {
+                        padding: EdgeInsets.all(
+                          size.width * 0.04,
+                        ),
+                        itemCount: ThemeCatalog.themes.length,
+                        itemBuilder: (context, index) {
                           final theme =
-                          ThemeCatalog
-                              .themes[index];
+                          ThemeCatalog.themes[index];
 
                           return ThemeCard(
                             theme: theme,
@@ -101,26 +95,23 @@ class _ThemesPageState extends State<ThemesPage> {
                             selected:
                             controller.themeId ==
                                 theme.id,
+
                             onSelect: () async {
-                              await controller
-                                  .changeTheme(
+                              await controller.changeTheme(
                                 theme.id,
                               );
 
-                              if (!mounted) {
-                                return;
-                              }
+                              if (!mounted) return;
 
-                              ScaffoldMessenger.of(
+                              Navigator.pushReplacement(
                                 context,
-                              ).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    '${theme.name} selected',
-                                  ),
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                  const GameplayPage(),
                                 ),
                               );
                             },
+
                             onBuy: () {},
                           );
                         },
@@ -146,20 +137,23 @@ class _BackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final buttonSize =
+    (size.width * 0.15).clamp(52.0, 70.0);
+
     return InkWell(
-      borderRadius:
-      BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20),
       onTap: onTap,
       child: Container(
-        width: 64,
-        height: 64,
+        width: buttonSize,
+        height: buttonSize,
         decoration: BoxDecoration(
-          borderRadius:
-          BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: const Color(
               0xFF7B61FF,
-            ).withValues(alpha: 0.45),
+            ).withOpacity(0.45),
             width: 1.4,
           ),
           gradient: const LinearGradient(
@@ -172,14 +166,16 @@ class _BackButton extends StatelessWidget {
             BoxShadow(
               color: const Color(
                 0xFF6A5CFF,
-              ).withValues(alpha: 0.15),
+              ).withOpacity(0.15),
               blurRadius: 16,
             ),
           ],
         ),
-        child: const Icon(
+        child: Icon(
           Icons.arrow_back_ios_new,
           color: Colors.white,
+          size: (buttonSize * 0.32)
+              .clamp(18.0, 26.0),
         ),
       ),
     );

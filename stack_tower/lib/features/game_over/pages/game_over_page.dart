@@ -105,7 +105,7 @@ class _GameOverPageState extends State<GameOverPage> {
   @override
   Widget build(BuildContext context) {
     final bool showNewBestScreen =
-        widget.score >= widget.bestScore;
+        widget.score > widget.bestScore;
 
     return PopScope(
       canPop: false,

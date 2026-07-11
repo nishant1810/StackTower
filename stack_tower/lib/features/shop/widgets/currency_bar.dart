@@ -24,10 +24,18 @@ class CurrencyBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final barHeight =
+    (size.height * 0.11).clamp(80.0, 110.0);
+
+    final horizontalMargin =
+    (size.width * 0.03).clamp(8.0, 16.0);
+
     return Container(
-      height: 92,
-      margin: const EdgeInsets.symmetric(
-        horizontal: 12,
+      height: barHeight,
+      margin: EdgeInsets.symmetric(
+        horizontal: horizontalMargin,
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
@@ -62,16 +70,14 @@ class CurrencyBar extends StatelessWidget {
               icon: Icons.monetization_on,
               value: _formatNumber(coins),
               label: 'COINS',
-              iconColor:
-              const Color(0xFFFFC107),
-              borderColor:
-              const Color(0xFFFFC107),
+              iconColor: const Color(0xFFFFC107),
+              borderColor: const Color(0xFFFFC107),
             ),
           ),
 
           Container(
             width: 2,
-            height: 48,
+            height: barHeight * 0.55,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -90,10 +96,8 @@ class CurrencyBar extends StatelessWidget {
               icon: Icons.diamond,
               value: _formatNumber(diamonds),
               label: 'DIAMONDS',
-              iconColor:
-              const Color(0xFF42CFFF),
-              borderColor:
-              const Color(0xFF42CFFF),
+              iconColor: const Color(0xFF42CFFF),
+              borderColor: const Color(0xFF42CFFF),
             ),
           ),
         ],
@@ -119,11 +123,28 @@ class _CurrencyPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final iconBox =
+    (size.width * 0.11).clamp(40.0, 54.0);
+
+    final iconSize =
+    (size.width * 0.055).clamp(18.0, 28.0);
+
+    final valueFont =
+    (size.width * 0.045).clamp(16.0, 22.0);
+
+    final labelFont =
+    (size.width * 0.022).clamp(8.0, 11.0);
+
+    final addButtonSize =
+    (size.width * 0.07).clamp(24.0, 32.0);
+
     return Row(
       children: [
         Container(
-          width: 46,
-          height: 46,
+          width: iconBox,
+          height: iconBox,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
@@ -147,7 +168,7 @@ class _CurrencyPanel extends StatelessWidget {
           child: Icon(
             icon,
             color: iconColor,
-            size: 24,
+            size: iconSize,
           ),
         ),
 
@@ -166,9 +187,9 @@ class _CurrencyPanel extends StatelessWidget {
                 Alignment.centerLeft,
                 child: Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: valueFont,
                     fontWeight:
                     FontWeight.w900,
                   ),
@@ -185,7 +206,7 @@ class _CurrencyPanel extends StatelessWidget {
                   label,
                   style: TextStyle(
                     color: iconColor,
-                    fontSize: 10,
+                    fontSize: labelFont,
                     fontWeight:
                     FontWeight.w900,
                     letterSpacing: .8,
@@ -199,29 +220,21 @@ class _CurrencyPanel extends StatelessWidget {
         const SizedBox(width: 4),
 
         Container(
-          width: 28,
-          height: 28,
+          width: addButtonSize,
+          height: addButtonSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: LinearGradient(
               colors: [
                 borderColor,
-                borderColor
-                    .withOpacity(.75),
+                borderColor.withOpacity(.75),
               ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: borderColor
-                    .withOpacity(.35),
-                blurRadius: 10,
-              ),
-            ],
           ),
-          child: const Icon(
+          child: Icon(
             Icons.add,
             color: Colors.white,
-            size: 16,
+            size: addButtonSize * 0.55,
           ),
         ),
       ],

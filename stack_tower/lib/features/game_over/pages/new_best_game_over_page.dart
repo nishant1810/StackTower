@@ -21,11 +21,18 @@ class NewBestGameOverPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final buttonWidth = Responsive.w(
+      context,
+      0.75,
+    ).clamp(
+      260.0,
+      420.0,
+    );
+
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
-          /// PARTICLES
           const Positioned.fill(
             child: IgnorePointer(
               child: CelebrationParticles(),
@@ -48,31 +55,29 @@ class NewBestGameOverPage extends StatelessWidget {
                     SizedBox(
                       height: Responsive.h(
                         context,
-                        0.08,
+                        0.06,
                       ),
                     ),
 
-                    /// SCORE CARD
-                    NewBestScoreCard(
-                      score: score,
+                    ConstrainedBox(
+                      constraints:
+                      const BoxConstraints(
+                        maxWidth: 500,
+                      ),
+                      child: NewBestScoreCard(
+                        score: score,
+                      ),
                     ),
 
                     SizedBox(
                       height: Responsive.h(
                         context,
-                        0.08,
+                        0.05,
                       ),
                     ),
 
-                    /// PLAY BUTTON
                     SizedBox(
-                      width: Responsive.w(
-                        context,
-                        0.70,
-                      ).clamp(
-                        240,
-                        320,
-                      ),
+                      width: buttonWidth,
                       child: PrimaryActionButton(
                         title: '',
                         icon:
@@ -88,21 +93,17 @@ class NewBestGameOverPage extends StatelessWidget {
                       ),
                     ),
 
-                    /// 2X COINS BUTTON
                     SizedBox(
-                      width: Responsive.w(
-                        context,
-                        0.70,
-                      ).clamp(
-                        240,
-                        320,
-                      ),
-                      child: SecondaryActionButton(
-                        icon:
-                        Icons.monetization_on_rounded,
+                      width: buttonWidth,
+                      child:
+                      SecondaryActionButton(
+                        icon: Icons
+                            .monetization_on_rounded,
                         label: '2X COINS',
                         glowColor:
-                        const Color(0xFFFFC247),
+                        const Color(
+                          0xFFFFC247,
+                        ),
                         onTap: onReward,
                       ),
                     ),

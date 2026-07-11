@@ -18,7 +18,8 @@ class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  State<SplashPage> createState() =>
+      _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage>
@@ -33,10 +34,12 @@ class _SplashPageState extends State<SplashPage>
 
     _controller = SplashController(
       vsync: this,
-      onInitializationComplete: _navigateToHome,
+      onInitializationComplete:
+      _navigateToHome,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) {
       _controller.start();
     });
   }
@@ -55,13 +58,27 @@ class _SplashPageState extends State<SplashPage>
 
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 700),
-        reverseTransitionDuration: const Duration(milliseconds: 300),
-        pageBuilder: (_, animation, secondaryAnimation) {
+        transitionDuration:
+        const Duration(
+          milliseconds: 700,
+        ),
+        reverseTransitionDuration:
+        const Duration(
+          milliseconds: 300,
+        ),
+        pageBuilder: (
+            _,
+            animation,
+            secondaryAnimation,
+            ) {
           return const HomePage();
         },
-        transitionsBuilder:
-            (_, animation, secondaryAnimation, child) {
+        transitionsBuilder: (
+            _,
+            animation,
+            secondaryAnimation,
+            child,
+            ) {
           return FadeTransition(
             opacity: animation,
             child: ScaleTransition(
@@ -71,7 +88,8 @@ class _SplashPageState extends State<SplashPage>
               ).animate(
                 CurvedAnimation(
                   parent: animation,
-                  curve: Curves.easeOutCubic,
+                  curve:
+                  Curves.easeOutCubic,
                 ),
               ),
               child: child,
@@ -96,17 +114,21 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    final size =
+        MediaQuery.of(context).size;
+
+    return AnnotatedRegion<
+        SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         backgroundColor: Colors.black,
         body: Stack(
           fit: StackFit.expand,
           children: [
-
             /// Background
             SplashBackground(
-              zoom: _controller.zoomAnimation,
+              zoom:
+              _controller.zoomAnimation,
             ),
 
             /// Floating Cubes
@@ -123,35 +145,43 @@ class _SplashPageState extends State<SplashPage>
 
             /// Glow
             NeonGlow(
-              animation: _controller.glowAnimation,
+              animation:
+              _controller.glowAnimation,
             ),
 
             /// Energy Beam
             EnergyBeam(
-              glow: _controller.glowAnimation,
+              glow:
+              _controller.glowAnimation,
             ),
 
             /// Logo
             Center(
               child: AnimatedLogo(
-                fade: _controller.fadeAnimation,
-                scale: _controller.scaleAnimation,
-                floating: _controller.floatAnimation,
+                fade:
+                _controller.fadeAnimation,
+                scale:
+                _controller.scaleAnimation,
+                floating:
+                _controller.floatAnimation,
               ),
             ),
 
             /// Loading Bar
             SafeArea(
-              minimum: const EdgeInsets.fromLTRB(
-                40,
+              minimum: EdgeInsets.fromLTRB(
+                size.width * 0.10,
                 0,
-                40,
-                32,
+                size.width * 0.10,
+                size.height * 0.04,
               ),
               child: Align(
-                alignment: Alignment.bottomCenter,
+                alignment:
+                Alignment.bottomCenter,
                 child: LoadingBar(
-                  progress: _controller.loadingAnimation,
+                  progress:
+                  _controller
+                      .loadingAnimation,
                 ),
               ),
             ),

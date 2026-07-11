@@ -16,6 +16,9 @@ class FeatureDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final spacing = screenWidth * 0.015;
+
     return Row(
       children: [
         Expanded(
@@ -27,7 +30,7 @@ class FeatureDock extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 6),
+        SizedBox(width: spacing),
 
         Expanded(
           child: _DockCard(
@@ -38,7 +41,7 @@ class FeatureDock extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 6),
+        SizedBox(width: spacing),
 
         Expanded(
           child: _DockCard(
@@ -49,7 +52,7 @@ class FeatureDock extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 6),
+        SizedBox(width: spacing),
 
         Expanded(
           child: _DockCard(
@@ -86,6 +89,17 @@ class _DockCardState extends State<_DockCard> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final cardHeight =
+    (size.height * 0.095).clamp(72.0, 100.0);
+
+    final iconSize =
+    (size.width * 0.07).clamp(24.0, 36.0);
+
+    final fontSize =
+    (size.width * 0.022).clamp(8.0, 12.0);
+
     return GestureDetector(
       onTapDown: (_) => setState(() => _pressed = true),
       onTapUp: (_) {
@@ -97,13 +111,13 @@ class _DockCardState extends State<_DockCard> {
       },
       child: AnimatedScale(
         duration: const Duration(milliseconds: 120),
-        scale: _pressed ? 0.95 : 1,
+        scale: _pressed ? 0.95 : 1.0,
         child: CustomPaint(
           painter: _HexBorderPainter(widget.color),
           child: ClipPath(
             clipper: _HexPanelClipper(),
             child: Container(
-              height: 84,
+              height: cardHeight,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -140,7 +154,7 @@ class _DockCardState extends State<_DockCard> {
                     left: 8,
                     right: 8,
                     child: Container(
-                      height: 10,
+                      height: cardHeight * 0.12,
                       decoration: BoxDecoration(
                         borderRadius:
                         BorderRadius.circular(20),
@@ -165,7 +179,7 @@ class _DockCardState extends State<_DockCard> {
                         Icon(
                           widget.icon,
                           color: widget.color,
-                          size: 32,
+                          size: iconSize,
                           shadows: [
                             Shadow(
                               color: widget.color,
@@ -178,19 +192,27 @@ class _DockCardState extends State<_DockCard> {
                           ],
                         ),
 
-                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: cardHeight * 0.08,
+                        ),
 
-                        Text(
-                          widget.label,
-                          maxLines: 1,
-                          overflow:
-                          TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 2,
+                          ),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              widget.label,
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontSize,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -209,7 +231,7 @@ class _DockCardState extends State<_DockCard> {
 class _HexPanelClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    const cut = 10.0;
+    final cut = size.height * 0.12;
 
     return Path()
       ..moveTo(cut, 0)
@@ -224,9 +246,7 @@ class _HexPanelClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(
-      CustomClipper<Path> oldClipper,
-      ) {
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
     return false;
   }
 }
@@ -238,7 +258,7 @@ class _HexBorderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const cut = 10.0;
+    final cut = size.height * 0.12;
 
     final path = Path()
       ..moveTo(cut, 0)
@@ -270,9 +290,7 @@ class _HexBorderPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(
-      CustomPainter oldDelegate,
-      ) {
+  bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
   }
 }

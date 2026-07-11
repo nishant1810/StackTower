@@ -20,8 +20,11 @@ class AnimatedLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double logoWidth =
-        MediaQuery.sizeOf(context).width * widthFactor;
+    final size = MediaQuery.of(context).size;
+
+    final logoWidth =
+    (size.width * widthFactor)
+        .clamp(220.0, 520.0);
 
     return RepaintBoundary(
       child: AnimatedBuilder(

@@ -19,11 +19,17 @@ class HomeProfileCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AspectRatio(
-        aspectRatio: 3.4,
+        aspectRatio: 2.7,
         child: LayoutBuilder(
           builder: (context, constraints) {
             final w = constraints.maxWidth;
             final h = constraints.maxHeight;
+
+            final avatarSize =
+            (h * 0.62).clamp(34.0, 56.0);
+
+            final fontSize =
+            (h * 0.18).clamp(11.0, 18.0);
 
             return Stack(
               children: [
@@ -34,29 +40,32 @@ class HomeProfileCard extends StatelessWidget {
                   ),
                 ),
 
-                // Avatar
                 Positioned(
-                  left: w * 0.08,
-                  top: h * 0.16,
-                  width: h * 0.50,
-                  height: h * 0.50,
+                  left: w * 0.07,
+                  top: h * 0.18,
+                  width: avatarSize,
+                  height: avatarSize,
                   child: ClipOval(
                     child: avatarPath != null &&
                         avatarPath!.isNotEmpty
                         ? Image.asset(
                       avatarPath!,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
-                          _buildDefaultAvatar(h),
+                      errorBuilder:
+                          (_, __, ___) =>
+                          _buildDefaultAvatar(
+                            avatarSize,
+                          ),
                     )
-                        : _buildDefaultAvatar(h),
+                        : _buildDefaultAvatar(
+                      avatarSize,
+                    ),
                   ),
                 ),
 
-                // Player Name
                 Positioned(
-                  left: w * 0.24,
-                  right: w * 0.12,
+                  left: w * 0.25,
+                  right: w * 0.08,
                   top: h * 0.30,
                   child: Text(
                     playerName.toUpperCase(),
@@ -64,9 +73,9 @@ class HomeProfileCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: h * 0.13,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: 0.5,
+                      letterSpacing: 0.6,
                       shadows: const [
                         Shadow(
                           color: Colors.black54,
@@ -85,7 +94,9 @@ class HomeProfileCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDefaultAvatar(double h) {
+  Widget _buildDefaultAvatar(
+      double avatarSize,
+      ) {
     return Container(
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
@@ -94,7 +105,7 @@ class HomeProfileCard extends StatelessWidget {
       child: Icon(
         Icons.person_rounded,
         color: Colors.white,
-        size: h * 0.22,
+        size: avatarSize * 0.45,
       ),
     );
   }

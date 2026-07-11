@@ -63,7 +63,7 @@ class StackGame extends FlameGame
     StorageService.addCoins(5);
 
     shakeTimer = 0.25;
-    shakeStrength = 15;
+    shakeStrength = size.x * 0.03;
 
     add(
       PerfectFlash()
@@ -110,10 +110,10 @@ class StackGame extends FlameGame
   bool reachedUnstoppable = false;
   bool reachedLegend = false;
 
-  double blockWidth = 260;
-  final double blockHeight = 55;
+  double blockWidth = 0;
+  late double blockHeight;
 
-  double blockSpeed = 260;
+  double blockSpeed = 0;
 
   bool movingRight = true;
   bool gameEnded = false;
@@ -137,6 +137,9 @@ class StackGame extends FlameGame
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    blockWidth = size.x * 0.45;
+    blockHeight = size.y * 0.035;
+    blockSpeed = size.x * 0.35;
 
     selectedTheme =
     await StorageService.getSelectedTheme();
@@ -303,8 +306,7 @@ class StackGame extends FlameGame
     final perfect =
         (movingBlock.x -
             previousBlock.x)
-            .abs() <
-            8;
+            .abs() < size.x * 0.01;
 
     /// Falling Piece
     if (cutWidth > 0) {
@@ -368,12 +370,12 @@ class StackGame extends FlameGame
 
     /// Shift world downward
     if (placedBlock.y < size.y * 0.35) {
-      _shiftTowerDown(60);
+      _shiftTowerDown(size.y * 0.07);
     }
 
     blockWidth = max(
       overlap,
-      40.0,
+      size.x * 0.08,
     ).toDouble();
 
     if (perfect) {
@@ -402,15 +404,15 @@ class StackGame extends FlameGame
       shakeTimer = 0.15;
 
       shakeStrength = min(
-        16.0 + perfectCombo * 3,
-        30.0,
-      ).toDouble();
+        size.x * 0.03 + perfectCombo * 2,
+        size.x * 0.06,
+      );
 
       add(
         PerfectText(
           Vector2(
             size.x / 2,
-            currentY - 50,
+              currentY - size.y * 0.05
           ),
           perfectCombo > 1
               ? "PERFECT x$perfectCombo"
@@ -450,8 +452,8 @@ class StackGame extends FlameGame
     currentY -= blockHeight;
 
     blockSpeed = min(
-      260 + (score * 2.5),
-      650.0,
+      (size.x * 0.35) + (score * 2.5),
+      size.x * 0.9,
     ).toDouble();
 
     _spawnMovingBlock();

@@ -9,6 +9,14 @@ class LeaderboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final backButtonSize =
+    (size.width * 0.13).clamp(46.0, 60.0);
+
+    final titleSize =
+    (size.width * 0.065).clamp(22.0, 32.0);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -29,24 +37,25 @@ class LeaderboardPage extends StatelessWidget {
             SafeArea(
               child: Column(
                 children: [
-                  // Header
+                  // HEADER
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: size.width * 0.04,
+                      vertical: size.height * 0.01,
                     ),
                     child: Row(
                       children: [
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: backButtonSize,
+                          height: backButtonSize,
                           decoration: BoxDecoration(
                             borderRadius:
                             BorderRadius.circular(16),
                             gradient:
                             const LinearGradient(
                               begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+                              end:
+                              Alignment.bottomRight,
                               colors: [
                                 Color(0xFF241544),
                                 Color(0xFF0C1024),
@@ -70,27 +79,38 @@ class LeaderboardPage extends StatelessWidget {
                           ),
                           child: IconButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pop(
+                                context,
+                              );
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons
                                   .arrow_back_ios_new_rounded,
                               color: Colors.white,
-                              size: 18,
+                              size:
+                              (backButtonSize *
+                                  0.36)
+                                  .clamp(
+                                16.0,
+                                22.0,
+                              ),
                             ),
                           ),
                         ),
 
-                        const SizedBox(width: 12),
+                        SizedBox(
+                          width:
+                          size.width * 0.03,
+                        ),
 
-                        const Expanded(
+                        Expanded(
                           child: Text(
                             'LEADERBOARD',
                             textAlign:
                             TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 26,
+                              fontSize: titleSize,
                               fontWeight:
                               FontWeight.w900,
                               letterSpacing: 1.2,
@@ -98,18 +118,21 @@ class LeaderboardPage extends StatelessWidget {
                           ),
                         ),
 
-                        const SizedBox(
-                          width: 62,
+                        SizedBox(
+                          width:
+                          backButtonSize +
+                              (size.width *
+                                  0.03),
                         ),
                       ],
                     ),
                   ),
 
-                  // Tabs
+                  // TAB BAR
                   Container(
-                    margin:
-                    const EdgeInsets.symmetric(
-                      horizontal: 16,
+                    margin: EdgeInsets.symmetric(
+                      horizontal:
+                      size.width * 0.04,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white10,
@@ -123,7 +146,7 @@ class LeaderboardPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: const TabBar(
+                    child: TabBar(
                       indicatorSize:
                       TabBarIndicatorSize.tab,
                       dividerColor:
@@ -136,8 +159,15 @@ class LeaderboardPage extends StatelessWidget {
                         fontWeight:
                         FontWeight.w800,
                         letterSpacing: 1,
+                        fontSize:
+                        (size.width * 0.035)
+                            .clamp(
+                          12.0,
+                          16.0,
+                        ),
                       ),
-                      indicator: BoxDecoration(
+                      indicator:
+                      const BoxDecoration(
                         borderRadius:
                         BorderRadius.all(
                           Radius.circular(16),
@@ -154,7 +184,7 @@ class LeaderboardPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      tabs: [
+                      tabs: const [
                         Tab(
                           text: 'GLOBAL',
                         ),
@@ -166,7 +196,10 @@ class LeaderboardPage extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height:
+                    size.height * 0.02,
+                  ),
 
                   const Expanded(
                     child: TabBarView(

@@ -21,13 +21,31 @@ class ThemeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final cardHeight =
+    (size.height * 0.24).clamp(170.0, 240.0);
+
+    final titleSize =
+    (size.width * 0.06).clamp(18.0, 28.0);
+
+    final buttonHeight =
+    (size.height * 0.06).clamp(44.0, 56.0);
+
+    final padding =
+    (size.width * 0.05).clamp(14.0, 24.0);
+
     return Container(
-      height: 200,
-      margin: const EdgeInsets.only(bottom: 16),
+      height: cardHeight,
+      margin: EdgeInsets.only(
+        bottom: size.height * 0.02,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: selected ? Colors.white : Colors.white24,
+          color: selected
+              ? Colors.white
+              : Colors.white24,
           width: selected ? 3 : 1,
         ),
       ),
@@ -36,13 +54,11 @@ class ThemeCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            /// Theme Background
             Image.asset(
               theme.previewImage,
               fit: BoxFit.cover,
             ),
 
-            /// Dark Overlay
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -50,43 +66,49 @@ class ThemeCard extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.black.withOpacity(0.15),
-                    Colors.black.withOpacity(0.75),
+                    Colors.black.withOpacity(0.80),
                   ],
                 ),
               ),
             ),
 
-            /// Badge
             Positioned(
               top: 12,
               right: 12,
-              child: _buildBadge(),
+              child: _buildBadge(context),
             ),
 
-            /// Content
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(padding),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    theme.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black,
-                          blurRadius: 10,
-                        ),
-                      ],
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      theme.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: titleSize,
+                        fontWeight: FontWeight.w900,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black,
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
                   const Spacer(),
 
-                  _buildActionButton(),
+                  _buildActionButton(
+                    context,
+                    buttonHeight,
+                  ),
                 ],
               ),
             ),
@@ -96,7 +118,12 @@ class ThemeCard extends StatelessWidget {
     );
   }
 
-  Widget _buildBadge() {
+  Widget _buildBadge(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final badgeFont =
+    (size.width * 0.028).clamp(10.0, 13.0);
+
     if (selected) {
       return Container(
         padding: const EdgeInsets.symmetric(
@@ -107,11 +134,11 @@ class ThemeCard extends StatelessWidget {
           color: Colors.green,
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Text(
+        child: Text(
           'SELECTED',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 11,
+            fontSize: badgeFont,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -125,10 +152,11 @@ class ThemeCard extends StatelessWidget {
           color: Colors.black54,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.lock,
           color: Colors.white,
-          size: 18,
+          size:
+          (size.width * 0.05).clamp(16.0, 22.0),
         ),
       );
     }
@@ -136,75 +164,87 @@ class ThemeCard extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
-  Widget _buildActionButton() {
-    /// Selected Theme
+  Widget _buildActionButton(
+      BuildContext context,
+      double buttonHeight,
+      ) {
+    final fontSize =
+    (MediaQuery.of(context).size.width * 0.04)
+        .clamp(13.0, 16.0);
+
     if (selected) {
       return Container(
         width: double.infinity,
-        height: 50,
+        height: buttonHeight,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.green,
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Text(
-          'SELECTED',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
+        child: FittedBox(
+          child: Text(
+            'SELECTED',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize,
+            ),
           ),
         ),
       );
     }
 
-    /// Unlocked Theme
     if (unlocked) {
       return SizedBox(
         width: double.infinity,
-        height: 50,
+        height: buttonHeight,
         child: ElevatedButton(
           onPressed: onSelect,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius:
+              BorderRadius.circular(14),
             ),
           ),
-          child: const Text(
-            'USE',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
+          child: FittedBox(
+            child: Text(
+              'USE',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: fontSize,
+              ),
             ),
           ),
         ),
       );
     }
 
-    /// Locked Theme
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: buttonHeight,
       child: ElevatedButton(
         onPressed: onBuy,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.orange,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius:
+            BorderRadius.circular(14),
           ),
         ),
-        child: Text(
-          theme.isPremium
-              ? 'BUY ${theme.diamondCost} 💎'
-              : 'BUY ${theme.coinCost} Coins',
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
+        child: FittedBox(
+          child: Text(
+            theme.isPremium
+                ? 'BUY ${theme.diamondCost} 💎'
+                : 'BUY ${theme.coinCost} COINS',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize,
+            ),
           ),
         ),
       ),

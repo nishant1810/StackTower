@@ -19,7 +19,6 @@ import '../widgets/feature_dock.dart';
 import '../widgets/home_background.dart';
 import '../widgets/home_center_panel.dart';
 import '../widgets/home_hud.dart';
-import '../widgets/home_right_panel.dart';
 import '../widgets/particle_layer.dart';
 
 class HomePage extends StatefulWidget {
@@ -181,6 +180,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: FadeTransition(
         opacity: controller.playOpacityAnimation,
@@ -195,15 +196,11 @@ class _HomePageState extends State<HomePage>
               child: Container(
                 decoration: BoxDecoration(
                   gradient: RadialGradient(
-                    center: const Alignment(
-                      0,
-                      -0.05,
-                    ),
+                    center: const Alignment(0, -0.05),
                     radius: .85,
                     colors: [
-                      const Color(
-                        0xFF3BCFFF,
-                      ).withValues(alpha: .06),
+                      const Color(0xFF3BCFFF)
+                          .withValues(alpha: .06),
                       Colors.transparent,
                     ],
                   ),
@@ -213,19 +210,26 @@ class _HomePageState extends State<HomePage>
 
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
+                padding: EdgeInsets.symmetric(
+                  horizontal:
+                  size.width * 0.03,
+                  vertical:
+                  size.height * 0.008,
                 ),
                 child: Column(
                   children: [
                     HomeHud(
                       controller: controller,
                       onSettingsTap: () =>
-                          controller.openSettings(context),
+                          controller.openSettings(
+                            context,
+                          ),
                     ),
 
-                    const SizedBox(height: 16),
+                    SizedBox(
+                      height:
+                      size.height * 0.008,
+                    ),
 
                     Expanded(
                       child: LayoutBuilder(
@@ -238,9 +242,15 @@ class _HomePageState extends State<HomePage>
                                   380;
 
                           return Stack(
-                            clipBehavior: Clip.none,
+                            clipBehavior:
+                            Clip.none,
                             children: [
-                              Center(
+                              Align(
+                                alignment:
+                                const Alignment(
+                                  0,
+                                  -0.12,
+                                ),
                                 child:
                                 HomeCenterPanel(
                                   controller:
@@ -249,33 +259,23 @@ class _HomePageState extends State<HomePage>
                                   _startGame,
                                 ),
                               ),
-                              Positioned(
-                                right: isSmallPhone
-                                    ? 0
-                                    : 6,
-                                top: isSmallPhone
-                                    ? 40
-                                    : 55,
-                                child:
-                                HomeRightPanel(
-                                  controller:
-                                  controller,
-                                  onRewardTap:
-                                  _openDailyReward,
-                                ),
-                              ),
                             ],
                           );
                         },
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    SizedBox(
+                      height:
+                      size.height * 0.006,
+                    ),
 
                     Padding(
                       padding:
-                      const EdgeInsets.symmetric(
-                        horizontal: 6,
+                      EdgeInsets.symmetric(
+                        horizontal:
+                        size.width *
+                            0.015,
                       ),
                       child: FeatureDock(
                         onLeaderboard:
@@ -293,11 +293,13 @@ class _HomePageState extends State<HomePage>
                           await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const ThemesPage(),
+                              builder: (_) =>
+                              const ThemesPage(),
                             ),
                           );
 
-                          await controller.refresh();
+                          await controller
+                              .refresh();
 
                           if (mounted) {
                             setState(() {});
@@ -306,7 +308,15 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
 
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height:
+                      MediaQuery.of(
+                        context,
+                      )
+                          .padding
+                          .bottom +
+                          4,
+                    ),
                   ],
                 ),
               ),

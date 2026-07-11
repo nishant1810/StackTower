@@ -12,15 +12,27 @@ class ClaimButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final buttonHeight =
+    (size.height * 0.075).clamp(58.0, 68.0);
+
+    final iconSize =
+    (buttonHeight * 0.55).clamp(32.0, 40.0);
+
+    final textSize =
+    (size.width * 0.05).clamp(16.0, 19.0);
+
     return GestureDetector(
       onTap: enabled ? onPressed : null,
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 250),
         opacity: enabled ? 1 : .65,
         child: Container(
-          height: 72,
+          height: buttonHeight,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(36),
+            borderRadius:
+            BorderRadius.circular(buttonHeight / 2),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -34,40 +46,48 @@ class ClaimButton extends StatelessWidget {
               BoxShadow(
                 color: const Color(
                   0xFFFFC857,
-                ).withOpacity(.45),
-                blurRadius: 30,
-                spreadRadius: 2,
+                ).withOpacity(.35),
+                blurRadius: 20,
+                spreadRadius: 1,
               ),
             ],
           ),
           child: Row(
             children: [
-              const SizedBox(width: 24),
+              SizedBox(
+                width:
+                (size.width * 0.04).clamp(12.0, 20.0),
+              ),
 
               Container(
-                width: 42,
-                height: 42,
+                width: iconSize,
+                height: iconSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(.18),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.card_giftcard_rounded,
                   color: Colors.white,
-                  size: 22,
+                  size: iconSize * 0.5,
                 ),
               ),
 
-              const SizedBox(width: 14),
+              SizedBox(
+                width:
+                (size.width * 0.025).clamp(8.0, 14.0),
+              ),
 
               Expanded(
                 child: Text(
                   enabled
                       ? 'CLAIM REWARD'
                       : 'COME BACK TOMORROW',
-                  style: const TextStyle(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: textSize,
                     fontWeight: FontWeight.w900,
                     letterSpacing: .5,
                   ),
@@ -75,20 +95,23 @@ class ClaimButton extends StatelessWidget {
               ),
 
               Container(
-                width: 48,
-                height: 48,
+                width: iconSize,
+                height: iconSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(.18),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: Colors.white,
-                  size: 18,
+                  size: iconSize * 0.42,
                 ),
               ),
 
-              const SizedBox(width: 12),
+              SizedBox(
+                width:
+                (size.width * 0.03).clamp(10.0, 16.0),
+              ),
             ],
           ),
         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/assets/app_assets.dart';
-
 import '../controller/achievements_controller.dart';
 import '../models/achievement_model.dart';
 import '../widgets/achievement_card.dart';
@@ -22,8 +21,7 @@ class _AchievementsPageState
   final controller =
   AchievementsController();
 
-  List<AchievementModel> achievements =
-  [];
+  List<AchievementModel> achievements = [];
 
   bool isLoading = true;
 
@@ -46,12 +44,29 @@ class _AchievementsPageState
 
   @override
   Widget build(BuildContext context) {
-    final unlockedCount =
-        achievements
-            .where(
-              (e) => e.unlocked,
-        )
-            .length;
+    final size = MediaQuery.of(context).size;
+
+    final horizontalPadding =
+    (size.width * 0.04).clamp(12.0, 20.0);
+
+    final cardPadding =
+    (size.width * 0.04).clamp(12.0, 20.0);
+
+    final iconSize =
+    (size.width * 0.10).clamp(32.0, 48.0);
+
+    final titleSize =
+    (size.width * 0.045).clamp(16.0, 22.0);
+
+    final subtitleSize =
+    (size.width * 0.035).clamp(12.0, 16.0);
+
+    final spacing =
+    (size.height * 0.015).clamp(8.0, 16.0);
+
+    final unlockedCount = achievements
+        .where((e) => e.unlocked)
+        .length;
 
     return Scaffold(
       body: Stack(
@@ -63,8 +78,7 @@ class _AchievementsPageState
           ),
 
           Container(
-            color:
-            Colors.black.withOpacity(
+            color: Colors.black.withOpacity(
               0.55,
             ),
           ),
@@ -81,18 +95,17 @@ class _AchievementsPageState
 
                 Padding(
                   padding:
-                  const EdgeInsets
-                      .symmetric(
-                    horizontal: 16,
+                  EdgeInsets.symmetric(
+                    horizontal:
+                    horizontalPadding,
                   ),
                   child: Container(
-                    padding:
-                    const EdgeInsets
-                        .all(16),
+                    padding: EdgeInsets.all(
+                      cardPadding,
+                    ),
                     decoration:
                     BoxDecoration(
-                      color: Colors
-                          .white
+                      color: Colors.white
                           .withOpacity(
                         0.08,
                       ),
@@ -101,10 +114,8 @@ class _AchievementsPageState
                           .circular(
                         20,
                       ),
-                      border:
-                      Border.all(
-                        color: Colors
-                            .cyan
+                      border: Border.all(
+                        color: Colors.cyan
                             .withOpacity(
                           0.4,
                         ),
@@ -112,48 +123,61 @@ class _AchievementsPageState
                     ),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons
                               .emoji_events,
                           color:
-                          Colors
-                              .amber,
-                          size: 40,
+                          Colors.amber,
+                          size: iconSize,
                         ),
 
-                        const SizedBox(
-                          width: 16,
+                        SizedBox(
+                          width:
+                          horizontalPadding,
                         ),
 
                         Expanded(
-                          child:
-                          Column(
+                          child: Column(
                             crossAxisAlignment:
                             CrossAxisAlignment
                                 .start,
                             children: [
-                              const Text(
+                              Text(
                                 'Achievement Progress',
+                                maxLines: 1,
+                                overflow:
+                                TextOverflow
+                                    .ellipsis,
                                 style:
                                 TextStyle(
-                                  color:
-                                  Colors.white,
+                                  color: Colors
+                                      .white,
                                   fontSize:
-                                  18,
+                                  titleSize,
                                   fontWeight:
-                                  FontWeight.w700,
+                                  FontWeight
+                                      .w700,
                                 ),
                               ),
-                              const SizedBox(
+
+                              SizedBox(
                                 height:
-                                4,
+                                spacing *
+                                    0.4,
                               ),
+
                               Text(
                                 '$unlockedCount / ${achievements.length} Unlocked',
+                                maxLines: 1,
+                                overflow:
+                                TextOverflow
+                                    .ellipsis,
                                 style:
-                                const TextStyle(
-                                  color:
-                                  Colors.white70,
+                                TextStyle(
+                                  color: Colors
+                                      .white70,
+                                  fontSize:
+                                  subtitleSize,
                                 ),
                               ),
                             ],
@@ -164,17 +188,18 @@ class _AchievementsPageState
                   ),
                 ),
 
-                const SizedBox(
-                  height: 12,
+                SizedBox(
+                  height: spacing,
                 ),
 
                 Expanded(
                   child:
                   ListView.builder(
                     padding:
-                    const EdgeInsets
-                        .only(
-                      bottom: 24,
+                    EdgeInsets.only(
+                      bottom:
+                      size.height *
+                          0.03,
                     ),
                     itemCount:
                     achievements

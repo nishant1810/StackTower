@@ -16,25 +16,30 @@ class HomeCenterPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final titleWidth = (size.width * 0.66).clamp(
+      200.0,
+      340.0,
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        /// STACK TOWER TITLE
-        Transform.translate(
-          offset: const Offset(0, 80),
-          child: Image.asset(
-            AppAssets.titleIcon,
-            width: 230,
-            fit: BoxFit.contain,
-          ),
+        /// GAME TITLE
+        Image.asset(
+          AppAssets.titleIcon,
+          width: titleWidth,
+          fit: BoxFit.contain,
+        ),
+
+        SizedBox(
+          height: size.height * 0.015,
         ),
 
         /// PLAY BUTTON
-        Transform.translate(
-          offset: const Offset(0, -20),
-          child: PlayPlatformButton(
-            onPlay: onPlay,
-          ),
+        PlayPlatformButton(
+          onPlay: onPlay,
         ),
       ],
     );

@@ -40,6 +40,14 @@
   
     @override
     Widget build(BuildContext context) {
+      final backButtonSize =
+      (MediaQuery.of(context).size.width * 0.13)
+          .clamp(46.0, 60.0);
+
+      final premiumIconSize =
+      (MediaQuery.of(context).size.width * 0.18)
+          .clamp(60.0, 90.0);
+
       return AnimatedBuilder(
         animation: controller,
         builder: (_, __) {
@@ -86,8 +94,8 @@
                         child: Row(
                           children: [
                             Container(
-                              width: 50,
-                              height: 50,
+                              width: backButtonSize,
+                              height: backButtonSize,
                               decoration: BoxDecoration(
                                 borderRadius:
                                 BorderRadius.circular(
@@ -134,7 +142,7 @@
                                   //   height: 34,
                                   // ),
 
-                                  const Text(
+                                  Text(
                                     'SHOP',
                                     style:
                                     TextStyle(
@@ -142,7 +150,8 @@
                                       Colors
                                           .white,
                                       fontSize:
-                                      34,
+                                      (MediaQuery.of(context).size.width * 0.085)
+                                          .clamp(24.0, 38.0),
                                       fontWeight:
                                       FontWeight
                                           .w900,
@@ -275,7 +284,9 @@
                             ),
   
                             Container(
-                              height: 120,
+                              height:
+                              (MediaQuery.of(context).size.height * 0.14)
+                                  .clamp(110.0, 150.0),
                               decoration:
                               BoxDecoration(
                                 borderRadius:
@@ -313,10 +324,8 @@
                                   ),
   
                                   Container(
-                                    width:
-                                    72,
-                                    height:
-                                    72,
+                                    width: premiumIconSize,
+                                    height: premiumIconSize,
                                     decoration:
                                     BoxDecoration(
                                       shape:
@@ -387,9 +396,12 @@
                                     child:
                                     SizedBox(
                                       width:
-                                      90,
+                                      (MediaQuery.of(context).size.width * 0.22)
+                                          .clamp(80.0, 120.0),
+
                                       height:
-                                      46,
+                                      (MediaQuery.of(context).size.height * 0.055)
+                                          .clamp(42.0, 56.0),
                                       child:
                                       ElevatedButton(
                                         onPressed:

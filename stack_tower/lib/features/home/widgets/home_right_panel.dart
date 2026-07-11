@@ -39,22 +39,28 @@ class _DailyRewardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: const Offset(30, -110), // right, up
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: onTap,
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            Image.asset(
-              AppAssets.dailyRewardIcon,
-              width: 120,
-              fit: BoxFit.contain,
-            ),
-          ],
-        ),
+    final size = MediaQuery.of(context).size;
+
+    final iconSize =
+    (size.width * 0.16).clamp(
+      52.0,
+      72.0,
+    );
+
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: onTap,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Image.asset(
+            AppAssets.dailyRewardIcon,
+            width: iconSize,
+            height: iconSize,
+            fit: BoxFit.contain,
+          ),
+        ],
       ),
     );
   }

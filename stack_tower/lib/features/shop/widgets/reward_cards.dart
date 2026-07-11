@@ -14,9 +14,12 @@ class RewardCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
+      padding: EdgeInsets.symmetric(
+        horizontal:
+        (size.width * 0.035).clamp(10.0, 18.0),
       ),
       child: Row(
         children: [
@@ -31,7 +34,10 @@ class RewardCards extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 12),
+          SizedBox(
+            width:
+            (size.width * 0.03).clamp(8.0, 14.0),
+          ),
 
           Expanded(
             child: _RewardCard(
@@ -68,8 +74,28 @@ class _RewardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final cardHeight =
+    (size.height * 0.22).clamp(150.0, 210.0);
+
+    final imageSize =
+    (size.width * 0.20).clamp(55.0, 90.0);
+
+    final iconSize =
+    (size.width * 0.09).clamp(24.0, 42.0);
+
+    final titleSize =
+    (size.width * 0.035).clamp(11.0, 16.0);
+
+    final subtitleSize =
+    (size.width * 0.03).clamp(10.0, 14.0);
+
+    final buttonHeight =
+    (size.height * 0.05).clamp(38.0, 48.0);
+
     return Container(
-      height: 180,
+      height: cardHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
@@ -100,12 +126,13 @@ class _RewardCard extends StatelessWidget {
               child: Center(
                 child: isGift
                     ? Container(
-                  width: 85,
-                  height: 85,
+                  width: imageSize,
+                  height: imageSize,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: accent.withOpacity(.45),
+                        color: accent
+                            .withOpacity(.45),
                         blurRadius: 24,
                       ),
                     ],
@@ -116,8 +143,8 @@ class _RewardCard extends StatelessWidget {
                   ),
                 )
                     : Container(
-                  width: 70,
-                  height: 70,
+                  width: imageSize * 0.85,
+                  height: imageSize * 0.85,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
@@ -134,31 +161,35 @@ class _RewardCard extends StatelessWidget {
                   child: Icon(
                     Icons.smart_display_rounded,
                     color: accent,
-                    size: 38,
+                    size: iconSize,
                   ),
                 ),
               ),
             ),
 
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
-                letterSpacing: .8,
+            FittedBox(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: titleSize,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: .8,
+                ),
               ),
             ),
 
             const SizedBox(height: 4),
 
-            Text(
-              subtitle,
-              style: TextStyle(
-                color: accent,
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
+            FittedBox(
+              child: Text(
+                subtitle,
+                style: TextStyle(
+                  color: accent,
+                  fontSize: subtitleSize,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
 
@@ -166,7 +197,7 @@ class _RewardCard extends StatelessWidget {
 
             SizedBox(
               width: double.infinity,
-              height: 42,
+              height: buttonHeight,
               child: ElevatedButton(
                 onPressed: onTap,
                 style: ElevatedButton.styleFrom(
@@ -178,12 +209,16 @@ class _RewardCard extends StatelessWidget {
                     BorderRadius.circular(14),
                   ),
                 ),
-                child: Text(
-                  buttonText,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: .8,
+                child: FittedBox(
+                  child: Text(
+                    buttonText,
+                    style: TextStyle(
+                      fontSize:
+                      subtitleSize,
+                      fontWeight:
+                      FontWeight.w900,
+                      letterSpacing: .8,
+                    ),
                   ),
                 ),
               ),

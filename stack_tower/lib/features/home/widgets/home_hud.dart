@@ -20,25 +20,54 @@ class HomeHud extends StatelessWidget {
     return ValueListenableBuilder<HomeState>(
       valueListenable: controller.state,
       builder: (context, state, _) {
+        final size = MediaQuery.of(context).size;
+
+        final hudHeight =
+        (size.height * 0.10).clamp(
+          72.0,
+          96.0,
+        );
+
+        final spacing =
+        (size.width * 0.02).clamp(
+          6.0,
+          12.0,
+        );
+
+        final padding =
+        (size.width * 0.012).clamp(
+          2.0,
+          8.0,
+        );
+
+        final settingsSize =
+        (size.width * 0.12).clamp(
+          46.0,
+          56.0,
+        );
+
         return SizedBox(
-          height: 90,
+          height: hudHeight,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 6,
-                    left: 6,
+                  padding: EdgeInsets.only(
+                    top: padding,
+                    left: padding,
                   ),
                   child: HomeProfileCard(
-                    playerName: state.playerName,
+                    playerName:
+                    state.playerName,
                     avatarPath: null,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const ProfilePage(),
+                          builder: (_) =>
+                          const ProfilePage(),
                         ),
                       );
                     },
@@ -46,18 +75,21 @@ class HomeHud extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 8),
+              SizedBox(
+                width: spacing,
+              ),
 
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 6,
-                  right: 6,
+                padding: EdgeInsets.only(
+                  top: padding,
+                  right: padding,
                 ),
                 child: SizedBox(
-                  width: 52,
-                  height: 52,
+                  width: settingsSize,
+                  height: settingsSize,
                   child: _SettingsButton(
                     onTap: onSettingsTap,
+                    size: settingsSize,
                   ),
                 ),
               ),
@@ -72,21 +104,32 @@ class HomeHud extends StatelessWidget {
 class _SettingsButton extends StatelessWidget {
   const _SettingsButton({
     required this.onTap,
+    required this.size,
   });
 
   final VoidCallback onTap;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
+    final iconSize = size * 0.42;
+
     return InkWell(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius:
+      BorderRadius.circular(
+        size * 0.35,
+      ),
       onTap: onTap,
       child: Container(
-        width: 52,
-        height: 52,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          gradient: const LinearGradient(
+          borderRadius:
+          BorderRadius.circular(
+            size * 0.35,
+          ),
+          gradient:
+          const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
@@ -95,7 +138,8 @@ class _SettingsButton extends StatelessWidget {
             ],
           ),
           border: Border.all(
-            color: const Color(0xFF9A5FFF),
+            color:
+            const Color(0xFF9A5FFF),
             width: 1.5,
           ),
           boxShadow: const [
@@ -106,10 +150,10 @@ class _SettingsButton extends StatelessWidget {
             ),
           ],
         ),
-        child: const Icon(
+        child: Icon(
           Icons.settings_rounded,
           color: Colors.white,
-          size: 24,
+          size: iconSize,
         ),
       ),
     );

@@ -14,6 +14,8 @@ class ShopPackCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     final isDiamond = item.isDiamond;
 
     final borderColor = item.isBestValue
@@ -24,8 +26,32 @@ class ShopPackCard extends StatelessWidget {
         ? const Color(0xFF42CFFF)
         : const Color(0xFFFFC107);
 
+    final cardHeight =
+    (size.height * 0.17).clamp(120.0, 170.0);
+
+    final iconBoxSize =
+    (size.width * 0.18).clamp(60.0, 90.0);
+
+    final iconSize =
+    (size.width * 0.10).clamp(30.0, 46.0);
+
+    final titleSize =
+    (size.width * 0.06).clamp(18.0, 28.0);
+
+    final descSize =
+    (size.width * 0.03).clamp(10.0, 14.0);
+
+    final priceSize =
+    (size.width * 0.055).clamp(18.0, 28.0);
+
+    final buyWidth =
+    (size.width * 0.22).clamp(80.0, 120.0);
+
+    final buyHeight =
+    (size.height * 0.05).clamp(40.0, 50.0);
+
     return Container(
-      height: 140,
+      height: cardHeight,
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -67,13 +93,14 @@ class ShopPackCard extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: borderColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius:
+                  BorderRadius.circular(20),
                 ),
                 child: Text(
                   '+${item.bonusPercent}% BONUS',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 9,
+                    fontSize: descSize * 0.8,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -88,10 +115,11 @@ class ShopPackCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 72,
-                  height: 72,
+                  width: iconBoxSize,
+                  height: iconBoxSize,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius:
+                    BorderRadius.circular(18),
                     gradient: LinearGradient(
                       colors: [
                         borderColor.withOpacity(.25),
@@ -99,7 +127,8 @@ class ShopPackCard extends StatelessWidget {
                       ],
                     ),
                     border: Border.all(
-                      color: borderColor.withOpacity(.4),
+                      color:
+                      borderColor.withOpacity(.4),
                     ),
                   ),
                   child: Icon(
@@ -107,14 +136,13 @@ class ShopPackCard extends StatelessWidget {
                         ? Icons.diamond
                         : Icons.monetization_on,
                     color: borderColor,
-                    size: 40,
+                    size: iconSize,
                   ),
                 ),
 
-                const SizedBox(width: 14),
+                const SizedBox(width: 12),
 
                 Expanded(
-                  flex: 5,
                   child: Column(
                     mainAxisAlignment:
                     MainAxisAlignment.center,
@@ -126,14 +154,17 @@ class ShopPackCard extends StatelessWidget {
                         maxLines: 1,
                         overflow:
                         TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900,
+                          fontSize: titleSize,
+                          fontWeight:
+                          FontWeight.w900,
                         ),
                       ),
 
-                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: cardHeight * 0.03,
+                      ),
 
                       Text(
                         isDiamond
@@ -142,14 +173,17 @@ class ShopPackCard extends StatelessWidget {
                         maxLines: 2,
                         overflow:
                         TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white70,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                          fontSize: descSize,
+                          fontWeight:
+                          FontWeight.w600,
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                      SizedBox(
+                        height: cardHeight * 0.05,
+                      ),
 
                       if (item.isBestValue)
                         const _Badge(
@@ -168,46 +202,42 @@ class ShopPackCard extends StatelessWidget {
                 const SizedBox(width: 8),
 
                 SizedBox(
-                  width: 95,
+                  width: buyWidth,
                   child: Column(
                     mainAxisAlignment:
                     MainAxisAlignment.center,
                     children: [
-                      Text(
-                        item.price,
-                        maxLines: 1,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          item.price,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: priceSize,
+                            fontWeight:
+                            FontWeight.w900,
+                          ),
                         ),
                       ),
 
                       const SizedBox(height: 10),
 
                       Container(
-                        height: 42,
+                        height: buyHeight,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius:
                           BorderRadius.circular(
                             14,
                           ),
-                          gradient:
-                          LinearGradient(
+                          gradient: LinearGradient(
                             colors: [
                               borderColor,
                               borderColor
                                   .withOpacity(.75),
                             ],
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: borderColor
-                                  .withOpacity(.35),
-                              blurRadius: 12,
-                            ),
-                          ],
                         ),
                         child: Material(
                           color: Colors.transparent,
@@ -221,14 +251,10 @@ class ShopPackCard extends StatelessWidget {
                               child: Text(
                                 'BUY',
                                 style: TextStyle(
-                                  color:
-                                  Colors.white,
-                                  fontSize: 13,
+                                  color: Colors.white,
                                   fontWeight:
-                                  FontWeight
-                                      .w900,
-                                  letterSpacing:
-                                  1,
+                                  FontWeight.w900,
+                                  letterSpacing: 1,
                                 ),
                               ),
                             ),
@@ -267,12 +293,6 @@ class _Badge extends StatelessWidget {
         color: color,
         borderRadius:
         BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(.4),
-            blurRadius: 10,
-          ),
-        ],
       ),
       child: Text(
         title,

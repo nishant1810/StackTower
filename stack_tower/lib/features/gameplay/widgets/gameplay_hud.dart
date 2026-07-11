@@ -12,31 +12,29 @@ class GameplayHud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 12,
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.05,
+        vertical: size.height * 0.015,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// SCORE
-          _ScoreWidget(
-            score: score,
+          Expanded(
+            child: _ScoreWidget(
+              score: score,
+            ),
           ),
 
-          const Spacer(),
+          if (combo > 1)
+            _ComboWidget(
+              combo: combo,
+            ),
 
-          /// COMBO
-          _ComboWidget(
-            combo: combo,
-          ),
-
-          const Spacer(),
-
-          /// SPACE FOR PAUSE BUTTON
-          const SizedBox(
-            width: 70,
+          SizedBox(
+            width: size.width * 0.18,
           ),
         ],
       ),
@@ -53,25 +51,34 @@ class _ScoreWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width =
+        MediaQuery.of(context).size.width;
+
     return Column(
       crossAxisAlignment:
       CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'SCORE',
           style: TextStyle(
             color: Colors.white70,
-            fontSize: 13,
+            fontSize: width * 0.032,
             fontWeight: FontWeight.w500,
             letterSpacing: 1.2,
           ),
         ),
-        const SizedBox(height: 4),
+
+        SizedBox(
+          height: width * 0.01,
+        ),
+
         Text(
           '$score',
-          style: const TextStyle(
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 38,
+            fontSize: width * 0.09,
             fontWeight: FontWeight.w900,
             height: 1,
           ),
@@ -90,27 +97,29 @@ class _ComboWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (combo <= 1) {
-      return const SizedBox.shrink();
-    }
+    final width =
+        MediaQuery.of(context).size.width;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 22,
-        vertical: 10,
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.05,
+        vertical: width * 0.025,
       ),
       decoration: BoxDecoration(
         color: const Color(0xFF24160A),
         borderRadius:
-        BorderRadius.circular(18),
+        BorderRadius.circular(
+          width * 0.045,
+        ),
         border: Border.all(
           color: const Color(0xFFFFC857),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFC857)
-                .withOpacity(.25),
+            color: const Color(
+              0xFFFFC857,
+            ).withOpacity(0.25),
             blurRadius: 20,
           ),
         ],
@@ -118,21 +127,29 @@ class _ComboWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             'COMBO',
             style: TextStyle(
-              color: Color(0xFFFFD56A),
-              fontSize: 12,
+              color: const Color(
+                0xFFFFD56A,
+              ),
+              fontSize: width * 0.028,
               fontWeight: FontWeight.w700,
               letterSpacing: 1,
             ),
           ),
-          const SizedBox(height: 2),
+
+          SizedBox(
+            height: width * 0.005,
+          ),
+
           Text(
             'x$combo',
-            style: const TextStyle(
-              color: Color(0xFFFFD56A),
-              fontSize: 30,
+            style: TextStyle(
+              color: const Color(
+                0xFFFFD56A,
+              ),
+              fontSize: width * 0.07,
               fontWeight: FontWeight.w900,
               height: 1,
             ),
