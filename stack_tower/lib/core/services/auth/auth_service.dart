@@ -1,27 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import '../../../core/services/storage/storage_service.dart';
 
 class AuthService {
   AuthService._();
 
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
-  static final GoogleSignIn _googleSignIn = GoogleSignIn();
+  static final FirebaseAuth _auth =
+      FirebaseAuth.instance;
+
+  static final GoogleSignIn _googleSignIn =
+  GoogleSignIn();
 
   static bool _isGuest = false;
 
-  static User? get currentUser => _auth.currentUser;
+  static User? get currentUser =>
+      _auth.currentUser;
 
-  static bool get isLoggedIn => currentUser != null;
+  static bool get isLoggedIn =>
+      currentUser != null;
 
-  static bool get isGuest => _isGuest;
+  static bool get isGuest =>
+      _isGuest;
 
   static bool get isAuthenticated =>
       _isGuest || currentUser != null;
 
   static String get playerName {
-    if (_isGuest) return 'Guest';
+    if (_isGuest) {
+      return 'Guest';
+    }
 
     return currentUser?.displayName ??
         currentUser?.email ??
@@ -29,7 +38,9 @@ class AuthService {
   }
 
   static String? get photoUrl {
-    if (_isGuest) return null;
+    if (_isGuest) {
+      return null;
+    }
 
     return currentUser?.photoURL;
   }
@@ -48,43 +59,75 @@ class AuthService {
 
   static Future<User?> signInWithGoogle() async {
     try {
-      debugPrint('Starting Google Sign-In...');
+      debugPrint(
+        'Starting Google Sign-In...',
+      );
 
-      final GoogleSignInAccount? googleUser =
+      final GoogleSignInAccount?
+      googleUser =
       await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        debugPrint('User cancelled sign in');
+        debugPrint(
+          'User cancelled sign in',
+        );
         return null;
       }
 
-      final GoogleSignInAuthentication googleAuth =
+      final GoogleSignInAuthentication
+      googleAuth =
       await googleUser.authentication;
 
       final credential =
       GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        accessToken:
+        googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential =
+      final UserCredential
+      userCredential =
       await _auth.signInWithCredential(
         credential,
       );
 
+      final user =
+          userCredential.user;
+
       _isGuest = false;
 
-      debugPrint(
-        'Firebase login success: ${userCredential.user?.email}',
+      await StorageService.setGuestMode(
+        false,
       );
 
-      return userCredential.user;
+      await StorageService
+          .savePlayerName(
+        user?.displayName ??
+            user?.email ??
+            'Player',
+      );
+
+      debugPrint(
+        'Firebase login success: ${user?.email}',
+      );
+
+      return user;
     } catch (e, stackTrace) {
-      debugPrint('==============================');
-      debugPrint('GOOGLE SIGN IN ERROR');
-      debugPrint(e.toString());
-      debugPrintStack(stackTrace: stackTrace);
-      debugPrint('==============================');
+      debugPrint(
+        '==============================',
+      );
+      debugPrint(
+        'GOOGLE SIGN IN ERROR',
+      );
+      debugPrint(
+        e.toString(),
+      );
+      debugPrintStack(
+        stackTrace: stackTrace,
+      );
+      debugPrint(
+        '==============================',
+      );
 
       rethrow;
     }
@@ -92,6 +135,10 @@ class AuthService {
 
   static Future<void> signOut() async {
     _isGuest = false;
+
+    await StorageService.setGuestMode(
+      false,
+    );
 
     try {
       await _googleSignIn.signOut();

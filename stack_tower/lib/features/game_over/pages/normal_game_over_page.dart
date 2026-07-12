@@ -28,13 +28,29 @@ class NormalGameOverPage extends StatelessWidget {
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
 
-        final buttonWidth = width * 0.28;
-        final buttonHeight = height * 0.13;
+        const designWidth = 412.0;
+        const designHeight = 915.0;
 
-        final labelFont = width * 0.03;
-        final valueFont = width * 0.07;
-        final secondaryValueFont = width * 0.065;
-        final iconSize = width * 0.05;
+        final sx = width / designWidth;
+        final sy = height / designHeight;
+
+        final buttonWidth =
+        (115 * sx).clamp(90.0, 140.0);
+
+        final buttonHeight =
+        (95 * sy).clamp(75.0, 120.0);
+
+        final labelFont =
+        (12 * sx).clamp(10.0, 18.0);
+
+        final valueFont =
+        (34 * sx).clamp(24.0, 48.0);
+
+        final secondaryValueFont =
+        (28 * sx).clamp(20.0, 42.0);
+
+        final iconSize =
+        (20 * sx).clamp(16.0, 32.0);
 
         double finalLabelTop;
         double finalValueTop;
@@ -155,6 +171,7 @@ class NormalGameOverPage extends StatelessWidget {
                     color: Colors.white70,
                     fontSize: labelFont,
                     fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
@@ -165,14 +182,14 @@ class NormalGameOverPage extends StatelessWidget {
               left: 0,
               right: 0,
               child: Center(
-                child: FittedBox(
-                  child: Text(
-                    '$score',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: valueFont,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: Text(
+                  '$score',
+                  maxLines: 1,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: valueFont,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -189,6 +206,7 @@ class NormalGameOverPage extends StatelessWidget {
                     color: Colors.white70,
                     fontSize: labelFont,
                     fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
@@ -207,15 +225,20 @@ class NormalGameOverPage extends StatelessWidget {
                       color: Colors.white,
                       size: iconSize,
                     ),
-                    SizedBox(width: width * 0.015),
-                    FittedBox(
-                      child: Text(
-                        '$bestScore',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: secondaryValueFont,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    SizedBox(
+                      width: (6 * sx).clamp(
+                        4.0,
+                        10.0,
+                      ),
+                    ),
+                    Text(
+                      '$bestScore',
+                      maxLines: 1,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: secondaryValueFont,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -234,6 +257,7 @@ class NormalGameOverPage extends StatelessWidget {
                     color: Colors.white70,
                     fontSize: labelFont,
                     fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
@@ -252,15 +276,20 @@ class NormalGameOverPage extends StatelessWidget {
                       color: Colors.white,
                       size: iconSize,
                     ),
-                    SizedBox(width: width * 0.015),
-                    FittedBox(
-                      child: Text(
-                        '$coins',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: secondaryValueFont,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    SizedBox(
+                      width: (6 * sx).clamp(
+                        4.0,
+                        10.0,
+                      ),
+                    ),
+                    Text(
+                      '$coins',
+                      maxLines: 1,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: secondaryValueFont,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -271,10 +300,10 @@ class NormalGameOverPage extends StatelessWidget {
             Positioned(
               left: width * homeLeft,
               bottom: height * buttonBottom,
-              width: buttonWidth,
-              height: buttonHeight,
+              width: buttonWidth * 1.12,
+              height: buttonHeight * 1.12,
               child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                behavior: HitTestBehavior.translucent,
                 onTap: onHome,
                 child: const SizedBox.expand(),
               ),
@@ -283,10 +312,10 @@ class NormalGameOverPage extends StatelessWidget {
             Positioned(
               left: width * retryLeft,
               bottom: height * buttonBottom,
-              width: buttonWidth,
-              height: buttonHeight,
+              width: buttonWidth * 1.12,
+              height: buttonHeight * 1.12,
               child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                behavior: HitTestBehavior.translucent,
                 onTap: onReplay,
                 child: const SizedBox.expand(),
               ),
@@ -295,10 +324,10 @@ class NormalGameOverPage extends StatelessWidget {
             Positioned(
               right: width * reviveRight,
               bottom: height * buttonBottom,
-              width: buttonWidth,
-              height: buttonHeight,
+              width: buttonWidth * 1.12,
+              height: buttonHeight * 1.12,
               child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                behavior: HitTestBehavior.translucent,
                 onTap: onReward,
                 child: const SizedBox.expand(),
               ),

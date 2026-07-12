@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/responsive.dart';
-
 import '../widgets/celebration_particles.dart';
 import '../widgets/new_best_score_card.dart';
 import '../widgets/primary_action_button.dart';
@@ -21,12 +20,11 @@ class NewBestGameOverPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonWidth = Responsive.w(
-      context,
-      0.75,
-    ).clamp(
-      260.0,
-      420.0,
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final buttonWidth = (screenWidth * 0.82).clamp(
+      280.0,
+      450.0,
     );
 
     return Material(
@@ -42,6 +40,8 @@ class NewBestGameOverPage extends StatelessWidget {
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
+                physics:
+                const BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(
                   horizontal: Responsive.w(
                     context,
@@ -55,7 +55,7 @@ class NewBestGameOverPage extends StatelessWidget {
                     SizedBox(
                       height: Responsive.h(
                         context,
-                        0.06,
+                        0.05,
                       ),
                     ),
 
@@ -78,6 +78,7 @@ class NewBestGameOverPage extends StatelessWidget {
 
                     SizedBox(
                       width: buttonWidth,
+                      height: 72,
                       child: PrimaryActionButton(
                         title: '',
                         icon:
@@ -89,21 +90,17 @@ class NewBestGameOverPage extends StatelessWidget {
                     SizedBox(
                       height: Responsive.h(
                         context,
-                        0.02,
+                        0.025,
                       ),
                     ),
 
                     SizedBox(
                       width: buttonWidth,
-                      child:
-                      SecondaryActionButton(
-                        icon: Icons
-                            .monetization_on_rounded,
-                        label: '2X COINS',
-                        glowColor:
-                        const Color(
-                          0xFFFFC247,
-                        ),
+                      height: 72,
+                      child: SecondaryActionButton(
+                        icon: Icons.ondemand_video_rounded,
+                        label: 'WATCH AD TO CONTINUE',
+                        glowColor: const Color(0xFFFFC247),
                         onTap: onReward,
                       ),
                     ),

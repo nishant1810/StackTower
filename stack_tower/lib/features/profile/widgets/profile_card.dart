@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/player_profile.dart';
-import 'level_progress_bar.dart';
 
 class ProfileCard extends StatelessWidget {
   final PlayerProfile profile;
@@ -32,14 +31,20 @@ class ProfileCard extends StatelessWidget {
       child: Column(
         children: [
           /// Avatar
-          const CircleAvatar(
+          CircleAvatar(
             radius: 42,
             backgroundColor: Colors.white24,
-            child: Icon(
+            backgroundImage:
+            profile.avatar.isNotEmpty
+                ? NetworkImage(profile.avatar)
+                : null,
+            child: profile.avatar.isEmpty
+                ? const Icon(
               Icons.person,
               size: 42,
               color: Colors.white,
-            ),
+            )
+                : null,
           ),
 
           const SizedBox(height: 16),
@@ -55,7 +60,7 @@ class ProfileCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
           /// Level Badge
           Container(
@@ -74,23 +79,6 @@ class ProfileCard extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1,
               ),
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
-          /// XP Progress
-          LevelProgressBar(
-            progress: profile.progress,
-          ),
-
-          const SizedBox(height: 8),
-
-          Text(
-            '${(profile.progress * 100).toInt()}% to next level',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.75),
-              fontSize: 12,
             ),
           ),
 

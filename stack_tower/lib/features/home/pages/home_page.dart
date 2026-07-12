@@ -95,28 +95,48 @@ class _HomePageState extends State<HomePage>
   Future<void> _startGame() async {
     if (!mounted) return;
 
-    if (!AuthService.isAuthenticated) {
+    // User already logged in
+    if (AuthService.isAuthenticated) {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => const LoginPage(),
+          builder: (_) => const GameplayPage(),
         ),
       );
+
+      await controller.refresh();
+
+      if (mounted) {
+        setState(() {});
+      }
+      return;
     }
 
-    if (!mounted) return;
-
-    await Navigator.push(
+    // User not logged in
+    final result = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
-        builder: (_) => const GameplayPage(),
+        builder: (_) => const LoginPage(),
       ),
     );
 
-    await controller.refresh();
+    if (!mounted) return;
 
-    if (mounted) {
-      setState(() {});
+    // Continue only if login succeeded
+    if (result == true ||
+        AuthService.isAuthenticated) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const GameplayPage(),
+        ),
+      );
+
+      await controller.refresh();
+
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 

@@ -12,7 +12,20 @@
           "package_name": "com.nishantgaur.stacktower"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "16300564879-thcdngl0p4mqaoi63t79kmke88n954t2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nishantgaur.stacktower",
+            "certificate_hash": "11532d61485d5e8002de9b6dd4c74e2d9e37a722"
+          }
+        },
+        {
+          "client_id": "16300564879-c2u41t4h53aaoiiotdh66ciu530tssco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA4FEIlMKnE3Ztb3nOV4XiRSJFNbakNqow"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16300564879-c2u41t4h53aaoiiotdh66ciu530tssco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -11,10 +11,14 @@ class HomeState {
     required this.gems,
     required this.bestScore,
     required this.dailyRewardAvailable,
+    this.photoUrl,
   });
 
   final String playerName;
   final int level;
+
+  /// Google/Firebase profile image URL
+  final String? photoUrl;
 
   /// Current XP
   final int xp;
@@ -33,6 +37,7 @@ class HomeState {
   HomeState copyWith({
     String? playerName,
     int? level,
+    String? photoUrl,
     int? xp,
     int? xpRequired,
     int? coins,
@@ -43,6 +48,7 @@ class HomeState {
     return HomeState(
       playerName: playerName ?? this.playerName,
       level: level ?? this.level,
+      photoUrl: photoUrl ?? this.photoUrl,
       xp: xp ?? this.xp,
       xpRequired: xpRequired ?? this.xpRequired,
       coins: coins ?? this.coins,
@@ -57,6 +63,7 @@ class HomeState {
   String toString() {
     return 'HomeState('
         'playerName: $playerName, '
+        'photoUrl: $photoUrl, '
         'level: $level, '
         'xp: $xp, '
         'xpRequired: $xpRequired, '
@@ -72,6 +79,7 @@ class HomeState {
     return identical(this, other) ||
         other is HomeState &&
             playerName == other.playerName &&
+            photoUrl == other.photoUrl &&
             level == other.level &&
             xp == other.xp &&
             xpRequired == other.xpRequired &&
@@ -85,6 +93,7 @@ class HomeState {
   @override
   int get hashCode => Object.hash(
     playerName,
+    photoUrl,
     level,
     xp,
     xpRequired,

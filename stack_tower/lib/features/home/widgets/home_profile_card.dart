@@ -5,12 +5,14 @@ import '../../../core/assets/app_assets.dart';
 class HomeProfileCard extends StatelessWidget {
   final String playerName;
   final String? avatarPath;
+  final String? photoUrl;
   final VoidCallback? onTap;
 
   const HomeProfileCard({
     super.key,
     required this.playerName,
     this.avatarPath,
+    this.photoUrl,
     this.onTap,
   });
 
@@ -19,19 +21,20 @@ class HomeProfileCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AspectRatio(
-        aspectRatio: 2.7,
+        aspectRatio: 3.0,
         child: LayoutBuilder(
           builder: (context, constraints) {
             final w = constraints.maxWidth;
             final h = constraints.maxHeight;
 
             final avatarSize =
-            (h * 0.62).clamp(34.0, 56.0);
+            (h * 0.40).clamp(24.0, 38.0);
 
             final fontSize =
-            (h * 0.18).clamp(11.0, 18.0);
+            (h * 0.15).clamp(10.0, 14.0);
 
             return Stack(
+              alignment: Alignment.centerLeft,
               children: [
                 Positioned.fill(
                   child: Image.asset(
@@ -40,49 +43,44 @@ class HomeProfileCard extends StatelessWidget {
                   ),
                 ),
 
+                /// Avatar
                 Positioned(
-                  left: w * 0.07,
-                  top: h * 0.18,
+                  left: w * 0.06,
+                  top: (h - avatarSize) / 2,
                   width: avatarSize,
                   height: avatarSize,
                   child: ClipOval(
-                    child: avatarPath != null &&
-                        avatarPath!.isNotEmpty
-                        ? Image.asset(
-                      avatarPath!,
-                      fit: BoxFit.cover,
-                      errorBuilder:
-                          (_, __, ___) =>
-                          _buildDefaultAvatar(
-                            avatarSize,
-                          ),
-                    )
-                        : _buildDefaultAvatar(
+                    child: _buildAvatar(
                       avatarSize,
                     ),
                   ),
                 ),
 
+                /// Player Name
                 Positioned(
-                  left: w * 0.25,
+                  left: w * 0.18,
                   right: w * 0.08,
-                  top: h * 0.30,
-                  child: Text(
-                    playerName.toUpperCase(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.6,
-                      shadows: const [
-                        Shadow(
-                          color: Colors.black54,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
+                  top: 0,
+                  bottom: 0,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      playerName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.5,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black54,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -91,6 +89,38 @@ class HomeProfileCard extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildAvatar(double avatarSize) {
+    if (photoUrl != null &&
+        photoUrl!.isNotEmpty) {
+      return Image.network(
+        photoUrl!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return _buildDefaultAvatar(
+            avatarSize,
+          );
+        },
+      );
+    }
+
+    if (avatarPath != null &&
+        avatarPath!.isNotEmpty) {
+      return Image.asset(
+        avatarPath!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return _buildDefaultAvatar(
+            avatarSize,
+          );
+        },
+      );
+    }
+
+    return _buildDefaultAvatar(
+      avatarSize,
     );
   }
 

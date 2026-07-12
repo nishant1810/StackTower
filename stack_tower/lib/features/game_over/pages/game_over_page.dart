@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:stack_tower/core/assets/app_assets.dart';
 import 'package:stack_tower/features/game_over/pages/new_best_game_over_page.dart';
@@ -105,51 +106,59 @@ class _GameOverPageState extends State<GameOverPage> {
   @override
   Widget build(BuildContext context) {
     final bool showNewBestScreen =
-        widget.score > widget.bestScore;
+        widget.score >= widget.bestScore;
 
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-
         widget.onHome();
       },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Positioned.fill(
-              child: Image.asset(
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
+        child: Scaffold(
+          extendBody: true,
+          extendBodyBehindAppBar: true,
+          backgroundColor: Colors.black,
+          body: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.asset(
                 showNewBestScreen
                     ? AppAssets.newBestBackground
                     : _getThemeGameOver(),
                 fit: BoxFit.cover,
               ),
-            ),
 
-            SafeArea(
-              child: showNewBestScreen
-                  ? NewBestGameOverPage(
-                score: widget.score,
-                onReplay: widget.onRetry,
-                onReward: _rewardClaimed
-                    ? null
-                    : _claimCoins,
-              )
-                  : NormalGameOverPage(
-                score: widget.score,
-                bestScore: widget.bestScore,
-                coins: widget.coinsEarned,
-                themeId: widget.themeId,
-                onReplay: widget.onRetry,
-                onHome: widget.onHome,
-                onReward: _rewardClaimed
-                    ? null
-                    : _revive,
+              SafeArea(
+                child: showNewBestScreen
+                    ? NewBestGameOverPage(
+                  score: widget.score,
+                  onReplay: widget.onRetry,
+                  onReward:
+                  _rewardClaimed
+                      ? null
+                      : _claimCoins,
+                )
+                    : NormalGameOverPage(
+                  score: widget.score,
+                  bestScore: widget.bestScore,
+                  coins: widget.coinsEarned,
+                  themeId: widget.themeId,
+                  onReplay: widget.onRetry,
+                  onHome: widget.onHome,
+                  onReward:
+                  _rewardClaimed
+                      ? null
+                      : _revive,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

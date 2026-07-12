@@ -25,6 +25,9 @@ class AppAssets {
   static const String profileFrame =
       'assets/images/profile/profile_card.png';
 
+  static const String loginBackground =
+      'assets/images/profile/login.png';
+
   // =========================
   // GAME OVER
   // =========================

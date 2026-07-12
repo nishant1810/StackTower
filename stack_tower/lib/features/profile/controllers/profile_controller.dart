@@ -1,3 +1,4 @@
+import '../../../core/services/auth/auth_service.dart';
 import '../../../core/services/storage/storage_service.dart';
 import '../models/player_profile.dart';
 
@@ -20,22 +21,28 @@ class ProfileController {
     final highestCombo =
     await StorageService.getHighestCombo();
 
-    final playerName =
+    final savedPlayerName =
     await StorageService.getPlayerName();
 
     final totalXp =
     await StorageService.getTotalXp();
 
-    final level = (totalXp ~/ 1000) + 1;
+    final level =
+        (totalXp ~/ 1000) + 1;
 
-    final xpRequired = level * 1000;
+    final xpRequired =
+        level * 1000;
+
+    final user = AuthService.currentUser;
 
     return PlayerProfile(
-      name: playerName,
+      name: user?.displayName?.isNotEmpty == true
+          ? user!.displayName!
+          : savedPlayerName,
+      avatar: user?.photoURL ?? '',
       level: level,
       xp: totalXp,
       xpRequired: xpRequired,
-      avatar: '',
       bestScore: bestScore,
       totalCoins: coins,
       gamesPlayed: gamesPlayed,

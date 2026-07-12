@@ -137,9 +137,9 @@ class StackGame extends FlameGame
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    blockWidth = size.x * 0.45;
-    blockHeight = size.y * 0.035;
-    blockSpeed = size.x * 0.35;
+    blockWidth = size.x * 0.65;
+    blockHeight = size.y * 0.062;
+    blockSpeed = size.x * 0.55;
 
     selectedTheme =
     await StorageService.getSelectedTheme();
@@ -350,12 +350,6 @@ class StackGame extends FlameGame
     towerBlocks.add(placedBlock);
     placedBlock.triggerPulse();
 
-    // unawaited(
-    //   AudioService.playDrop(),
-    // );
-
-    // HapticService.light();
-
     for (int i = 0; i < 8; i++) {
       add(
         LandingParticle(
@@ -379,7 +373,6 @@ class StackGame extends FlameGame
     ).toDouble();
 
     if (perfect) {
-      // HapticFeedback.mediumImpact();
 
       StorageService.incrementPerfectPlacements();
       placedBlock.x = previousBlock.x;
@@ -395,12 +388,7 @@ class StackGame extends FlameGame
 
       coinsEarned += 1;
       StorageService.addCoins(1);
-      // AudioService.playCoin();
-
       AudioService.playPerfect();
-
-      // HapticService.medium();
-
       shakeTimer = 0.15;
 
       shakeStrength = min(
@@ -463,9 +451,7 @@ class StackGame extends FlameGame
     for (final block in towerBlocks) {
       block.y += amount;
     }
-
     movingBlock.y += amount;
-
     currentY += amount;
   }
 
@@ -492,10 +478,6 @@ class StackGame extends FlameGame
     notifyListeners();
 
     AudioService.playGameOver();
-
-    // AudioService.playAchievement();
-
-    // HapticService.heavy();
 
     AdService.onGameOver();
 

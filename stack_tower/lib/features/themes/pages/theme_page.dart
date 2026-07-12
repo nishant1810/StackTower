@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/assets/app_assets.dart';
+import '../../../core/services/auth/auth_service.dart';
+import '../../auth/pages/login_page.dart';
+import '../../gameplay/pages/gameplay_page.dart';
 import '../controllers/theme_controller.dart';
 import '../data/theme_catalog.dart';
 import '../widgets/theme_card.dart';
-import '../../gameplay/pages/gameplay_page.dart';
 
 class ThemesPage extends StatefulWidget {
   const ThemesPage({super.key});
@@ -14,7 +16,8 @@ class ThemesPage extends StatefulWidget {
 }
 
 class _ThemesPageState extends State<ThemesPage> {
-  final ThemeController controller = ThemeController.instance;
+  final ThemeController controller =
+      ThemeController.instance;
 
   @override
   void initState() {
@@ -40,7 +43,9 @@ class _ThemesPageState extends State<ThemesPage> {
               ),
 
               Container(
-                color: Colors.black.withOpacity(0.65),
+                color: Colors.black.withOpacity(
+                  0.65,
+                ),
               ),
 
               SafeArea(
@@ -56,21 +61,33 @@ class _ThemesPageState extends State<ThemesPage> {
                       child: Row(
                         children: [
                           _BackButton(
-                            onTap: () => Navigator.pop(context),
+                            onTap: () =>
+                                Navigator.pop(
+                                  context,
+                                ),
                           ),
 
                           SizedBox(
-                            width: size.width * 0.04,
+                            width:
+                            size.width * 0.04,
                           ),
 
                           Expanded(
                             child: Text(
                               'THEMES',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: (size.width * 0.08)
-                                    .clamp(24.0, 36.0),
-                                fontWeight: FontWeight.w900,
+                                color:
+                                Colors.white,
+                                fontSize:
+                                (size.width *
+                                    0.08)
+                                    .clamp(
+                                  24.0,
+                                  36.0,
+                                ),
+                                fontWeight:
+                                FontWeight
+                                    .w900,
                                 letterSpacing: 2,
                               ),
                             ),
@@ -81,35 +98,80 @@ class _ThemesPageState extends State<ThemesPage> {
 
                     Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.all(
+                        padding:
+                        EdgeInsets.all(
                           size.width * 0.04,
                         ),
-                        itemCount: ThemeCatalog.themes.length,
-                        itemBuilder: (context, index) {
+                        itemCount:
+                        ThemeCatalog
+                            .themes
+                            .length,
+                        itemBuilder:
+                            (context, index) {
                           final theme =
-                          ThemeCatalog.themes[index];
+                          ThemeCatalog
+                              .themes[
+                          index];
 
                           return ThemeCard(
                             theme: theme,
                             unlocked: true,
                             selected:
-                            controller.themeId ==
+                            controller
+                                .themeId ==
                                 theme.id,
 
-                            onSelect: () async {
-                              await controller.changeTheme(
+                            onSelect:
+                                () async {
+                              await controller
+                                  .changeTheme(
                                 theme.id,
                               );
 
-                              if (!mounted) return;
+                              if (!mounted) {
+                                return;
+                              }
 
-                              Navigator.pushReplacement(
+                              /// Already logged in
+                              if (AuthService
+                                  .isAuthenticated) {
+                                Navigator
+                                    .pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                    const GameplayPage(),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              /// Not logged in
+                              final result =
+                              await Navigator
+                                  .push<bool>(
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) =>
-                                  const GameplayPage(),
+                                  const LoginPage(),
                                 ),
                               );
+
+                              if (!mounted) {
+                                return;
+                              }
+
+                              if (result ==
+                                  true) {
+                                Navigator
+                                    .pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                    const GameplayPage(),
+                                  ),
+                                );
+                              }
                             },
 
                             onBuy: () {},
@@ -140,23 +202,29 @@ class _BackButton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     final buttonSize =
-    (size.width * 0.15).clamp(52.0, 70.0);
+    (size.width * 0.15).clamp(
+      52.0,
+      70.0,
+    );
 
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius:
+      BorderRadius.circular(20),
       onTap: onTap,
       child: Container(
         width: buttonSize,
         height: buttonSize,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius:
+          BorderRadius.circular(20),
           border: Border.all(
             color: const Color(
               0xFF7B61FF,
             ).withOpacity(0.45),
             width: 1.4,
           ),
-          gradient: const LinearGradient(
+          gradient:
+          const LinearGradient(
             colors: [
               Color(0xFF0B1033),
               Color(0xFF131A4D),
@@ -175,7 +243,10 @@ class _BackButton extends StatelessWidget {
           Icons.arrow_back_ios_new,
           color: Colors.white,
           size: (buttonSize * 0.32)
-              .clamp(18.0, 26.0),
+              .clamp(
+            18.0,
+            26.0,
+          ),
         ),
       ),
     );

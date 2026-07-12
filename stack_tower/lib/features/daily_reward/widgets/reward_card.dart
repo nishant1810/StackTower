@@ -18,7 +18,23 @@ class RewardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.transparent,
+      decoration: isCurrent
+          ? BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: const Color(0xFFFFC857),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFFFC857)
+                .withOpacity(0.35),
+            blurRadius: 16,
+            spreadRadius: 1,
+          ),
+        ],
+      )
+          : null,
       child: Stack(
         children: [
           Padding(
@@ -27,9 +43,12 @@ class RewardCard extends StatelessWidget {
               vertical: 4,
             ),
             child: Column(
+              mainAxisAlignment:
+              MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   'DAY ${reward.day}',
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 11,
@@ -38,29 +57,21 @@ class RewardCard extends StatelessWidget {
                   ),
                 ),
 
-                const Spacer(),
-
-                Transform.scale(
-                  scale: 1.35,
-                  child: Image.asset(
-                    _assetPath(),
-                    height: 42,
-                    fit: BoxFit.contain,
-                  ),
+                Image.asset(
+                  _assetPath(),
+                  height: 42,
+                  fit: BoxFit.contain,
                 ),
-
-                const Spacer(),
 
                 Text(
                   reward.amount.toString(),
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-
-                const SizedBox(height: 2),
               ],
             ),
           ),
@@ -69,14 +80,16 @@ class RewardCard extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.20),
-                  borderRadius: BorderRadius.circular(18),
+                  color: Colors.black.withOpacity(0.25),
+                  borderRadius:
+                  BorderRadius.circular(18),
                 ),
                 child: Center(
                   child: Image.asset(
                     AppAssets.claimedBadge,
                     width: 56,
                     height: 56,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

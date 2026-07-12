@@ -23,9 +23,9 @@ class HomeHud extends StatelessWidget {
         final size = MediaQuery.of(context).size;
 
         final hudHeight =
-        (size.height * 0.10).clamp(
-          72.0,
-          96.0,
+        (size.height * 0.11).clamp(
+          84.0,
+          110.0,
         );
 
         final spacing =
@@ -50,17 +50,16 @@ class HomeHud extends StatelessWidget {
           height: hudHeight,
           child: Row(
             crossAxisAlignment:
-            CrossAxisAlignment.start,
+            CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: padding,
                     left: padding,
                   ),
                   child: HomeProfileCard(
-                    playerName:
-                    state.playerName,
+                    playerName: state.playerName,
+                    photoUrl: state.photoUrl,
                     avatarPath: null,
                     onTap: () {
                       Navigator.push(
@@ -81,7 +80,6 @@ class HomeHud extends StatelessWidget {
 
               Padding(
                 padding: EdgeInsets.only(
-                  top: padding,
                   right: padding,
                 ),
                 child: SizedBox(

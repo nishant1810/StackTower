@@ -44,44 +44,45 @@
 
       _loadTheme();
 
-      game = StackGame(
-        onGameOver: () {
-          if (!mounted) return;
+          game = StackGame(
+            onGameOver: () {
+              if (!mounted) return;
 
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => GameOverPage(
-              score: game.score,
-              bestScore: game.bestScore,
-              coinsEarned: game.coinsEarned,
-              themeId: game.selectedTheme,
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => GameOverPage(
+                    score: game.score,
+                    bestScore: game.bestScore,
+                    coinsEarned: game.coinsEarned,
+                    themeId: game.selectedTheme,
 
-              onRetry: () {
-                Navigator.pop(context);
+                    onRetry: () {
+                      Navigator.pop(context);
 
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const GameplayPage(),
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                          const GameplayPage(),
+                        ),
+                      );
+                    },
+
+                    onHome: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+
+                    onRevive: () {
+                      Navigator.pop(context);
+
+                      game.revivePlayer();
+                    },
                   ),
-                );
-              },
-
-              onHome: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-
-              onRevive: () {
-                Navigator.pop(context);
-
-                game.revivePlayer();
-              },
-            ),
+                ),
+              );
+            },
           );
-        },
-      );
 
       game.addListener(_onGameUpdate);
     }

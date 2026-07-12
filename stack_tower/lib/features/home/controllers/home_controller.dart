@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stack_tower/features/shop/pages/shop_page.dart';
 
+import '../../../core/services/auth/auth_service.dart';
 import '../../../core/services/storage/storage_service.dart';
-
 import '../../achievements/pages/achievements_page.dart';
 import '../../settings/pages/settings_page.dart';
 import '../models/home_state.dart';
@@ -20,6 +20,7 @@ class HomeController {
   final ValueNotifier<HomeState> state = ValueNotifier(
     const HomeState(
       playerName: 'Player',
+      photoUrl: null,
       level: 1,
       xp: 0,
       xpRequired: 100,
@@ -208,8 +209,10 @@ class HomeController {
       final diamonds =
       await StorageService.getDiamonds();
 
-      final playerName =
+      final savedPlayerName =
       await StorageService.getPlayerName();
+
+      final user = AuthService.currentUser;
 
       final totalXp =
       await StorageService.getTotalXp();
@@ -224,7 +227,11 @@ class HomeController {
       await StorageService.getSelectedTheme();
 
       state.value = state.value.copyWith(
-        playerName: playerName,
+        playerName:
+        user?.displayName?.isNotEmpty == true
+            ? user!.displayName!
+            : savedPlayerName,
+        photoUrl: user?.photoURL,
         level: level,
         xp: totalXp,
         xpRequired: xpRequired,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/assets/app_assets.dart';
 import '../../../core/services/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -28,7 +30,9 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Google Sign-In was cancelled'),
+            content: Text(
+              'Google Sign-In was cancelled',
+            ),
           ),
         );
       }
@@ -36,9 +40,11 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Google Sign-In Failed'),
-          duration: const Duration(seconds: 3),
+        const SnackBar(
+          content: Text(
+            'Google Sign-In Failed',
+          ),
+          duration: Duration(seconds: 3),
         ),
       );
     } finally {
@@ -50,42 +56,97 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _continueAsGuest() {
-    AuthService.continueAsGuest();
-    Navigator.pop(context, true);
+  Future<void> _continueAsGuest() async {
+    if (_loading) return;
+
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      await AuthService.continueAsGuest();
+
+      if (!mounted) return;
+
+      Navigator.pop(context, true);
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Unable to continue as guest',
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: const Color(0xFF081224),
-      body: SafeArea(
-        child: Center(
-          child: _loading
-              ? const CircularProgressIndicator()
-              : Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: _signIn,
-                icon: const Icon(Icons.login),
-                label: const Text(
-                  'Continue with Google',
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              OutlinedButton.icon(
-                onPressed: _continueAsGuest,
-                icon: const Icon(Icons.person_outline),
-                label: const Text(
-                  'Continue as Guest',
-                ),
-              ),
-            ],
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            AppAssets.loginBackground,
+            fit: BoxFit.cover,
           ),
-        ),
+
+          // GOOGLE BUTTON AREA
+          Positioned(
+            left: size.width * 0.12,
+            right: size.width * 0.12,
+            top: size.height * 0.50,
+            child: SizedBox(
+              height: size.height * 0.09,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                    24,
+                  ),
+                  onTap: _signIn,
+                ),
+              ),
+            ),
+          ),
+
+          // GUEST BUTTON AREA
+          Positioned(
+            left: size.width * 0.12,
+            right: size.width * 0.12,
+            top: size.height * 0.63,
+            child: SizedBox(
+              height: size.height * 0.09,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                    24,
+                  ),
+                  onTap: _continueAsGuest,
+                ),
+              ),
+            ),
+          ),
+
+          if (_loading)
+            Container(
+              color: Colors.black54,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }

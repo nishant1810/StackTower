@@ -87,7 +87,7 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
           const RewardBackground(),
           const RewardParticles(),
 
-          /// GOLD GLOW BEHIND HEADER
+          /// GOLD GLOW
           Positioned(
             top: -100,
             left: -50,
@@ -142,47 +142,31 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
 
                   /// HEADER
                   const RewardHeader(),
 
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 12),
 
+                  /// REWARD GRID
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: 700,
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: RewardGrid(
-                                rewards: controller.rewards,
-                                currentDay:
-                                controller.currentDay,
-                                canClaim:
-                                controller.canClaim,
-                              ),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            ClaimButton(
-                              enabled:
-                              controller.canClaim,
-                              onPressed:
-                              _claimReward,
-                            ),
-
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      ),
+                    child: RewardGrid(
+                      rewards: controller.rewards,
+                      currentDay: controller.currentDay,
+                      canClaim: controller.canClaim,
                     ),
                   ),
+
+                  const SizedBox(height: 16),
+
+                  /// CLAIM BUTTON
+                  ClaimButton(
+                    enabled: controller.canClaim,
+                    onPressed: _claimReward,
+                  ),
+
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

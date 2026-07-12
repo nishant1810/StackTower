@@ -16,60 +16,62 @@ class RewardGrid extends StatelessWidget {
     required this.canClaim,
   });
 
-  bool _isClaimed(int day) {
-    return day < currentDay;
-  }
+  bool _isClaimed(int day) => day < currentDay;
 
-  bool _isCurrent(int day) {
-    return day == currentDay && canClaim;
+  bool _isCurrent(int day) =>
+      day == currentDay && canClaim;
+
+  Widget _buildRewardCard(int index) {
+    return RewardCard(
+      reward: rewards[index],
+      isClaimed: _isClaimed(index + 1),
+      isCurrent: _isCurrent(index + 1),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (rewards.length < 7) {
+      return const Center(
+        child: Text(
+          'Invalid reward data',
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+    }
+
     return Column(
       children: [
-        Expanded(
+        Flexible(
           child: Row(
             children: List.generate(
               4,
                   (index) => Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(4),
-                  child: RewardCard(
-                    reward: rewards[index],
-                    isClaimed: _isClaimed(index + 1),
-                    isCurrent: _isCurrent(index + 1),
-                  ),
+                  child: _buildRewardCard(index),
                 ),
               ),
             ),
           ),
         ),
 
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
 
-        Expanded(
+        Flexible(
           child: Row(
             children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(4),
-                  child: RewardCard(
-                    reward: rewards[4],
-                    isClaimed: _isClaimed(5),
-                    isCurrent: _isCurrent(5),
-                  ),
+                  child: _buildRewardCard(4),
                 ),
               ),
 
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(4),
-                  child: RewardCard(
-                    reward: rewards[5],
-                    isClaimed: _isClaimed(6),
-                    isCurrent: _isCurrent(6),
-                  ),
+                  child: _buildRewardCard(5),
                 ),
               ),
 

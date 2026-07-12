@@ -20,26 +20,35 @@ class FeaturedRewardCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: Colors.transparent,
         border: Border.all(
           color: const Color(0xFFFFC857),
-          width: 3,
+          width: isCurrent ? 4 : 3,
         ),
+        boxShadow: isCurrent
+            ? [
+          BoxShadow(
+            color: const Color(0xFFFFC857)
+                .withOpacity(0.35),
+            blurRadius: 20,
+            spreadRadius: 2,
+          ),
+        ]
+            : null,
       ),
       child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(
               8,
-              4,
               8,
-              6,
+              8,
+              8,
             ),
             child: Column(
               children: [
-                const Text(
-                  'DAY 7',
-                  style: TextStyle(
+                Text(
+                  'DAY ${reward.day}',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
@@ -47,13 +56,12 @@ class FeaturedRewardCard extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 2),
+                const SizedBox(height: 8),
 
                 Expanded(
-                  flex: 6,
                   child: Center(
                     child: Transform.scale(
-                      scale: 1.8,
+                      scale: 1.7,
                       child: Image.asset(
                         AppAssets.rewardChest,
                         fit: BoxFit.contain,
@@ -62,16 +70,16 @@ class FeaturedRewardCard extends StatelessWidget {
                   ),
                 ),
 
+                const SizedBox(height: 8),
+
                 Text(
                   reward.amount.toString(),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-
-                const SizedBox(height: 2),
               ],
             ),
           ),
@@ -80,7 +88,7 @@ class FeaturedRewardCard extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(.35),
+                  color: Colors.black.withOpacity(0.30),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Center(
@@ -88,6 +96,7 @@ class FeaturedRewardCard extends StatelessWidget {
                     AppAssets.claimedBadge,
                     width: 90,
                     height: 90,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
