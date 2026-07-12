@@ -9,7 +9,7 @@ class ThemeCatalog {
     GameTheme(
       id: 'sky',
       name: 'Sky Citadel',
-      previewImage: 'assets/images/themes/sky_theme.png',
+      previewImage: 'assets/images/sky_theme.webp',
       coinCost: 0,
       diamondCost: 0,
       isPremium: false,
@@ -21,7 +21,7 @@ class ThemeCatalog {
     GameTheme(
       id: 'neon',
       name: 'Neon',
-      previewImage: 'assets/images/themes/neon_theme.png',
+      previewImage: 'assets/images/neon_theme.webp',
       coinCost: 1000,
       diamondCost: 0,
       isPremium: false,
@@ -33,7 +33,7 @@ class ThemeCatalog {
     GameTheme(
       id: 'purple',
       name: 'Purple Storm',
-      previewImage: 'assets/images/themes/purple_theme.png',
+      previewImage: 'assets/images/purple_theme.webp',
       coinCost: 2000,
       diamondCost: 0,
       isPremium: false,
@@ -45,7 +45,7 @@ class ThemeCatalog {
     GameTheme(
       id: 'emerald',
       name: 'Emerald Realm',
-      previewImage: 'assets/images/themes/emerald_theme.png',
+      previewImage: 'assets/images/emerald_theme.webp',
       coinCost: 3000,
       diamondCost: 0,
       isPremium: false,
@@ -57,7 +57,7 @@ class ThemeCatalog {
     GameTheme(
       id: 'lava',
       name: 'Lava Inferno',
-      previewImage: 'assets/images/themes/lava_theme.png',
+      previewImage: 'assets/images/lava_theme.webp',
       coinCost: 0,
       diamondCost: 50,
       isPremium: true,
@@ -69,7 +69,7 @@ class ThemeCatalog {
     GameTheme(
       id: 'galaxy',
       name: 'Galaxy Nexus',
-      previewImage: 'assets/images/themes/galaxy_theme.png',
+      previewImage: 'assets/images/galaxy_theme.webp',
       coinCost: 0,
       diamondCost: 100,
       isPremium: true,

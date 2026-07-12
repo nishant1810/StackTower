@@ -24,13 +24,12 @@ class _PlayPlatformButtonState
     final size = MediaQuery.of(context).size;
 
     final buttonSize =
-    (size.width * 0.58).clamp(
-      170.0,
-      300.0,
+    (size.width * 0.75).clamp(
+      220.0,
+      380.0,
     );
 
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: widget.onPlay,
       onTapDown: (_) {
         setState(() {

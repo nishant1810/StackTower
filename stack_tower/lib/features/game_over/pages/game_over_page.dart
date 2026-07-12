@@ -36,31 +36,6 @@ class GameOverPage extends StatefulWidget {
 class _GameOverPageState extends State<GameOverPage> {
   bool _rewardClaimed = false;
 
-  String _getThemeGameOver() {
-    switch (widget.themeId) {
-      case 'sky':
-        return AppAssets.skyGameOver;
-
-      case 'neon':
-        return AppAssets.neonGameOver;
-
-      case 'purple':
-        return AppAssets.purpleGameOver;
-
-      case 'emerald':
-        return AppAssets.emeraldGameOver;
-
-      case 'lava':
-        return AppAssets.lavaGameOver;
-
-      case 'galaxy':
-        return AppAssets.galaxyGameOver;
-
-      default:
-        return AppAssets.gameOverBackground;
-    }
-  }
-
   Future<void> _revive() async {
     if (_rewardClaimed) return;
 
@@ -130,8 +105,12 @@ class _GameOverPageState extends State<GameOverPage> {
               Image.asset(
                 showNewBestScreen
                     ? AppAssets.newBestBackground
-                    : _getThemeGameOver(),
+                    : AppAssets.gameOverBackground,
                 fit: BoxFit.cover,
+              ),
+
+              Container(
+                color: Colors.black.withOpacity(0.15),
               ),
 
               SafeArea(
@@ -148,7 +127,6 @@ class _GameOverPageState extends State<GameOverPage> {
                   score: widget.score,
                   bestScore: widget.bestScore,
                   coins: widget.coinsEarned,
-                  themeId: widget.themeId,
                   onReplay: widget.onRetry,
                   onHome: widget.onHome,
                   onReward:

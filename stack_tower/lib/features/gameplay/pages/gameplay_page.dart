@@ -31,7 +31,7 @@
       const Color(0xFF2979FF),
     ];
 
-    String backgroundImage = AppAssets.skyGameplayBg;
+    String backgroundImage = AppAssets.skyTheme;
 
     @override
     void initState() {
@@ -98,31 +98,31 @@
 
       switch (selectedTheme) {
         case 'sky':
-          bgImage = AppAssets.skyGameplayBg;
+          bgImage = AppAssets.skyTheme;
           break;
 
         case 'neon':
-          bgImage = AppAssets.neonGameplayBg;
+          bgImage = AppAssets.neonTheme;
           break;
 
         case 'purple':
-          bgImage = AppAssets.purpleGameplayBg;
+          bgImage = AppAssets.purpleTheme;
           break;
 
         case 'emerald':
-          bgImage = AppAssets.emeraldGameplayBg;
+          bgImage = AppAssets.emeraldTheme;
           break;
 
         case 'lava':
-          bgImage = AppAssets.lavaGameplayBg;
+          bgImage = AppAssets.lavaTheme;
           break;
 
         case 'galaxy':
-          bgImage = AppAssets.galaxyGameplayBg;
+          bgImage = AppAssets.galaxyTheme;
           break;
 
         default:
-          bgImage = AppAssets.neonGameplayBg;
+          bgImage = AppAssets.neonTheme;
           break;
       }
 

@@ -4,7 +4,6 @@ class NormalGameOverPage extends StatelessWidget {
   final int score;
   final int bestScore;
   final int coins;
-  final String themeId;
 
   final VoidCallback onReplay;
   final VoidCallback onHome;
@@ -15,7 +14,6 @@ class NormalGameOverPage extends StatelessWidget {
     required this.score,
     required this.bestScore,
     required this.coins,
-    required this.themeId,
     required this.onReplay,
     required this.onHome,
     required this.onReward,
@@ -23,318 +21,330 @@ class NormalGameOverPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
-        final height = constraints.maxHeight;
+    final size = MediaQuery.of(context).size;
 
-        const designWidth = 412.0;
-        const designHeight = 915.0;
+    final panelWidth =
+    (size.width * 0.88).clamp(300.0, 500.0);
 
-        final sx = width / designWidth;
-        final sy = height / designHeight;
+    final titleSize =
+    (size.width * 0.11).clamp(38.0, 60.0);
 
-        final buttonWidth =
-        (115 * sx).clamp(90.0, 140.0);
+    final scoreSize =
+    (size.width * 0.22).clamp(72.0, 130.0);
 
-        final buttonHeight =
-        (95 * sy).clamp(75.0, 120.0);
+    final buttonHeight =
+    (size.height * 0.085).clamp(64.0, 88.0);
 
-        final labelFont =
-        (12 * sx).clamp(10.0, 18.0);
+    final spacing =
+    (size.height * 0.02).clamp(12.0, 24.0);
 
-        final valueFont =
-        (34 * sx).clamp(24.0, 48.0);
-
-        final secondaryValueFont =
-        (28 * sx).clamp(20.0, 42.0);
-
-        final iconSize =
-        (20 * sx).clamp(16.0, 32.0);
-
-        double finalLabelTop;
-        double finalValueTop;
-
-        double bestLabelTop;
-        double bestValueTop;
-
-        double coinsLabelTop;
-        double coinsValueTop;
-
-        double homeLeft;
-        double retryLeft;
-        double reviveRight;
-        double buttonBottom;
-
-        switch (themeId) {
-          case 'sky':
-            finalLabelTop = 0.487;
-            finalValueTop = 0.511;
-            bestLabelTop = 0.588;
-            bestValueTop = 0.607;
-            coinsLabelTop = 0.676;
-            coinsValueTop = 0.697;
-            homeLeft = 0.05;
-            retryLeft = 0.38;
-            reviveRight = 0.05;
-            buttonBottom = 0.07;
-            break;
-
-          case 'neon':
-            finalLabelTop = 0.535;
-            finalValueTop = 0.562;
-            bestLabelTop = 0.636;
-            bestValueTop = 0.661;
-            coinsLabelTop = 0.724;
-            coinsValueTop = 0.743;
-            homeLeft = 0.04;
-            retryLeft = 0.37;
-            reviveRight = 0.04;
-            buttonBottom = 0.025;
-            break;
-
-          case 'purple':
-            finalLabelTop = 0.524;
-            finalValueTop = 0.538;
-            bestLabelTop = 0.618;
-            bestValueTop = 0.641;
-            coinsLabelTop = 0.715;
-            coinsValueTop = 0.735;
-            homeLeft = 0.05;
-            retryLeft = 0.38;
-            reviveRight = 0.05;
-            buttonBottom = 0.07;
-            break;
-
-          case 'emerald':
-            finalLabelTop = 0.481;
-            finalValueTop = 0.508;
-            bestLabelTop = 0.58;
-            bestValueTop = 0.605;
-            coinsLabelTop = 0.681;
-            coinsValueTop = 0.701;
-            homeLeft = 0.05;
-            retryLeft = 0.38;
-            reviveRight = 0.05;
-            buttonBottom = 0.07;
-            break;
-
-          case 'lava':
-            finalLabelTop = 0.523;
-            finalValueTop = 0.545;
-            bestLabelTop = 0.623;
-            bestValueTop = 0.645;
-            coinsLabelTop = 0.72;
-            coinsValueTop = 0.741;
-            homeLeft = 0.05;
-            retryLeft = 0.38;
-            reviveRight = 0.05;
-            buttonBottom = 0.04;
-            break;
-
-          case 'galaxy':
-            finalLabelTop = 0.568;
-            finalValueTop = 0.589;
-            bestLabelTop = 0.651;
-            bestValueTop = 0.671;
-            coinsLabelTop = 0.738;
-            coinsValueTop = 0.755;
-            homeLeft = 0.03;
-            retryLeft = 0.36;
-            reviveRight = 0.03;
-            buttonBottom = 0.02;
-            break;
-
-          default:
-            finalLabelTop = 0.49;
-            finalValueTop = 0.535;
-            bestLabelTop = 0.60;
-            bestValueTop = 0.645;
-            coinsLabelTop = 0.71;
-            coinsValueTop = 0.755;
-            homeLeft = 0.05;
-            retryLeft = 0.38;
-            reviveRight = 0.05;
-            buttonBottom = 0.03;
-        }
-
-        return Stack(
-          children: [
-            Positioned(
-              top: height * finalLabelTop,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  'FINAL SCORE',
+    return SafeArea(
+      child: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: size.width * 0.05,
+            vertical: size.height * 0.03,
+          ),
+          child: Container(
+            width: panelWidth,
+            padding: EdgeInsets.symmetric(
+              horizontal: panelWidth * 0.08,
+              vertical: panelWidth * 0.08,
+            ),
+            decoration: BoxDecoration(
+              color:
+              const Color(0xFF2B1E4B).withOpacity(.78),
+              borderRadius: BorderRadius.circular(36),
+              border: Border.all(
+                color: const Color(0xFF9B5DFF),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(.35),
+                  blurRadius: 30,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'GAME OVER',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: labelFont,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
+                    color: const Color(0xFFD7B4FF),
+                    fontSize: titleSize,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2,
                   ),
                 ),
-              ),
-            ),
 
-            Positioned(
-              top: height * finalValueTop,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  '$score',
-                  maxLines: 1,
-                  overflow: TextOverflow.visible,
+                SizedBox(height: spacing * 1.3),
+
+                Text(
+                  score.toString(),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: valueFont,
-                    fontWeight: FontWeight.bold,
+                    fontSize: scoreSize,
+                    fontWeight: FontWeight.w900,
+                    height: 1,
+                    shadows: [
+                      Shadow(
+                        color:
+                        Colors.white.withOpacity(.25),
+                        blurRadius: 18,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
 
-            Positioned(
-              top: height * bestLabelTop,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  'BEST SCORE',
+                SizedBox(height: spacing * .3),
+
+                Text(
+                  'SCORE',
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: labelFont,
+                    fontSize: titleSize * .28,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
+                    letterSpacing: 2,
                   ),
                 ),
-              ),
-            ),
 
-            Positioned(
-              top: height * bestValueTop,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                SizedBox(height: spacing * 1.4),
+
+                Row(
                   children: [
-                    Icon(
-                      Icons.emoji_events_rounded,
-                      color: Colors.white,
-                      size: iconSize,
-                    ),
-                    SizedBox(
-                      width: (6 * sx).clamp(
-                        4.0,
-                        10.0,
+                    Expanded(
+                      child: _StatCard(
+                        title: 'BEST',
+                        value: bestScore.toString(),
+                        icon:
+                        Icons.emoji_events_rounded,
                       ),
                     ),
-                    Text(
-                      '$bestScore',
-                      maxLines: 1,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: secondaryValueFont,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(width: spacing),
+                    Expanded(
+                      child: _StatCard(
+                        title: 'COINS',
+                        value: coins.toString(),
+                        icon:
+                        Icons.monetization_on_rounded,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
 
-            Positioned(
-              top: height * coinsLabelTop,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  'COINS EARNED',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: labelFont,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
-                  ),
+                SizedBox(height: spacing * 1.8),
+
+                _PrimaryButton(
+                  height: buttonHeight,
+                  icon: Icons.play_arrow_rounded,
+                  label: 'PLAY AGAIN',
+                  onTap: onReplay,
                 ),
-              ),
-            ),
 
-            Positioned(
-              top: height * coinsValueTop,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                SizedBox(height: spacing),
+
+                Row(
                   children: [
-                    Icon(
-                      Icons.monetization_on_rounded,
-                      color: Colors.white,
-                      size: iconSize,
-                    ),
-                    SizedBox(
-                      width: (6 * sx).clamp(
-                        4.0,
-                        10.0,
+                    Expanded(
+                      child: _MenuButton(
+                        icon: Icons.home_rounded,
+                        label: 'HOME',
+                        onTap: onHome,
                       ),
                     ),
-                    Text(
-                      '$coins',
-                      maxLines: 1,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: secondaryValueFont,
-                        fontWeight: FontWeight.bold,
+
+                    SizedBox(width: spacing),
+
+                    Expanded(
+                      child: _MenuButton(
+                        icon: Icons.ondemand_video_rounded,
+                        label: 'Revive',
+                        onTap: onReward,
                       ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-            Positioned(
-              left: width * homeLeft,
-              bottom: height * buttonBottom,
-              width: buttonWidth * 1.12,
-              height: buttonHeight * 1.12,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: onHome,
-                child: const SizedBox.expand(),
-              ),
+class _StatCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+
+  const _StatCard({
+    required this.title,
+    required this.value,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 18,
+        horizontal: 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(.22),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color:
+          const Color(0xFF9B5DFF).withOpacity(.45),
+        ),
+      ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontWeight: FontWeight.w700,
             ),
-
-            Positioned(
-              left: width * retryLeft,
-              bottom: height * buttonBottom,
-              width: buttonWidth * 1.12,
-              height: buttonHeight * 1.12,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: onReplay,
-                child: const SizedBox.expand(),
-              ),
+          ),
+          const SizedBox(height: 8),
+          Icon(
+            icon,
+            color: const Color(0xFFFFC857),
+            size: 24,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-            Positioned(
-              right: width * reviveRight,
-              bottom: height * buttonBottom,
-              width: buttonWidth * 1.12,
-              height: buttonHeight * 1.12,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: onReward,
-                child: const SizedBox.expand(),
+class _PrimaryButton extends StatelessWidget {
+  final double height;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _PrimaryButton({
+    required this.height,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: const Color(0xFF52C5FF),
+            width: 1.5,
+          ),
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xFF4A7DFF)
+                  .withOpacity(.95),
+              const Color(0xFF61C6FF)
+                  .withOpacity(.85),
+            ],
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x553FAEFF),
+              blurRadius: 20,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment:
+          MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+              size: height * .40,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: height * .22,
               ),
             ),
           ],
-        );
-      },
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback? onTap;
+
+  const _MenuButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 72,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color:
+          const Color(0xFF6A35D8).withOpacity(.25),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(
+            color: const Color(0xFF9B5DFF),
+            width: 1.2,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment:
+          MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

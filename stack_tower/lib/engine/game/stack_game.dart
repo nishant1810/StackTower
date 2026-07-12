@@ -5,6 +5,8 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/services.dart';
 
@@ -80,7 +82,7 @@ class StackGame extends FlameGame
       ),
     );
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
       add(
         LandingParticle(
           position: Vector2(
@@ -91,8 +93,6 @@ class StackGame extends FlameGame
         ),
       );
     }
-
-    // HapticService.heavy();
   }
 
   final List<BlockComponent> towerBlocks = [];
@@ -218,10 +218,6 @@ class StackGame extends FlameGame
   void update(double dt) {
     super.update(dt);
 
-    if (dt > 0.03) {
-      print("FPS DROP: ${1 / dt}");
-    }
-
     if (gameEnded) return;
 
     if (movingRight) {
@@ -235,10 +231,6 @@ class StackGame extends FlameGame
 
       if (movingBlock.x <= -movingBlock.size.x) {
         movingRight = true;
-      }
-
-      if (children.length > 300) {
-        print('COMPONENTS: ${children.length}');
       }
     }
 
@@ -263,11 +255,12 @@ class StackGame extends FlameGame
     /// BACKGROUND PARTICLE SPAWNER
     particleTimer += dt;
 
-    if (particleTimer > 0.4) {
+    if (particleTimer > 1.0) {
       particleTimer = 0;
       _spawnBackgroundParticle();
     }
   }
+
 
   @override
   void onTapDown(TapDownEvent event) {
@@ -350,7 +343,7 @@ class StackGame extends FlameGame
     towerBlocks.add(placedBlock);
     placedBlock.triggerPulse();
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 4; i++) {
       add(
         LandingParticle(
           position: Vector2(
@@ -439,10 +432,17 @@ class StackGame extends FlameGame
 
     currentY -= blockHeight;
 
-    blockSpeed = min(
-      (size.x * 0.35) + (score * 2.5),
-      size.x * 0.9,
-    ).toDouble();
+    if (score < 20) {
+      blockSpeed = size.x * 0.65;
+    } else if (score < 50) {
+      blockSpeed = size.x * 0.95;
+    } else if (score < 100) {
+      blockSpeed = size.x * 1.25;
+    } else if (score < 200) {
+      blockSpeed = size.x * 1.70;
+    }else {
+      blockSpeed = size.x * 2.00;
+    }
 
     _spawnMovingBlock();
   }
@@ -455,35 +455,78 @@ class StackGame extends FlameGame
     currentY += amount;
   }
 
+  Future<void> _uploadScoreToLeaderboard() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) return;
+
+      final docRef = FirebaseFirestore.instance
+          .collection('leaderboard')
+          .doc(user.uid);
+
+      final snapshot = await docRef.get();
+
+      int currentBest = 0;
+
+      if (snapshot.exists) {
+        currentBest =
+        (snapshot.data()?['bestScore'] ?? 0) as int;
+      }
+
+      if (score <= currentBest) return;
+
+      await docRef.set({
+        'uid': user.uid,
+        'name': user.displayName ?? 'Player',
+        'photoUrl': user.photoURL ?? '',
+        'bestScore': score,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      debugPrint(
+        'Leaderboard upload failed: $e',
+      );
+    }
+  }
+
   Future<void> _gameOver() async {
     gameEnded = true;
-
-    /// Save game played count
-    await StorageService.incrementGamesPlayed();
-
-    /// Save best score
-    await StorageService.saveBestScore(
-      score,
-    );
-
-    await StorageService.saveRunScore(
-      score,
-    );
 
     bestScore = max(
       bestScore,
       score,
     );
 
-    notifyListeners();
-
-    AudioService.playGameOver();
-
-    AdService.onGameOver();
-
     pauseEngine();
 
+    /// Show Game Over screen immediately
     onGameOver();
+
+    notifyListeners();
+
+    /// Save data in background
+    unawaited(
+      StorageService.incrementGamesPlayed(),
+    );
+
+    unawaited(
+      StorageService.saveBestScore(
+        score,
+      ),
+    );
+
+    unawaited(
+      StorageService.saveRunScore(
+        score,
+      ),
+    );
+
+    unawaited(
+      _uploadScoreToLeaderboard(),
+    );
+
+    AdService.onGameOver();
   }
 
   void revivePlayer() {

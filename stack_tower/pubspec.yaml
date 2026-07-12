@@ -12,11 +12,21 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+
+  # Game Engine
   flame: ^1.37.0
   flame_audio: ^2.11.0
+
+  # Storage
   shared_preferences: ^2.5.5
+
+  # Ads
   google_mobile_ads: ^9.0.0
+
+  # UI
   google_fonts: ^6.3.2
+
+  # In-App Purchases
   in_app_purchase: ^3.2.0
 
   # Firebase
@@ -24,12 +34,13 @@ dependencies:
   firebase_auth: ^6.0.0
   cloud_firestore: ^6.0.0
 
-  # Google Login
+  # Google Sign In
   google_sign_in: ^6.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.4
 
@@ -38,24 +49,13 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/splash/
-    - assets/images/home/
-    - assets/images/daily_reward/
-    - assets/images/achievement/
-    - assets/images/leaderboard/
-    - assets/images/gameplay/
-    - assets/images/themes/
-    - assets/images/shop/
-    - assets/images/game/
-    - assets/images/profile/
-    - assets/images/icons/
     - assets/audio/
 
 flutter_launcher_icons:
   android: true
   ios: true
 
-  image_path: "assets/images/icons/icon.png"
-  adaptive_icon_foreground: "assets/images/icons/icon.png"
+  image_path: assets/images/icon.webp
+  adaptive_icon_foreground: assets/images/icon.webp
   adaptive_icon_background: "#0B1026"
   min_sdk_android: 21

@@ -32,12 +32,13 @@ class _AchievementsPageState
   }
 
   Future<void> _loadAchievements() async {
-    achievements =
+    final loadedAchievements =
     await controller.loadAchievements();
 
     if (!mounted) return;
 
     setState(() {
+      achievements = loadedAchievements;
       isLoading = false;
     });
   }
@@ -204,15 +205,16 @@ class _AchievementsPageState
                     itemCount:
                     achievements
                         .length,
-                    itemBuilder:
-                        (
+                    itemBuilder: (
                         context,
                         index,
                         ) {
                       return AchievementCard(
                         achievement:
-                        achievements[
-                        index],
+                        achievements[index],
+                        onRewardClaimed: () async {
+                          await _loadAchievements();
+                        },
                       );
                     },
                   ),

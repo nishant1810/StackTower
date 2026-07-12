@@ -8,8 +8,6 @@ class AudioService {
   static bool _soundEnabled = true;
   static bool _musicStarted = false;
 
-  static DateTime? _lastDropTime;
-
   static bool get musicEnabled => _musicEnabled;
   static bool get soundEnabled => _soundEnabled;
 
@@ -20,16 +18,18 @@ class AudioService {
   static Future<void> initialize() async {
     if (_initialized) return;
 
-    await FlameAudio.audioCache.loadAll([
-      'bg_music.mp3',
-      // 'drop.mp3',
-      'game_over.mp3',
-      'perfect.mp3',
-    ]);
+    try {
+      await FlameAudio.audioCache.loadAll([
+        'bg_music.mp3',
+        'perfect.mp3',
+      ]);
 
-    await FlameAudio.bgm.initialize();
+      await FlameAudio.bgm.initialize();
 
-    _initialized = true;
+      _initialized = true;
+    } catch (e) {
+      print('Audio initialization error: $e');
+    }
   }
 
   // ==========================================
@@ -47,8 +47,7 @@ class AudioService {
   }
 
   static Future<void> startBackgroundMusic() async {
-    if (!_musicEnabled) return;
-    if (_musicStarted) return;
+    if (!_musicEnabled || _musicStarted) return;
 
     try {
       _musicStarted = true;
@@ -57,8 +56,9 @@ class AudioService {
         'bg_music.mp3',
         volume: 0.35,
       );
-    } catch (_) {
+    } catch (e) {
       _musicStarted = false;
+      print('BGM error: $e');
     }
   }
 
@@ -81,29 +81,7 @@ class AudioService {
   // SOUND EFFECTS
   // ==========================================
 
-  // static Future<void> playDrop() async {
-  //   if (!_soundEnabled) return;
-  //
-  //   final now = DateTime.now();
-  //
-  //   if (_lastDropTime != null &&
-  //       now.difference(_lastDropTime!).inMilliseconds < 60) {
-  //     return;
-  //   }
-  //
-  //   _lastDropTime = now;
-  //
-  //   try {
-  //     FlameAudio.play(
-  //       'drop.mp3',
-  //       volume: 0.8,
-  //     );
-  //   } catch (_) {}
-  // }
-
   static void playPerfect() {
-    print("PERFECT SOUND CALLED");
-
     if (!_soundEnabled) return;
 
     try {
@@ -112,19 +90,8 @@ class AudioService {
         volume: 1.0,
       );
     } catch (e) {
-      print(e);
+      print('Perfect sound error: $e');
     }
-  }
-
-  static void playGameOver() {
-    if (!_soundEnabled) return;
-
-    try {
-      FlameAudio.play(
-        'game_over.mp3',
-        volume: 2.8,
-      );
-    } catch (_) {}
   }
 
   // ==========================================

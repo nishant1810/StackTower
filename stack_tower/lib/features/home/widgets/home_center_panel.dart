@@ -18,30 +18,33 @@ class HomeCenterPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final titleWidth = (size.width * 0.66).clamp(
-      200.0,
-      340.0,
-    );
+    final titleWidth =
+    (size.width * 0.70).clamp(240.0, 380.0);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        /// GAME TITLE
-        Image.asset(
-          AppAssets.titleIcon,
-          width: titleWidth,
-          fit: BoxFit.contain,
-        ),
+    final overlap =
+    (size.height * 0.06).clamp(20.0, 50.0);
 
-        SizedBox(
-          height: size.height * 0.015,
-        ),
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          /// TITLE
+          Image.asset(
+            AppAssets.titleIcon,
+            width: titleWidth,
+            fit: BoxFit.contain,
+          ),
 
-        /// PLAY BUTTON
-        PlayPlatformButton(
-          onPlay: onPlay,
-        ),
-      ],
+          /// PULL PLAY BUTTON UP
+          Transform.translate(
+            offset: Offset(0, -overlap),
+            child: PlayPlatformButton(
+              onPlay: onPlay,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/assets/app_assets.dart';
-
 class HomeProfileCard extends StatelessWidget {
   final String playerName;
   final String? avatarPath;
@@ -18,75 +16,76 @@ class HomeProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight =
+        MediaQuery.of(context).size.height;
+
+    final cardHeight =
+    (screenHeight * 0.05).clamp(20.0, 52.0);
+
+    final avatarSize =
+    (cardHeight * 0.65).clamp(24.0, 34.0);
+
+    final fontSize =
+    (cardHeight * 0.28).clamp(10.0, 14.0);
+
     return GestureDetector(
       onTap: onTap,
-      child: AspectRatio(
-        aspectRatio: 3.0,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final w = constraints.maxWidth;
-            final h = constraints.maxHeight;
-
-            final avatarSize =
-            (h * 0.40).clamp(24.0, 38.0);
-
-            final fontSize =
-            (h * 0.15).clamp(10.0, 14.0);
-
-            return Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    AppAssets.profileFrame,
-                    fit: BoxFit.fill,
-                  ),
+      child: Container(
+        height: cardHeight,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.white.withOpacity(0.05),
+          border: Border.all(
+            color: const Color(0xFF6C8BFF)
+                .withOpacity(0.5),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF6C8BFF)
+                  .withOpacity(0.12),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: avatarSize,
+              height: avatarSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFF79B8FF),
+                  width: 1.5,
                 ),
-
-                /// Avatar
-                Positioned(
-                  left: w * 0.06,
-                  top: (h - avatarSize) / 2,
-                  width: avatarSize,
-                  height: avatarSize,
-                  child: ClipOval(
-                    child: _buildAvatar(
-                      avatarSize,
-                    ),
-                  ),
+              ),
+              child: ClipOval(
+                child: _buildAvatar(
+                  avatarSize,
                 ),
+              ),
+            ),
 
-                /// Player Name
-                Positioned(
-                  left: w * 0.18,
-                  right: w * 0.08,
-                  top: 0,
-                  bottom: 0,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      playerName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.5,
-                        shadows: const [
-                          Shadow(
-                            color: Colors.black54,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+            const SizedBox(width: 8),
+
+            Flexible(
+              child: Text(
+                playerName.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
                 ),
-              ],
-            );
-          },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -98,11 +97,6 @@ class HomeProfileCard extends StatelessWidget {
       return Image.network(
         photoUrl!,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) {
-          return _buildDefaultAvatar(
-            avatarSize,
-          );
-        },
       );
     }
 
@@ -111,31 +105,23 @@ class HomeProfileCard extends StatelessWidget {
       return Image.asset(
         avatarPath!,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) {
-          return _buildDefaultAvatar(
-            avatarSize,
-          );
-        },
       );
     }
 
-    return _buildDefaultAvatar(
-      avatarSize,
-    );
-  }
-
-  Widget _buildDefaultAvatar(
-      double avatarSize,
-      ) {
     return Container(
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: Color(0xFF143E7A),
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF4D8EFF),
+            Color(0xFF6F4DFF),
+          ],
+        ),
       ),
       child: Icon(
         Icons.person_rounded,
         color: Colors.white,
-        size: avatarSize * 0.45,
+        size: avatarSize * 0.5,
       ),
     );
   }

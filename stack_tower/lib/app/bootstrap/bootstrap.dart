@@ -10,9 +10,6 @@ import '../../core/services/purchase/purchase_service.dart';
 Future<void> bootstrap() async {
   await Firebase.initializeApp();
 
-  // Storage
-  // await StorageService.initialize();
-
   // Theme
   await ThemeController.instance.loadTheme();
 
