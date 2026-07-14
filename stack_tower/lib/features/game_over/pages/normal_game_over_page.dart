@@ -27,10 +27,10 @@ class NormalGameOverPage extends StatelessWidget {
     (size.width * 0.88).clamp(300.0, 500.0);
 
     final titleSize =
-    (size.width * 0.11).clamp(38.0, 60.0);
+    (size.width * 0.10).clamp(34.0, 58.0);
 
     final scoreSize =
-    (size.width * 0.22).clamp(72.0, 130.0);
+    (size.width * 0.24).clamp(80.0, 140.0);
 
     final buttonHeight =
     (size.height * 0.085).clamp(64.0, 88.0);
@@ -52,51 +52,79 @@ class NormalGameOverPage extends StatelessWidget {
               vertical: panelWidth * 0.08,
             ),
             decoration: BoxDecoration(
-              color:
-              const Color(0xFF2B1E4B).withOpacity(.78),
+              color: Colors.black.withOpacity(.18),
               borderRadius: BorderRadius.circular(36),
               border: Border.all(
-                color: const Color(0xFF9B5DFF),
+                color: const Color(0xFF9B5DFF)
+                    .withOpacity(.8),
                 width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(.35),
-                  blurRadius: 30,
+                  color: const Color(0xFF9B5DFF)
+                      .withOpacity(.20),
+                  blurRadius: 25,
+                  spreadRadius: 1,
                 ),
               ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'GAME OVER',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: const Color(0xFFD7B4FF),
-                    fontSize: titleSize,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 2,
+                ShaderMask(
+                  shaderCallback: (bounds) {
+                    return const LinearGradient(
+                      colors: [
+                        Color(0xFFEED7FF),
+                        Color(0xFFB982FF),
+                      ],
+                    ).createShader(bounds);
+                  },
+                  child: Text(
+                    'GAME OVER',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: titleSize,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 3,
+                    ),
                   ),
                 ),
 
                 SizedBox(height: spacing * 1.3),
 
-                Text(
-                  score.toString(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: scoreSize,
-                    fontWeight: FontWeight.w900,
-                    height: 1,
-                    shadows: [
-                      Shadow(
-                        color:
-                        Colors.white.withOpacity(.25),
-                        blurRadius: 18,
-                      ),
-                    ],
+                TweenAnimationBuilder<double>(
+                  duration:
+                  const Duration(milliseconds: 800),
+                  tween: Tween(
+                    begin: 0,
+                    end: score.toDouble(),
                   ),
+                  builder: (_, value, __) {
+                    return Text(
+                      value.toInt().toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: scoreSize,
+                        fontWeight: FontWeight.w900,
+                        height: 1,
+                        shadows: [
+                          Shadow(
+                            color: Colors.white
+                                .withOpacity(.6),
+                            blurRadius: 20,
+                          ),
+                          Shadow(
+                            color:
+                            const Color(0xFF9B5DFF)
+                                .withOpacity(.4),
+                            blurRadius: 35,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
 
                 SizedBox(height: spacing * .3),
@@ -107,11 +135,11 @@ class NormalGameOverPage extends StatelessWidget {
                     color: Colors.white70,
                     fontSize: titleSize * .28,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
+                    letterSpacing: 3,
                   ),
                 ),
 
-                SizedBox(height: spacing * 1.4),
+                SizedBox(height: spacing * 1.5),
 
                 Row(
                   children: [
@@ -128,8 +156,8 @@ class NormalGameOverPage extends StatelessWidget {
                       child: _StatCard(
                         title: 'COINS',
                         value: coins.toString(),
-                        icon:
-                        Icons.monetization_on_rounded,
+                        icon: Icons
+                            .monetization_on_rounded,
                       ),
                     ),
                   ],
@@ -155,13 +183,12 @@ class NormalGameOverPage extends StatelessWidget {
                         onTap: onHome,
                       ),
                     ),
-
                     SizedBox(width: spacing),
-
                     Expanded(
                       child: _MenuButton(
-                        icon: Icons.ondemand_video_rounded,
-                        label: 'Revive',
+                        icon:
+                        Icons.ondemand_video_rounded,
+                        label: 'CONTINUE',
                         onTap: onReward,
                       ),
                     ),
@@ -195,12 +222,19 @@ class _StatCard extends StatelessWidget {
         horizontal: 12,
       ),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(.22),
-        borderRadius: BorderRadius.circular(22),
+        color: Colors.white.withOpacity(.05),
+        borderRadius: BorderRadius.circular(26),
         border: Border.all(
           color:
           const Color(0xFF9B5DFF).withOpacity(.45),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF9B5DFF)
+                .withOpacity(.12),
+            blurRadius: 14,
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -215,14 +249,14 @@ class _StatCard extends StatelessWidget {
           Icon(
             icon,
             color: const Color(0xFFFFC857),
-            size: 24,
+            size: 26,
           ),
           const SizedBox(height: 8),
           Text(
             value,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 24,
+              fontSize: 26,
               fontWeight: FontWeight.w900,
             ),
           ),
@@ -253,23 +287,25 @@ class _PrimaryButton extends StatelessWidget {
         height: height,
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(28),
           border: Border.all(
-            color: const Color(0xFF52C5FF),
+            color: const Color(0xFF7ED3FF),
             width: 1.5,
           ),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              const Color(0xFF4A7DFF)
-                  .withOpacity(.95),
-              const Color(0xFF61C6FF)
-                  .withOpacity(.85),
+              Color(0xFF4A7DFF),
+              Color(0xFF61C6FF),
             ],
           ),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color(0x553FAEFF),
-              blurRadius: 20,
+              color: const Color(0xFF52C5FF)
+                  .withOpacity(.5),
+              blurRadius: 24,
+              spreadRadius: 1,
             ),
           ],
         ),
@@ -311,38 +347,47 @@ class _MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 72,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color:
-          const Color(0xFF6A35D8).withOpacity(.25),
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(
-            color: const Color(0xFF9B5DFF),
-            width: 1.2,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment:
-          MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
+    return Opacity(
+      opacity: onTap == null ? 0.4 : 1,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 72,
+          decoration: BoxDecoration(
+            color:
+            const Color(0xFF6A35D8).withOpacity(.18),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: const Color(0xFF9B5DFF),
+              width: 1.4,
             ),
-            const SizedBox(width: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF9B5DFF)
+                    .withOpacity(.15),
+                blurRadius: 14,
               ),
-            ),
-          ],
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

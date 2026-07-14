@@ -118,7 +118,7 @@ class StackGame extends FlameGame
   bool movingRight = true;
   bool gameEnded = false;
 
-  bool reviveUsed = false;
+  // bool reviveUsed = false;
 
   double savedBlockX = 0;
   double savedBlockY = 0;
@@ -435,13 +435,19 @@ class StackGame extends FlameGame
     if (score < 20) {
       blockSpeed = size.x * 0.65;
     } else if (score < 50) {
-      blockSpeed = size.x * 0.95;
+      blockSpeed = size.x * 0.85;
     } else if (score < 100) {
-      blockSpeed = size.x * 1.25;
-    } else if (score < 200) {
-      blockSpeed = size.x * 1.70;
+      blockSpeed = size.x * 0.95;
+    } else if (score < 250) {
+      blockSpeed = size.x * 1.20;
+    }else if (score < 400) {
+      blockSpeed = size.x * 1.35;
+    } else if (score < 600) {
+      blockSpeed = size.x * 1.55;
+    } else if (score < 900) {
+      blockSpeed = size.x * 1.65;
     }else {
-      blockSpeed = size.x * 2.00;
+      blockSpeed = size.x * 1.80;
     }
 
     _spawnMovingBlock();
@@ -530,10 +536,6 @@ class StackGame extends FlameGame
   }
 
   void revivePlayer() {
-    if (reviveUsed) return;
-
-    reviveUsed = true;
-
     gameEnded = false;
 
     movingBlock.removeFromParent();

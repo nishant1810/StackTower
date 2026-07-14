@@ -20,13 +20,6 @@ class NewBestGameOverPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    final buttonWidth = (screenWidth * 0.82).clamp(
-      280.0,
-      450.0,
-    );
-
     return Material(
       color: Colors.transparent,
       child: Stack(
@@ -38,81 +31,70 @@ class NewBestGameOverPage extends StatelessWidget {
           ),
 
           SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                physics:
-                const BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                  horizontal: Responsive.w(
-                    context,
-                    0.05,
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment:
-                  MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: Responsive.h(
-                        context,
-                        0.05,
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+              ),
+              child: Column(
+                children: [
+                  /// Score between NEW BEST text and trophy
+                  SizedBox(
+                    height: Responsive.h(
+                      context,
+                      0.34,
                     ),
+                  ),
 
-                    ConstrainedBox(
-                      constraints:
-                      const BoxConstraints(
-                        maxWidth: 500,
-                      ),
+                  Center(
+                    child: SizedBox(
+                      width: 300,
                       child: NewBestScoreCard(
                         score: score,
                       ),
                     ),
+                  ),
 
-                    SizedBox(
-                      height: Responsive.h(
-                        context,
-                        0.05,
-                      ),
+                  SizedBox(
+                    height: Responsive.h(
+                      context,
+                      0.22,
                     ),
+                  ),
 
-                    SizedBox(
-                      width: buttonWidth,
-                      height: 72,
-                      child: PrimaryActionButton(
-                        title: '',
-                        icon:
-                        Icons.play_arrow_rounded,
-                        onTap: onReplay,
+                  /// Buttons Row
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 76,
+                          child: PrimaryActionButton(
+                            title: '',
+                            icon: Icons.refresh_rounded,
+                            onTap: onReplay,
+                          ),
+                        ),
                       ),
-                    ),
 
-                    SizedBox(
-                      height: Responsive.h(
-                        context,
-                        0.025,
-                      ),
-                    ),
+                      const SizedBox(width: 14),
 
-                    SizedBox(
-                      width: buttonWidth,
-                      height: 72,
-                      child: SecondaryActionButton(
-                        icon: Icons.ondemand_video_rounded,
-                        label: 'WATCH AD TO CONTINUE',
-                        glowColor: const Color(0xFFFFC247),
-                        onTap: onReward,
+                      Expanded(
+                        child: SizedBox(
+                          height: 76,
+                          child: SecondaryActionButton(
+                            icon:
+                            Icons.smart_display_rounded,
+                            label: null,
+                            glowColor:
+                            const Color(0xFFFFC247),
+                            onTap: onReward,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
 
-                    SizedBox(
-                      height: Responsive.h(
-                        context,
-                        0.04,
-                      ),
-                    ),
-                  ],
-                ),
+                  const Spacer(),
+                ],
               ),
             ),
           ),

@@ -34,18 +34,12 @@ class GameOverPage extends StatefulWidget {
 }
 
 class _GameOverPageState extends State<GameOverPage> {
-  bool _rewardClaimed = false;
+  // bool _rewardClaimed = false;
 
   Future<void> _revive() async {
-    if (_rewardClaimed) return;
-
     AdService.showRewardedAd(
       onRewardEarned: () async {
         if (!mounted) return;
-
-        setState(() {
-          _rewardClaimed = true;
-        });
 
         widget.onRevive();
       },
@@ -53,7 +47,7 @@ class _GameOverPageState extends State<GameOverPage> {
   }
 
   Future<void> _claimCoins() async {
-    if (_rewardClaimed) return;
+    // if (_rewardClaimed) return;
 
     AdService.showRewardedAd(
       onRewardEarned: () async {
@@ -64,7 +58,7 @@ class _GameOverPageState extends State<GameOverPage> {
         if (!mounted) return;
 
         setState(() {
-          _rewardClaimed = true;
+          // _rewardClaimed = true;
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -118,10 +112,7 @@ class _GameOverPageState extends State<GameOverPage> {
                     ? NewBestGameOverPage(
                   score: widget.score,
                   onReplay: widget.onRetry,
-                  onReward:
-                  _rewardClaimed
-                      ? null
-                      : _claimCoins,
+                  onReward: _revive,
                 )
                     : NormalGameOverPage(
                   score: widget.score,
@@ -129,10 +120,7 @@ class _GameOverPageState extends State<GameOverPage> {
                   coins: widget.coinsEarned,
                   onReplay: widget.onRetry,
                   onHome: widget.onHome,
-                  onReward:
-                  _rewardClaimed
-                      ? null
-                      : _revive,
+                  onReward: _revive,
                 ),
               ),
             ],
