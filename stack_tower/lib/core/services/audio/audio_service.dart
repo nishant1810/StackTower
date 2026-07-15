@@ -1,3 +1,4 @@
+// import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 class AudioService {
@@ -7,6 +8,8 @@ class AudioService {
   static bool _musicEnabled = true;
   static bool _soundEnabled = true;
   static bool _musicStarted = false;
+
+  static AudioPool? _perfectPool;
 
   static bool get musicEnabled => _musicEnabled;
   static bool get soundEnabled => _soundEnabled;
@@ -25,6 +28,11 @@ class AudioService {
       ]);
 
       await FlameAudio.bgm.initialize();
+
+      _perfectPool = await FlameAudio.createPool(
+        'perfect.mp3',
+        maxPlayers: 4,
+      );
 
       _initialized = true;
     } catch (e) {
@@ -85,8 +93,7 @@ class AudioService {
     if (!_soundEnabled) return;
 
     try {
-      FlameAudio.play(
-        'perfect.mp3',
+      _perfectPool?.start(
         volume: 1.0,
       );
     } catch (e) {
