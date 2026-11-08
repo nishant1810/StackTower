@@ -41,7 +41,7 @@ class _FloatingHexagonState extends State<FloatingHexagon>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final rotation = controller.value * pi * 2;
 
         final offset =
@@ -107,14 +107,14 @@ class _HexPainter extends CustomPainter {
         BlurStyle.normal,
         14,
       )
-      ..color = color.withOpacity(.12);
+      ..color = color.withValues(alpha: .12);
 
     canvas.drawPath(path, glowPaint);
 
     final borderPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
-      ..color = color.withOpacity(.55);
+      ..color = color.withValues(alpha: .55);
 
     canvas.drawPath(path, borderPaint);
 
@@ -122,7 +122,7 @@ class _HexPainter extends CustomPainter {
       center,
       radius * .12,
       Paint()
-        ..color = color.withOpacity(.65),
+        ..color = color.withValues(alpha: .65),
     );
   }
 

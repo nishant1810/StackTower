@@ -19,7 +19,7 @@ class GlobalLeaderboardTab extends StatelessWidget {
             size.width * 0.05,
           ),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.08),
+            color: Colors.white.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: Colors.white24,
@@ -132,7 +132,7 @@ class _ComingSoonRow extends StatelessWidget {
         size.width * 0.04,
       ),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.08),
+        color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: Colors.white24,

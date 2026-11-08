@@ -2,8 +2,6 @@
 
   import 'package:flutter/material.dart';
 
-  import '../../settings/pages/settings_page.dart';
-
   import '../widgets/neon_title.dart';
   import '../widgets/pause_button.dart';
   import '../widgets/pause_panel.dart';

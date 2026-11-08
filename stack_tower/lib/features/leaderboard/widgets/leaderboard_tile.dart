@@ -46,14 +46,14 @@ class LeaderboardTile extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: entry.isUser
-            ? const Color(0xFF4FC3FF).withOpacity(.18)
-            : Colors.black.withOpacity(.28),
+            ? const Color(0xFF4FC3FF).withValues(alpha: .18)
+            : Colors.black.withValues(alpha: .28),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: entry.isUser
               ? const Color(0xFF4FC3FF)
               : isTopThree
-              ? _rankColor().withOpacity(.6)
+              ? _rankColor().withValues(alpha: .6)
               : Colors.white24,
           width: entry.isUser ? 2 : 1,
         ),

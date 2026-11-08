@@ -17,7 +17,7 @@ class CameraLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         return Transform.translate(
           offset: Offset(
             0,

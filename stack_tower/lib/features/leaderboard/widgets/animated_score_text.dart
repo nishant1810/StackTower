@@ -16,7 +16,7 @@ class AnimatedScoreText extends StatelessWidget {
         begin: 0,
         end: score.toDouble(),
       ),
-      builder: (_, value, __) {
+      builder: (_, value, _) {
         return Text(
           value.toInt().toString(),
           style: const TextStyle(

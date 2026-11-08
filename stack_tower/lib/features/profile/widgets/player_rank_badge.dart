@@ -25,7 +25,7 @@ class PlayerRankBadge extends StatelessWidget {
         vertical: 8,
       ),
       decoration: BoxDecoration(
-        color: Colors.amber.withOpacity(.15),
+        color: Colors.amber.withValues(alpha: .15),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
           color: Colors.amber,

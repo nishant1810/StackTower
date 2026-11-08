@@ -44,7 +44,7 @@ class SettingsSwitchTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
           color: const Color(0xFF7B61FF)
-              .withOpacity(0.45),
+              .withValues(alpha: 0.45),
           width: 1.4,
         ),
         gradient: const LinearGradient(
@@ -58,7 +58,7 @@ class SettingsSwitchTile extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF6A5CFF)
-                .withOpacity(0.15),
+                .withValues(alpha: 0.15),
             blurRadius: 16,
             spreadRadius: 1,
           ),
@@ -76,7 +76,7 @@ class SettingsSwitchTile extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: iconColor.withOpacity(0.12),
+                color: iconColor.withValues(alpha: 0.12),
               ),
               child: Icon(
                 icon,
@@ -113,7 +113,7 @@ class SettingsSwitchTile extends StatelessWidget {
               child: Switch(
                 value: value,
                 onChanged: onChanged,
-                activeColor: Colors.white,
+                activeThumbColor: Colors.white,
                 activeTrackColor:
                 const Color(0xFF7B61FF),
               ),

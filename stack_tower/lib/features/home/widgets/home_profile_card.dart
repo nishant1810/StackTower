@@ -37,15 +37,15 @@ class HomeProfileCard extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           border: Border.all(
             color: const Color(0xFF6C8BFF)
-                .withOpacity(0.5),
+                .withValues(alpha: 0.5),
           ),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF6C8BFF)
-                  .withOpacity(0.12),
+                  .withValues(alpha: 0.12),
               blurRadius: 10,
             ),
           ],

@@ -134,8 +134,8 @@ class _SettingsPageState
 
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(
-                0.55,
+              color: Colors.black.withValues(
+                alpha: 0.55,
               ),
             ),
           ),
@@ -180,14 +180,14 @@ class _SettingsPageState
                                 border: Border.all(
                                   color: const Color(
                                     0xFF7B61FF,
-                                  ).withOpacity(0.60),
+                                  ).withValues(alpha: 0.60),
                                   width: 1.5,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(
                                       0xFF6A5CFF,
-                                    ).withOpacity(0.35),
+                                    ).withValues(alpha: 0.35),
                                     blurRadius: 22,
                                     spreadRadius: 2,
                                   ),
@@ -252,7 +252,7 @@ class _SettingsPageState
                               Colors.transparent,
                               const Color(
                                 0xFF7B61FF,
-                              ).withOpacity(0.9),
+                              ).withValues(alpha: 0.9),
                               Colors.transparent,
                             ],
                           ),

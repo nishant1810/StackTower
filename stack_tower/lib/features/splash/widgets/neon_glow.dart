@@ -10,9 +10,6 @@ class NeonGlow extends StatelessWidget {
   final Animation<double> animation;
   final double size;
 
-  static const Color _primaryGlow = Color(0xFFFF9800);
-  static const Color _secondaryGlow = Color(0xFFFFD54F);
-
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(

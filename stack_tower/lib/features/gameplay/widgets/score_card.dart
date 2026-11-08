@@ -16,7 +16,7 @@ class ScoreCard extends StatelessWidget {
         horizontal: 14,
       ),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.35),
+        color: Colors.black.withValues(alpha: 0.35),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: const Color(0xFFFFB74D),
@@ -24,7 +24,7 @@ class ScoreCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFB74D).withOpacity(0.25),
+            color: const Color(0xFFFFB74D).withValues(alpha: 0.25),
             blurRadius: 18,
             spreadRadius: 1,
           ),

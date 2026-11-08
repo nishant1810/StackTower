@@ -6,10 +6,9 @@ import 'package:stack_tower/core/app_initializer.dart';
 
 class SplashController {
   SplashController({
-    required TickerProvider vsync,
-    required VoidCallback onInitializationComplete,
-  })  : _vsync = vsync,
-        _onInitializationComplete = onInitializationComplete {
+    required this._vsync,
+    required this._onInitializationComplete,
+  }) {
     _initializeAnimations();
   }
 

@@ -96,6 +96,21 @@ class AppAssets {
   static const String galaxyTheme =
       'assets/images/galaxy_theme.webp';
 
+  // Gameplay & Game Over Theme Aliases
+  static const String neonGameplayBg = neonTheme;
+  static const String purpleGameplayBg = purpleTheme;
+  static const String emeraldGameplayBg = emeraldTheme;
+  static const String lavaGameplayBg = lavaTheme;
+  static const String galaxyGameplayBg = galaxyTheme;
+  static const String spaceGameplayBg = skyTheme;
+
+  static const String neonGameOver = gameOverBackground;
+  static const String purpleGameOver = gameOverBackground;
+  static const String emeraldGameOver = gameOverBackground;
+  static const String lavaGameOver = gameOverBackground;
+  static const String galaxyGameOver = gameOverBackground;
+  static const String skyGameOver = gameOverBackground;
+
   // =========================
   // SHOP
   // =========================
@@ -121,4 +136,6 @@ class AppAssets {
 
   static const String trophyIcon =
       'assets/images/trophy.webp';
+
+  static const String dailyRewardIcon = rewardChest;
 }

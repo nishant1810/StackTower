@@ -57,7 +57,7 @@ class CurrencyBar extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF8B5CF6)
-                .withOpacity(.30),
+                .withValues(alpha: .30),
             blurRadius: 28,
             spreadRadius: 1,
           ),
@@ -149,8 +149,8 @@ class _CurrencyPanel extends StatelessWidget {
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: [
-                iconColor.withOpacity(.35),
-                iconColor.withOpacity(.08),
+                iconColor.withValues(alpha: .35),
+                iconColor.withValues(alpha: .08),
               ],
             ),
             border: Border.all(
@@ -160,7 +160,7 @@ class _CurrencyPanel extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: borderColor
-                    .withOpacity(.35),
+                    .withValues(alpha: .35),
                 blurRadius: 12,
               ),
             ],
@@ -227,7 +227,7 @@ class _CurrencyPanel extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 borderColor,
-                borderColor.withOpacity(.75),
+                borderColor.withValues(alpha: .75),
               ],
             ),
           ),

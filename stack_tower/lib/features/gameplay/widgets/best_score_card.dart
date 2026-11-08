@@ -20,7 +20,7 @@ class BestScoreCard extends StatelessWidget {
           horizontal: 12,
         ),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withValues(alpha: 0.4),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: Colors.purpleAccent,
@@ -28,7 +28,7 @@ class BestScoreCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.purpleAccent.withOpacity(0.35),
+              color: Colors.purpleAccent.withValues(alpha: 0.35),
               blurRadius: 16,
               spreadRadius: 1,
             ),

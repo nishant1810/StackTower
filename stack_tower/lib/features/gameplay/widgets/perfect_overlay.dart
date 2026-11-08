@@ -40,13 +40,13 @@ class PerfectOverlay extends StatelessWidget {
                     ),
                     gradient: LinearGradient(
                       colors: [
-                        Colors.black.withOpacity(0.85),
+                        Colors.black.withValues(alpha: 0.85),
                         const Color(0xFF1A1A1A),
                       ],
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: gold.withOpacity(0.6),
+                        color: gold.withValues(alpha: 0.6),
                         blurRadius: 25,
                         spreadRadius: 2,
                       ),
@@ -85,7 +85,7 @@ class PerfectOverlay extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           shadows: [
                             Shadow(
-                              color: orange.withOpacity(0.8),
+                              color: orange.withValues(alpha: 0.8),
                               blurRadius: 15,
                             ),
                           ],

@@ -35,7 +35,7 @@ class _ScannerEffectState extends State<ScannerEffect>
     return IgnorePointer(
       child: AnimatedBuilder(
         animation: controller,
-        builder: (_, __) {
+        builder: (_, _) {
           final glow =
               16 + sin(controller.value * pi * 2) * 6;
 
@@ -52,17 +52,17 @@ class _ScannerEffectState extends State<ScannerEffect>
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.cyanAccent.withOpacity(.05),
-                    Colors.cyanAccent.withOpacity(.35),
-                    Colors.white.withOpacity(.95),
-                    Colors.cyanAccent.withOpacity(.35),
+                    Colors.cyanAccent.withValues(alpha: .05),
+                    Colors.cyanAccent.withValues(alpha: .35),
+                    Colors.white.withValues(alpha: .95),
+                    Colors.cyanAccent.withValues(alpha: .35),
                     Colors.transparent,
                   ],
                 ),
                 boxShadow: [
                   BoxShadow(
                     color:
-                    Colors.cyanAccent.withOpacity(.45),
+                    Colors.cyanAccent.withValues(alpha: .45),
                     blurRadius: glow,
                     spreadRadius: 2,
                   ),
@@ -87,7 +87,7 @@ class _ScannerEffectState extends State<ScannerEffect>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.cyanAccent
-                            .withOpacity(.8),
+                            .withValues(alpha: .8),
                         blurRadius: 12,
                       ),
                     ],

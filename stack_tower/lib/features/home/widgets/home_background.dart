@@ -20,9 +20,9 @@ class HomeBackground extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(.15),
+                Colors.black.withValues(alpha: .15),
                 Colors.transparent,
-                Colors.black.withOpacity(.25),
+                Colors.black.withValues(alpha: .25),
               ],
             ),
           ),

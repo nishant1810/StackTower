@@ -6,7 +6,6 @@ import 'package:stack_tower/features/game_over/pages/new_best_game_over_page.dar
 import 'package:stack_tower/features/game_over/pages/normal_game_over_page.dart';
 
 import '../../../core/services/ads/ad_service.dart';
-import '../../../core/services/storage/storage_service.dart';
 
 class GameOverPage extends StatefulWidget {
   final int score;
@@ -34,40 +33,12 @@ class GameOverPage extends StatefulWidget {
 }
 
 class _GameOverPageState extends State<GameOverPage> {
-  // bool _rewardClaimed = false;
-
   Future<void> _revive() async {
     AdService.showRewardedAd(
       onRewardEarned: () async {
         if (!mounted) return;
 
         widget.onRevive();
-      },
-    );
-  }
-
-  Future<void> _claimCoins() async {
-    // if (_rewardClaimed) return;
-
-    AdService.showRewardedAd(
-      onRewardEarned: () async {
-        await StorageService.addCoins(
-          widget.coinsEarned,
-        );
-
-        if (!mounted) return;
-
-        setState(() {
-          // _rewardClaimed = true;
-        });
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '+${widget.coinsEarned} Bonus Coins Added!',
-            ),
-          ),
-        );
       },
     );
   }
@@ -104,7 +75,7 @@ class _GameOverPageState extends State<GameOverPage> {
               ),
 
               Container(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withValues(alpha: 0.15),
               ),
 
               SafeArea(

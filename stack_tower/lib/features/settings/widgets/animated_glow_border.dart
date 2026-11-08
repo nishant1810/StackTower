@@ -40,7 +40,7 @@ class _AnimatedGlowBorderState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final glow =
             18 + sin(controller.value * pi * 2) * 10;
 
@@ -62,12 +62,12 @@ class _AnimatedGlowBorderState
 
             boxShadow: [
               BoxShadow(
-                color: Colors.cyan.withOpacity(.35),
+                color: Colors.cyan.withValues(alpha: .35),
                 blurRadius: glow,
                 spreadRadius: 2,
               ),
               BoxShadow(
-                color: Colors.purple.withOpacity(.25),
+                color: Colors.purple.withValues(alpha: .25),
                 blurRadius: glow + 12,
                 spreadRadius: 3,
               ),
@@ -104,7 +104,7 @@ class _AnimatedGlowBorderState
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.white.withOpacity(.12),
+                              Colors.white.withValues(alpha: .12),
                               Colors.transparent,
                             ],
                           ),

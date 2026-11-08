@@ -11,8 +11,8 @@ import '../models/tower_model.dart';
 class GameplayController {
   GameplayController({
     required double screenWidth,
-    required double groundY,
-  }) : _groundY = groundY {
+    required this._groundY,
+  }) {
     _towerEngine = TowerEngine(
       screenWidth: screenWidth,
     );

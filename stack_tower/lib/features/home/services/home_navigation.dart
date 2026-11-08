@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../achievements/pages/achievements_page.dart';
-import '../../inventory/pages/inventory_page.dart';
 import '../../leaderboard/pages/leaderboard_page.dart';
-import '../../missions/pages/missions_page.dart';
 import '../../settings/pages/settings_page.dart';
 import '../../shop/pages/shop_page.dart';
 import '../../gameplay/pages/gameplay_page.dart';
@@ -30,12 +28,12 @@ class HomeNavigation {
     );
   }
 
-  static Future<void> openInventory(
+  static Future<void> openProfile(
       BuildContext context,
       ) {
     return Navigator.push(
       context,
-      _page(const InventoryPage()),
+      _page(const ProfilePage()),
     );
   }
 
@@ -57,15 +55,6 @@ class HomeNavigation {
     );
   }
 
-  static Future<void> openMissions(
-      BuildContext context,
-      ) {
-    return Navigator.push(
-      context,
-      _page(const MissionsPage()),
-    );
-  }
-
   static Future<void> openSettings(
       BuildContext context,
       ) {
@@ -84,9 +73,9 @@ class HomeNavigation {
       reverseTransitionDuration:
       const Duration(milliseconds: 250),
       pageBuilder:
-          (_, animation, __) => page,
+          (context, animation, secondaryAnimation) => page,
       transitionsBuilder:
-          (_, animation, __, child) {
+          (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
           child: SlideTransition(

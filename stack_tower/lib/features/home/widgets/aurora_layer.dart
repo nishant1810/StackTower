@@ -28,7 +28,7 @@ class _AuroraLayerState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final x =
             math.sin(
               _controller.value *

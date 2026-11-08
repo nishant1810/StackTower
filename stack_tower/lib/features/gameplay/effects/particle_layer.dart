@@ -15,7 +15,7 @@ class ParticleLayer extends StatelessWidget {
     return IgnorePointer(
       child: AnimatedBuilder(
         animation: engine,
-        builder: (_, __) {
+        builder: (_, _) {
           return CustomPaint(
             size: Size.infinite,
             painter: _ParticlePainter(

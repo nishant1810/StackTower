@@ -203,7 +203,7 @@
             /// PREMIUM PARALLAX BACKGROUND
             AnimatedBuilder(
               animation: _bgController,
-              builder: (_, __) {
+              builder: (_, _) {
                 final t = _bgController.value;
                 final angle = t * 2 * math.pi;
 
@@ -256,8 +256,8 @@
                                     Colors
                                         .transparent,
                                     Colors.white
-                                        .withOpacity(
-                                      0.08,
+                                        .withValues(
+                                      alpha: 0.08,
                                     ),
                                     Colors
                                         .transparent,
@@ -281,9 +281,9 @@
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withOpacity(0.10),
+                    Colors.black.withValues(alpha: 0.10),
                     Colors.transparent,
-                    Colors.black.withOpacity(0.20),
+                    Colors.black.withValues(alpha: 0.20),
                   ],
                 ),
               ),
@@ -318,7 +318,7 @@
                     height: 62,
                     decoration: BoxDecoration(
                       color: Colors.black
-                          .withOpacity(0.4),
+                          .withValues(alpha: 0.4),
                       borderRadius:
                       BorderRadius.circular(
                         20,
@@ -332,8 +332,8 @@
                         BoxShadow(
                           color: themeColors
                               .first
-                              .withOpacity(
-                            0.4,
+                              .withValues(
+                            alpha: 0.4,
                           ),
                           blurRadius: 24,
                         ),

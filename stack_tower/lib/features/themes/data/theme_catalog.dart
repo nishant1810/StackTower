@@ -80,6 +80,13 @@ class ThemeCatalog {
     ),
   ];
 
+  static GameTheme getById(String themeId) {
+    return themes.firstWhere(
+      (theme) => theme.id == themeId,
+      orElse: () => themes.first,
+    );
+  }
+
   static List<Color> getPalette(String themeId) {
     return themes
         .firstWhere(

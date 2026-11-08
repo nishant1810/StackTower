@@ -52,17 +52,17 @@ class NormalGameOverPage extends StatelessWidget {
               vertical: panelWidth * 0.08,
             ),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(.18),
+              color: Colors.black.withValues(alpha: .18),
               borderRadius: BorderRadius.circular(36),
               border: Border.all(
                 color: const Color(0xFF9B5DFF)
-                    .withOpacity(.8),
+                    .withValues(alpha: .8),
                 width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xFF9B5DFF)
-                      .withOpacity(.20),
+                      .withValues(alpha: .20),
                   blurRadius: 25,
                   spreadRadius: 1,
                 ),
@@ -101,7 +101,7 @@ class NormalGameOverPage extends StatelessWidget {
                     begin: 0,
                     end: score.toDouble(),
                   ),
-                  builder: (_, value, __) {
+                  builder: (_, value, _) {
                     return Text(
                       value.toInt().toString(),
                       style: TextStyle(
@@ -112,13 +112,13 @@ class NormalGameOverPage extends StatelessWidget {
                         shadows: [
                           Shadow(
                             color: Colors.white
-                                .withOpacity(.6),
+                                .withValues(alpha: .6),
                             blurRadius: 20,
                           ),
                           Shadow(
                             color:
                             const Color(0xFF9B5DFF)
-                                .withOpacity(.4),
+                                .withValues(alpha: .4),
                             blurRadius: 35,
                           ),
                         ],
@@ -222,16 +222,16 @@ class _StatCard extends StatelessWidget {
         horizontal: 12,
       ),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.05),
+        color: Colors.white.withValues(alpha: .05),
         borderRadius: BorderRadius.circular(26),
         border: Border.all(
           color:
-          const Color(0xFF9B5DFF).withOpacity(.45),
+          const Color(0xFF9B5DFF).withValues(alpha: .45),
         ),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF9B5DFF)
-                .withOpacity(.12),
+                .withValues(alpha: .12),
             blurRadius: 14,
           ),
         ],
@@ -303,7 +303,7 @@ class _PrimaryButton extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF52C5FF)
-                  .withOpacity(.5),
+                  .withValues(alpha: .5),
               blurRadius: 24,
               spreadRadius: 1,
             ),
@@ -355,7 +355,7 @@ class _MenuButton extends StatelessWidget {
           height: 72,
           decoration: BoxDecoration(
             color:
-            const Color(0xFF6A35D8).withOpacity(.18),
+            const Color(0xFF6A35D8).withValues(alpha: .18),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: const Color(0xFF9B5DFF),
@@ -364,7 +364,7 @@ class _MenuButton extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF9B5DFF)
-                    .withOpacity(.15),
+                    .withValues(alpha: .15),
                 blurRadius: 14,
               ),
             ],

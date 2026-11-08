@@ -73,7 +73,7 @@ class _ParticlesLayerState
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (_, __) {
+        builder: (_, _) {
           return Stack(
             children: _particles.map(
                   (particle) {

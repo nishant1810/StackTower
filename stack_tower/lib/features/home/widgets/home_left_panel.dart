@@ -82,12 +82,12 @@ class _DockButton extends StatelessWidget {
             ],
           ),
           border: Border.all(
-            color: glowColor.withOpacity(.8),
+            color: glowColor.withValues(alpha: .8),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: glowColor.withOpacity(.22),
+              color: glowColor.withValues(alpha: .22),
               blurRadius: 18,
               spreadRadius: 1,
             ),

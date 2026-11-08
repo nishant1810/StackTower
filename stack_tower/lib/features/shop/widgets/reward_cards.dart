@@ -107,12 +107,12 @@ class _RewardCard extends StatelessWidget {
           ],
         ),
         border: Border.all(
-          color: accent.withOpacity(.8),
+          color: accent.withValues(alpha: .8),
           width: 1.8,
         ),
         boxShadow: [
           BoxShadow(
-            color: accent.withOpacity(.25),
+            color: accent.withValues(alpha: .25),
             blurRadius: 20,
             spreadRadius: 1,
           ),
@@ -132,7 +132,7 @@ class _RewardCard extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: accent
-                            .withOpacity(.45),
+                            .withValues(alpha: .45),
                         blurRadius: 24,
                       ),
                     ],
@@ -149,8 +149,8 @@ class _RewardCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        accent.withOpacity(.35),
-                        accent.withOpacity(.08),
+                        accent.withValues(alpha: .35),
+                        accent.withValues(alpha: .08),
                       ],
                     ),
                     border: Border.all(

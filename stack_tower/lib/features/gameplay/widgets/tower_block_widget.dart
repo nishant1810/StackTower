@@ -27,20 +27,20 @@ class TowerBlockWidget extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.white.withOpacity(0.28),
-            glowColor.withOpacity(0.95),
-            glowColor.withOpacity(0.80),
+            Colors.white.withValues(alpha: 0.28),
+            glowColor.withValues(alpha: 0.95),
+            glowColor.withValues(alpha: 0.80),
           ],
         ),
         border: Border.all(
-          color: Colors.white.withOpacity(0.35),
+          color: Colors.white.withValues(alpha: 0.35),
           width: 1.5,
         ),
         boxShadow: [
           // Main glow
           BoxShadow(
-            color: glowColor.withOpacity(
-              glowing ? 0.90 : 0.40,
+            color: glowColor.withValues(
+              alpha: glowing ? 0.90 : 0.40,
             ),
             blurRadius: glowing ? 30 : 14,
             spreadRadius: glowing ? 5 : 1,
@@ -67,7 +67,7 @@ class TowerBlockWidget extends StatelessWidget {
                 height: 4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: Colors.white.withOpacity(0.65),
+                  color: Colors.white.withValues(alpha: 0.65),
                 ),
               ),
             ),
@@ -84,7 +84,7 @@ class TowerBlockWidget extends StatelessWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      Colors.white.withOpacity(0.22),
+                      Colors.white.withValues(alpha: 0.22),
                       Colors.transparent,
                     ],
                   ),
@@ -105,7 +105,7 @@ class TowerBlockWidget extends StatelessWidget {
                     end: Alignment.centerRight,
                     colors: [
                       Colors.transparent,
-                      Colors.white.withOpacity(0.18),
+                      Colors.white.withValues(alpha: 0.18),
                     ],
                   ),
                 ),
@@ -123,7 +123,7 @@ class TowerBlockWidget extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withOpacity(0.15),
+                        Colors.white.withValues(alpha: 0.15),
                         Colors.transparent,
                       ],
                     ),

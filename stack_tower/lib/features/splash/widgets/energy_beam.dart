@@ -15,15 +15,6 @@ class EnergyBeam extends StatelessWidget {
   final double height;
   final double verticalOffset;
 
-  static const Color _beamStart =
-      Colors.white;
-
-  static const Color _beamMiddle =
-  Color(0xFFFFD54F);
-
-  static const Color _beamEnd =
-  Color(0xFFFF9800);
-
   @override
   Widget build(BuildContext context) {
     final size =

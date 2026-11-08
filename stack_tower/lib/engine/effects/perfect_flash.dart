@@ -19,8 +19,8 @@ class PerfectFlash extends PositionComponent {
         size.y,
       ),
       Paint()
-        ..color = Colors.white.withOpacity(
-          opacity,
+        ..color = Colors.white.withValues(
+          alpha: opacity,
         ),
     );
   }

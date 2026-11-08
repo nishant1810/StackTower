@@ -74,7 +74,7 @@ class ShopPackCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: borderColor.withOpacity(.35),
+            color: borderColor.withValues(alpha: .35),
             blurRadius: 24,
             spreadRadius: 1,
           ),
@@ -122,13 +122,13 @@ class ShopPackCard extends StatelessWidget {
                     BorderRadius.circular(18),
                     gradient: LinearGradient(
                       colors: [
-                        borderColor.withOpacity(.25),
-                        borderColor.withOpacity(.05),
+                        borderColor.withValues(alpha: .25),
+                        borderColor.withValues(alpha: .05),
                       ],
                     ),
                     border: Border.all(
                       color:
-                      borderColor.withOpacity(.4),
+                      borderColor.withValues(alpha: .4),
                     ),
                   ),
                   child: Icon(
@@ -235,7 +235,7 @@ class ShopPackCard extends StatelessWidget {
                             colors: [
                               borderColor,
                               borderColor
-                                  .withOpacity(.75),
+                                  .withValues(alpha: .75),
                             ],
                           ),
                         ),

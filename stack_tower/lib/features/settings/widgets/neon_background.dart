@@ -40,7 +40,7 @@ Widget build(BuildContext context) {
 
 return AnimatedBuilder(
 animation: controller,
-builder: (_, __) {
+builder: (_, _) {
 
 final t = controller.value;
 
@@ -196,7 +196,7 @@ painter: _CyberGridPainter(t),
               Colors.transparent,
 
               Colors.cyanAccent
-                  .withOpacity(.8),
+                  .withValues(alpha: .8),
 
               Colors.transparent,
 
@@ -230,7 +230,7 @@ painter: _CyberGridPainter(t),
 
             Colors.transparent,
 
-            Colors.black.withOpacity(.60),
+            Colors.black.withValues(alpha: .60),
 
           ],
         ),
@@ -256,12 +256,12 @@ Widget _glow(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
 
-        color: color.withOpacity(.16),
+        color: color.withValues(alpha: .16),
 
         boxShadow: [
 
           BoxShadow(
-            color: color.withOpacity(.5),
+            color: color.withValues(alpha: .5),
             blurRadius: size * .55,
             spreadRadius: 25,
           ),
@@ -281,7 +281,7 @@ class _CyberGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.cyan.withOpacity(.08)
+      ..color = Colors.cyan.withValues(alpha: .08)
       ..strokeWidth = 1;
 
     const double spacing = 40;
@@ -320,7 +320,7 @@ class _CyberGridPainter extends CustomPainter {
       ..shader = LinearGradient(
         colors: [
           Colors.transparent,
-          Colors.cyan.withOpacity(.25),
+          Colors.cyan.withValues(alpha: .25),
           Colors.transparent,
         ],
       ).createShader(
@@ -379,7 +379,7 @@ class _ParticlePainter extends CustomPainter {
           : Colors.purpleAccent;
 
       final paint = Paint()
-        ..color = color.withOpacity(alpha)
+        ..color = color.withValues(alpha: alpha)
         ..maskFilter =
         const MaskFilter.blur(
           BlurStyle.normal,

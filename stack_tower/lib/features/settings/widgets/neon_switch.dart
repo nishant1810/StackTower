@@ -31,7 +31,7 @@ class NeonSwitch extends StatelessWidget {
             end: Alignment.bottomRight,
             colors: [
               color,
-              color.withOpacity(.70),
+              color.withValues(alpha: .70),
             ],
           )
               : const LinearGradient(
@@ -45,7 +45,7 @@ class NeonSwitch extends StatelessWidget {
 
           border: Border.all(
             color: value
-                ? color.withOpacity(.9)
+                ? color.withValues(alpha: .9)
                 : Colors.white24,
             width: 1.4,
           ),
@@ -54,13 +54,13 @@ class NeonSwitch extends StatelessWidget {
 
             if (value)
               BoxShadow(
-                color: color.withOpacity(.55),
+                color: color.withValues(alpha: .55),
                 blurRadius: 26,
                 spreadRadius: 2,
               ),
 
             BoxShadow(
-              color: Colors.black.withOpacity(.35),
+              color: Colors.black.withValues(alpha: .35),
               blurRadius: 12,
             ),
           ],
@@ -125,13 +125,13 @@ class NeonSwitch extends StatelessWidget {
                   boxShadow: [
 
                     BoxShadow(
-                      color: Colors.white.withOpacity(.35),
+                      color: Colors.white.withValues(alpha: .35),
                       blurRadius: 14,
                     ),
 
                     if (value)
                       BoxShadow(
-                        color: color.withOpacity(.55),
+                        color: color.withValues(alpha: .55),
                         blurRadius: 18,
                       ),
                   ],
@@ -148,7 +148,7 @@ class NeonSwitch extends StatelessWidget {
                         width: 10,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(.85),
+                          color: Colors.white.withValues(alpha: .85),
                           borderRadius:
                           BorderRadius.circular(20),
                         ),

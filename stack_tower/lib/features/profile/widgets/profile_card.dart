@@ -20,12 +20,12 @@ class ProfileCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.blue.withOpacity(0.35),
-            Colors.purple.withOpacity(0.35),
+            Colors.blue.withValues(alpha: 0.35),
+            Colors.purple.withValues(alpha: 0.35),
           ],
         ),
         border: Border.all(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -69,7 +69,7 @@ class ProfileCard extends StatelessWidget {
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
@@ -126,7 +126,7 @@ class _StatTile extends StatelessWidget {
     return Container(
       height: 90,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.08),
+        color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
@@ -149,7 +149,7 @@ class _StatTile extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withValues(alpha: 0.7),
               fontSize: 11,
             ),
           ),

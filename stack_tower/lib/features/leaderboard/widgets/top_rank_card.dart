@@ -40,7 +40,7 @@ class TopRankCard extends StatelessWidget {
       width: 105,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(.35),
+        color: Colors.black.withValues(alpha: .35),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
           color: borderColor,
@@ -48,7 +48,7 @@ class TopRankCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: borderColor.withOpacity(.35),
+            color: borderColor.withValues(alpha: .35),
             blurRadius: 20,
           ),
         ],

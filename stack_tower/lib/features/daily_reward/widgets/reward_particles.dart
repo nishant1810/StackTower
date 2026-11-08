@@ -85,7 +85,7 @@ class _RewardParticlesState extends State<RewardParticles>
                           boxShadow: [
                             BoxShadow(
                               color: particle.color
-                                  .withOpacity(0.7),
+                                  .withValues(alpha: 0.7),
                               blurRadius: 12,
                             ),
                           ],

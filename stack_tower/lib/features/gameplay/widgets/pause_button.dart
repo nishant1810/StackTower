@@ -21,11 +21,11 @@ class PauseButton extends StatelessWidget {
             color: const Color(0xFF00BFFF),
             width: 2,
           ),
-          color: Colors.black.withOpacity(0.25),
+          color: Colors.black.withValues(alpha: 0.25),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF00BFFF)
-                  .withOpacity(0.35),
+                  .withValues(alpha: 0.35),
               blurRadius: 20,
             ),
           ],

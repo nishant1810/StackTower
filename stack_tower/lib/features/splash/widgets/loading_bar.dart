@@ -10,12 +10,6 @@ class LoadingBar extends StatelessWidget {
   final Animation<double> progress;
   final double height;
 
-  static const _startColor =
-  Color(0xFFFF9800);
-
-  static const _endColor =
-  Color(0xFFFFD54F);
-
   @override
   Widget build(BuildContext context) {
     final size =

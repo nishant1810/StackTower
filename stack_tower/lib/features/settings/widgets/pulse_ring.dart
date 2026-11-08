@@ -33,7 +33,7 @@ class _PulseRingState extends State<PulseRing>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final t = controller.value;
 
         return SizedBox(
@@ -82,11 +82,11 @@ class _PulseRingState extends State<PulseRing>
           shape: BoxShape.circle,
           border: Border.all(
             width: stroke,
-            color: Colors.cyanAccent.withOpacity(opacity),
+            color: Colors.cyanAccent.withValues(alpha: opacity),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.cyanAccent.withOpacity(opacity * .8),
+              color: Colors.cyanAccent.withValues(alpha: opacity * .8),
               blurRadius: 20,
               spreadRadius: 2,
             ),

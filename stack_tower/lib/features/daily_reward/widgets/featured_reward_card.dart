@@ -28,7 +28,7 @@ class FeaturedRewardCard extends StatelessWidget {
             ? [
           BoxShadow(
             color: const Color(0xFFFFC857)
-                .withOpacity(0.35),
+                .withValues(alpha: 0.35),
             blurRadius: 20,
             spreadRadius: 2,
           ),
@@ -88,7 +88,7 @@ class FeaturedRewardCard extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.30),
+                  color: Colors.black.withValues(alpha: 0.30),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Center(

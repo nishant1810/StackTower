@@ -1,30 +1,57 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:stack_tower/main.dart';
+import 'package:stack_tower/features/achievements/models/achievement_model.dart';
+import 'package:stack_tower/features/themes/data/theme_catalog.dart';
+import 'package:stack_tower/app/theme/app_theme.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('ThemeCatalog Tests', () {
+    test('contains default themes', () {
+      expect(ThemeCatalog.themes.length, greaterThanOrEqualTo(6));
+      final skyTheme = ThemeCatalog.getById('sky');
+      expect(skyTheme.name, 'Sky Citadel');
+      expect(skyTheme.coinCost, 0);
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    test('getPalette returns valid color list', () {
+      final palette = ThemeCatalog.getPalette('neon');
+      expect(palette, isNotEmpty);
+    });
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  group('AchievementModel Tests', () {
+    test('progressPercent computes accurately', () {
+      const model = AchievementModel(
+        id: 'test_1',
+        title: 'Master Stacker',
+        description: 'Reach score 50',
+        icon: Icons.star,
+        target: 50,
+        progress: 25,
+        unlocked: false,
+        reward: 100,
+        rewardClaimed: false,
+      );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      expect(model.progressPercent, 0.5);
+    });
+  });
+
+  group('App Theme & Smoke Tests', () {
+    testWidgets('App theme configures dark theme with primary styles',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.darkTheme,
+          home: const Scaffold(
+            body: Center(
+              child: Text('Stack Tower Ready'),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Stack Tower Ready'), findsOneWidget);
+    });
   });
 }

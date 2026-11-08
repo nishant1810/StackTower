@@ -12,7 +12,6 @@ import '../../auth/pages/login_page.dart';
 import '../../leaderboard/pages/leaderboard_page.dart';
 import '../controllers/home_controller.dart';
 import '../../themes/pages/theme_page.dart';
-import '../../shop/pages/shop_page.dart';
 
 import '../widgets/aurora_layer.dart';
 import '../widgets/feature_dock.dart';
@@ -140,19 +139,6 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  Future<void> _openDailyReward() async {
-    if (!mounted) return;
-
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => DailyRewardPage(),
-      ),
-    );
-
-    await controller.refresh();
-  }
-
   Future<void> _openLeaderboard() async {
     if (!mounted) return;
 
@@ -257,10 +243,6 @@ class _HomePageState extends State<HomePage>
                             context,
                             constraints,
                             ) {
-                          final isSmallPhone =
-                              constraints.maxWidth <
-                                  380;
-
                           return Stack(
                             clipBehavior:
                             Clip.none,

@@ -99,7 +99,7 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
                   colors: [
                     const Color(
                       0xFFFFC857,
-                    ).withOpacity(.18),
+                    ).withValues(alpha: .18),
                     Colors.transparent,
                   ],
                 ),
@@ -123,9 +123,9 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
                       height: 42,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(.06),
+                        color: Colors.white.withValues(alpha: .06),
                         border: Border.all(
-                          color: Colors.white.withOpacity(.08),
+                          color: Colors.white.withValues(alpha: .08),
                         ),
                       ),
                       child: IconButton(

@@ -23,7 +23,7 @@ class AchievementUnlockDialog extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.amber.withOpacity(0.35),
+              color: Colors.amber.withValues(alpha: 0.35),
               blurRadius: 30,
               spreadRadius: 3,
             ),

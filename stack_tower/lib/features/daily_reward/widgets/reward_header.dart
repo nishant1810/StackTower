@@ -24,7 +24,7 @@ class RewardHeader extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xFFFFC857)
-                          .withOpacity(0.25),
+                          .withValues(alpha: 0.25),
                       blurRadius: 50,
                       spreadRadius: 8,
                     ),
@@ -59,7 +59,7 @@ class RewardHeader extends StatelessWidget {
                 foreground: Paint()
                   ..color = const Color(
                     0xFFFFC857,
-                  ).withOpacity(0.25),
+                  ).withValues(alpha: 0.25),
               ),
             ),
 

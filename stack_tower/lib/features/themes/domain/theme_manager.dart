@@ -25,7 +25,7 @@ class ThemeManager {
   static Future<bool> unlockTheme(
       String themeId,
       ) async {
-    return await StorageService
-        .unlockTheme(themeId);
+    await StorageService.unlockTheme(themeId);
+    return true;
   }
 }

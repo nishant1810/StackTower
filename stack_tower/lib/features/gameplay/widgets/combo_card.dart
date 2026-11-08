@@ -31,15 +31,15 @@ class ComboCard extends StatelessWidget {
     return Container(
       height: 68,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.18),
+        color: Colors.black.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: color.withOpacity(0.5),
+          color: color.withValues(alpha: 0.5),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             blurRadius: 10,
             spreadRadius: 0,
           ),

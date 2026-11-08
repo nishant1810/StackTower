@@ -41,7 +41,7 @@ class _CoinsCardState extends State<CoinsCard>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final glow =
             14 +
                 math.sin(
@@ -163,7 +163,7 @@ class _CoinsCardState extends State<CoinsCard>
                           .toDouble(),
                     ),
                     builder:
-                        (_, value, __) {
+                        (_, value, _) {
                       return Text(
                         value
                             .toInt()

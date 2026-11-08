@@ -46,7 +46,7 @@ class ClaimButton extends StatelessWidget {
               BoxShadow(
                 color: const Color(
                   0xFFFFC857,
-                ).withOpacity(.35),
+                ).withValues(alpha: .35),
                 blurRadius: 20,
                 spreadRadius: 1,
               ),
@@ -64,7 +64,7 @@ class ClaimButton extends StatelessWidget {
                 height: iconSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(.18),
+                  color: Colors.white.withValues(alpha: .18),
                 ),
                 child: Icon(
                   Icons.card_giftcard_rounded,
@@ -99,7 +99,7 @@ class ClaimButton extends StatelessWidget {
                 height: iconSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(.18),
+                  color: Colors.white.withValues(alpha: .18),
                 ),
                 child: Icon(
                   Icons.arrow_forward_ios_rounded,

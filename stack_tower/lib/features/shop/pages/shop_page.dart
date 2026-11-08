@@ -50,7 +50,7 @@
 
       return AnimatedBuilder(
         animation: controller,
-        builder: (_, __) {
+        builder: (_, _) {
           return Scaffold(
             backgroundColor: Colors.black,
             body: Stack(
@@ -69,8 +69,8 @@
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(.35),
-                          Colors.black.withOpacity(.78),
+                          Colors.black.withValues(alpha: .35),
+                          Colors.black.withValues(alpha: .78),
                         ],
                       ),
                     ),
@@ -309,8 +309,8 @@
                                   BoxShadow(
                                     color: Colors
                                         .orange
-                                        .withOpacity(
-                                      .35,
+                                        .withValues(
+                                      alpha: .35,
                                     ),
                                     blurRadius:
                                     24,

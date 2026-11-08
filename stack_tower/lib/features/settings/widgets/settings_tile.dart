@@ -49,7 +49,7 @@ class SettingsTile extends StatelessWidget {
               color: const Color(0xFF131A4D),
               border: Border.all(
                 color: const Color(0xFF7B61FF)
-                    .withOpacity(0.25),
+                    .withValues(alpha: 0.25),
               ),
             ),
             child: Row(

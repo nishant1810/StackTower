@@ -33,7 +33,7 @@ class _VersionCardState extends State<VersionCard>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final glow = 18 + sin(controller.value * pi) * 10;
 
         return Container(
@@ -53,16 +53,16 @@ class _VersionCardState extends State<VersionCard>
               ],
             ),
             border: Border.all(
-              color: Colors.white.withOpacity(.10),
+              color: Colors.white.withValues(alpha: .10),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.cyan.withOpacity(.20),
+                color: Colors.cyan.withValues(alpha: .20),
                 blurRadius: glow,
                 spreadRadius: 1,
               ),
               BoxShadow(
-                color: Colors.purple.withOpacity(.18),
+                color: Colors.purple.withValues(alpha: .18),
                 blurRadius: glow + 10,
               ),
             ],
@@ -82,7 +82,7 @@ class _VersionCardState extends State<VersionCard>
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.cyan.withOpacity(.45),
+                      color: Colors.cyan.withValues(alpha: .45),
                       blurRadius: 18,
                     ),
                   ],
@@ -136,7 +136,7 @@ class _VersionCardState extends State<VersionCard>
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: const Color(0xff00E676).withOpacity(.15),
+                  color: const Color(0xff00E676).withValues(alpha: .15),
                   border: Border.all(
                     color: const Color(0xff00E676),
                   ),

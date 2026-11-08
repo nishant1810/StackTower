@@ -49,7 +49,7 @@ class _MovingBlockState extends State<MovingBlock>
 
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final glow =
             18 +
                 math.sin(

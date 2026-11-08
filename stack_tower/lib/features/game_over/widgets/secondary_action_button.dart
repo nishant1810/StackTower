@@ -74,7 +74,7 @@ class _SecondaryActionButtonState
                   color: (_isDisabled
                       ? Colors.grey
                       : widget.glowColor)
-                      .withOpacity(0.35),
+                      .withValues(alpha: 0.35),
                   blurRadius: 20,
                   spreadRadius: 1,
                 ),

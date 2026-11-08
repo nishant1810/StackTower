@@ -136,8 +136,8 @@ class _PersonalLeaderboardTabState
               size.height * 0.018,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(
-                0.08,
+              color: Colors.white.withValues(
+                alpha: 0.08,
               ),
               borderRadius:
               BorderRadius.circular(16),

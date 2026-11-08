@@ -72,7 +72,7 @@ class TowerRenderer extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          Colors.cyan.withOpacity(0.12),
+                          Colors.cyan.withValues(alpha: 0.12),
                           Colors.transparent,
                         ],
                       ),
@@ -108,7 +108,7 @@ class _GlowBlock extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.cyan.withOpacity(0.25),
+            color: Colors.cyan.withValues(alpha: 0.25),
             blurRadius: glowStrength,
             spreadRadius: 1,
           ),

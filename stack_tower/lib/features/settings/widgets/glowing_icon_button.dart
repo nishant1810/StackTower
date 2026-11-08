@@ -46,7 +46,7 @@ class _GlowingIconButtonState
 
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
 
         return GestureDetector(
           onTapDown: (_) {
@@ -84,12 +84,12 @@ class _GlowingIconButtonState
                 boxShadow: [
 
                   BoxShadow(
-                    color: Colors.cyan.withOpacity(.35),
+                    color: Colors.cyan.withValues(alpha: .35),
                     blurRadius: 28,
                   ),
 
                   BoxShadow(
-                    color: Colors.purple.withOpacity(.25),
+                    color: Colors.purple.withValues(alpha: .25),
                     blurRadius: 40,
                   ),
                 ],
@@ -130,7 +130,7 @@ class _GlowingIconButtonState
                             BorderRadius.circular(30),
                             gradient: LinearGradient(
                               colors: [
-                                Colors.white.withOpacity(.18),
+                                Colors.white.withValues(alpha: .18),
                                 Colors.transparent,
                               ],
                             ),

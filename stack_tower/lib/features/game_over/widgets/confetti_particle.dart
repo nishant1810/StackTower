@@ -40,7 +40,7 @@ class _ConfettiParticleState
 
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         return Positioned(
           left: startX,
           top: controller.value * 900,

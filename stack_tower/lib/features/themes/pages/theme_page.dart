@@ -31,7 +31,7 @@ class _ThemesPageState extends State<ThemesPage> {
 
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         return Scaffold(
           backgroundColor: Colors.black,
           body: Stack(
@@ -43,8 +43,8 @@ class _ThemesPageState extends State<ThemesPage> {
               ),
 
               Container(
-                color: Colors.black.withOpacity(
-                  0.65,
+                color: Colors.black.withValues(
+                  alpha: 0.65,
                 ),
               ),
 
@@ -128,7 +128,7 @@ class _ThemesPageState extends State<ThemesPage> {
                                 theme.id,
                               );
 
-                              if (!mounted) {
+                              if (!mounted || !context.mounted) {
                                 return;
                               }
 
@@ -157,7 +157,7 @@ class _ThemesPageState extends State<ThemesPage> {
                                 ),
                               );
 
-                              if (!mounted) {
+                              if (!mounted || !context.mounted) {
                                 return;
                               }
 
@@ -220,7 +220,7 @@ class _BackButton extends StatelessWidget {
           border: Border.all(
             color: const Color(
               0xFF7B61FF,
-            ).withOpacity(0.45),
+            ).withValues(alpha: 0.45),
             width: 1.4,
           ),
           gradient:
@@ -234,7 +234,7 @@ class _BackButton extends StatelessWidget {
             BoxShadow(
               color: const Color(
                 0xFF6A5CFF,
-              ).withOpacity(0.15),
+              ).withValues(alpha: 0.15),
               blurRadius: 16,
             ),
           ],

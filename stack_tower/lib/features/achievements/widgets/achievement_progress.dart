@@ -10,7 +10,7 @@ class AchievementProgress extends StatefulWidget {
     required this.achievements,
   });
 
-  final List<Achievement> achievements;
+  final List<AchievementModel> achievements;
 
   @override
   State<AchievementProgress> createState() =>
@@ -40,7 +40,7 @@ class _AchievementProgressState
 
   int get completed =>
       widget.achievements
-          .where((e) => e.completed)
+          .where((e) => e.unlocked)
           .length;
 
   int get total =>
@@ -48,8 +48,8 @@ class _AchievementProgressState
 
   int get claimedCoins =>
       widget.achievements
-          .where((e) => e.claimed)
-          .fold(
+          .where((e) => e.rewardClaimed)
+          .fold<int>(
         0,
             (sum, e) => sum + e.reward,
       );
@@ -63,7 +63,7 @@ class _AchievementProgressState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final glow =
             25 +
                 math.sin(
@@ -92,7 +92,7 @@ class _AchievementProgressState
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.cyan.withOpacity(.25),
+                color: Colors.cyan.withValues(alpha: .25),
                 blurRadius: glow,
               ),
             ],

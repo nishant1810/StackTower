@@ -15,19 +15,19 @@ class NewBestScoreCard extends StatelessWidget {
       height: 90,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(22),
-        color: Colors.black.withOpacity(0.08),
+        color: Colors.black.withValues(alpha: 0.08),
         border: Border.all(
           color: const Color(0xFFFFC247),
           width: 2,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFC247).withOpacity(0.35),
+            color: const Color(0xFFFFC247).withValues(alpha: 0.35),
             blurRadius: 20,
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: const Color(0xFF4F79FF).withOpacity(0.15),
+            color: const Color(0xFF4F79FF).withValues(alpha: 0.15),
             blurRadius: 12,
             spreadRadius: 1,
           ),
@@ -42,7 +42,7 @@ class NewBestScoreCard extends StatelessWidget {
             top: 8,
             child: Container(
               height: 1,
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
             ),
           ),
 
@@ -53,7 +53,7 @@ class NewBestScoreCard extends StatelessWidget {
             bottom: 8,
             child: Container(
               height: 1,
-              color: Colors.white.withOpacity(0.08),
+              color: Colors.white.withValues(alpha: 0.08),
             ),
           ),
 
@@ -77,7 +77,7 @@ class NewBestScoreCard extends StatelessWidget {
                       letterSpacing: 1,
                       shadows: [
                         Shadow(
-                          color: const Color(0xFFFFC247).withOpacity(0.9),
+                          color: const Color(0xFFFFC247).withValues(alpha: 0.9),
                           blurRadius: 18,
                         ),
                       ],

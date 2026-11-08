@@ -45,7 +45,7 @@ class _PrimaryActionButtonState
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFFC247).withOpacity(0.35),
+                color: const Color(0xFFFFC247).withValues(alpha: 0.35),
                 blurRadius: 20,
                 spreadRadius: 1,
               ),
@@ -60,7 +60,7 @@ class _PrimaryActionButtonState
                 right: 16,
                 child: Container(
                   height: 1,
-                  color: Colors.white.withOpacity(0.20),
+                  color: Colors.white.withValues(alpha: 0.20),
                 ),
               ),
 

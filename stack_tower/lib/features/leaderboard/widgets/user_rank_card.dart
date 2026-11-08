@@ -18,7 +18,7 @@ class UserRankCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: const Color(0xFF4FC3FF)
-            .withOpacity(.15),
+            .withValues(alpha: .15),
         border: Border.all(
           color: const Color(0xFF4FC3FF),
         ),

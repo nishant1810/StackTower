@@ -23,8 +23,8 @@ class ShopBackground extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(.35),
-                  Colors.black.withOpacity(.55),
+                  Colors.black.withValues(alpha: .35),
+                  Colors.black.withValues(alpha: .55),
                 ],
               ),
             ),

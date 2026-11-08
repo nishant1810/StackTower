@@ -55,12 +55,12 @@ class NeonPanel extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.cyan.withOpacity(.20),
+                            color: Colors.cyan.withValues(alpha: .20),
                             blurRadius: 50,
                             spreadRadius: 2,
                           ),
                           BoxShadow(
-                            color: Colors.purple.withOpacity(.18),
+                            color: Colors.purple.withValues(alpha: .18),
                             blurRadius: 70,
                             spreadRadius: 8,
                           ),
@@ -82,7 +82,7 @@ class NeonPanel extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.white.withOpacity(.12),
+                              Colors.white.withValues(alpha: .12),
                               Colors.transparent,
                             ],
                           ),
@@ -116,11 +116,11 @@ class NeonPanel extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.blue.withOpacity(.5),
+                  color: Colors.blue.withValues(alpha: .5),
                   blurRadius: 40,
                 ),
                 BoxShadow(
-                  color: Colors.purple.withOpacity(.45),
+                  color: Colors.purple.withValues(alpha: .45),
                   blurRadius: 60,
                 ),
               ],
@@ -149,9 +149,9 @@ class NeonPanel extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  Colors.cyanAccent.withOpacity(.6),
+                  Colors.cyanAccent.withValues(alpha: .6),
                   Colors.white,
-                  Colors.cyanAccent.withOpacity(.6),
+                  Colors.cyanAccent.withValues(alpha: .6),
                   Colors.transparent,
                 ],
               ),
@@ -159,6 +159,45 @@ class NeonPanel extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class RotatingGear extends StatefulWidget {
+  const RotatingGear({super.key});
+
+  @override
+  State<RotatingGear> createState() => _RotatingGearState();
+}
+
+class _RotatingGearState extends State<RotatingGear>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      turns: _controller,
+      child: const Icon(
+        Icons.settings,
+        color: Colors.cyanAccent,
+        size: 32,
+      ),
     );
   }
 }

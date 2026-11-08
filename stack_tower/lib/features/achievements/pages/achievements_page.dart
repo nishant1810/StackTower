@@ -79,8 +79,8 @@ class _AchievementsPageState
           ),
 
           Container(
-            color: Colors.black.withOpacity(
-              0.55,
+            color: Colors.black.withValues(
+              alpha: 0.55,
             ),
           ),
 
@@ -107,8 +107,8 @@ class _AchievementsPageState
                     decoration:
                     BoxDecoration(
                       color: Colors.white
-                          .withOpacity(
-                        0.08,
+                          .withValues(
+                        alpha: 0.08,
                       ),
                       borderRadius:
                       BorderRadius
@@ -117,8 +117,8 @@ class _AchievementsPageState
                       ),
                       border: Border.all(
                         color: Colors.cyan
-                            .withOpacity(
-                          0.4,
+                            .withValues(
+                          alpha: 0.4,
                         ),
                       ),
                     ),

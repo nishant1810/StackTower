@@ -33,7 +33,7 @@ class ThemeColors {
         double opacity = 0.5,
       }) {
     return BoxShadow(
-      color: primary(themeId).withOpacity(opacity),
+      color: primary(themeId).withValues(alpha: opacity),
       blurRadius: blur,
       spreadRadius: 2,
     );

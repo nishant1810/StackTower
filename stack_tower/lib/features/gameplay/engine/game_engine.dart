@@ -9,9 +9,9 @@ typedef GameUpdateCallback = void Function(
 
 class GameEngine {
   GameEngine({
-    required GameUpdateCallback onUpdate,
+    required this._onUpdate,
     this.targetFps = 60,
-  }) : _onUpdate = onUpdate;
+  });
 
   //==========================================================================
   // CONFIG

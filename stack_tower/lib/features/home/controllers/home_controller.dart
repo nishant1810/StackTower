@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stack_tower/features/shop/pages/shop_page.dart';
 
@@ -10,8 +9,8 @@ import '../models/home_state.dart';
 
 class HomeController {
   HomeController({
-    required TickerProvider vsync,
-  }) : _vsync = vsync;
+    required this._vsync,
+  });
 
   final TickerProvider _vsync;
 

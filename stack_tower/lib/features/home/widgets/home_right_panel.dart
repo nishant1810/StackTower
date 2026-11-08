@@ -18,7 +18,7 @@ class HomeRightPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<HomeState>(
       valueListenable: controller.state,
-      builder: (_, state, __) {
+      builder: (_, state, _) {
         return _DailyRewardCard(
           available: state.dailyRewardAvailable,
           onTap: onRewardTap,

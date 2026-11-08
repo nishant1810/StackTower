@@ -74,7 +74,7 @@ class BlockComponent extends PositionComponent {
         const Radius.circular(10),
       ),
       Paint()
-        ..color = Colors.black.withOpacity(0.25)
+        ..color = Colors.black.withValues(alpha: 0.25)
         ..maskFilter = const MaskFilter.blur(
           BlurStyle.normal,
           10,
@@ -89,7 +89,7 @@ class BlockComponent extends PositionComponent {
           const Radius.circular(14),
         ),
         Paint()
-          ..color = color.withOpacity(0.45)
+          ..color = color.withValues(alpha: 0.45)
           ..maskFilter = const MaskFilter.blur(
             BlurStyle.normal,
             20,
@@ -105,7 +105,7 @@ class BlockComponent extends PositionComponent {
           const Radius.circular(16),
         ),
         Paint()
-          ..color = Colors.amber.withOpacity(0.35)
+          ..color = Colors.amber.withValues(alpha: 0.35)
           ..maskFilter = const MaskFilter.blur(
             BlurStyle.normal,
             25,
@@ -140,7 +140,7 @@ class BlockComponent extends PositionComponent {
         const Radius.circular(8),
       ),
       Paint()
-        ..color = Colors.white.withOpacity(0.22),
+        ..color = Colors.white.withValues(alpha: 0.22),
     );
 
     /// LEFT LIGHT EDGE
@@ -152,7 +152,7 @@ class BlockComponent extends PositionComponent {
         size.y,
       ),
       Paint()
-        ..color = Colors.white.withOpacity(0.08),
+        ..color = Colors.white.withValues(alpha: 0.08),
     );
 
     /// RIGHT DEPTH SHADE
@@ -164,7 +164,7 @@ class BlockComponent extends PositionComponent {
         size.y,
       ),
       Paint()
-        ..color = Colors.black.withOpacity(0.12),
+        ..color = Colors.black.withValues(alpha: 0.12),
     );
 
     /// BOTTOM DEPTH SHADE
@@ -176,7 +176,7 @@ class BlockComponent extends PositionComponent {
         5,
       ),
       Paint()
-        ..color = Colors.black.withOpacity(0.10),
+        ..color = Colors.black.withValues(alpha: 0.10),
     );
 
     /// PREMIUM BORDER
@@ -185,7 +185,7 @@ class BlockComponent extends PositionComponent {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.2
-        ..color = Colors.white.withOpacity(0.45),
+        ..color = Colors.white.withValues(alpha: 0.45),
     );
 
     /// PULSE FLASH
@@ -196,8 +196,8 @@ class BlockComponent extends PositionComponent {
           const Radius.circular(16),
         ),
         Paint()
-          ..color = Colors.white.withOpacity(
-            glowPulse * 0.12,
+          ..color = Colors.white.withValues(
+            alpha: glowPulse * 0.12,
           )
           ..maskFilter = const MaskFilter.blur(
             BlurStyle.normal,

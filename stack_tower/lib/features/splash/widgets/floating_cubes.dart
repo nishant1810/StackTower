@@ -78,7 +78,7 @@ class _FloatingCubesState
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (_, __) {
+        builder: (_, _) {
           return Stack(
             children: List.generate(
               _cubes.length,

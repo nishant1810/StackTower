@@ -34,7 +34,7 @@ class ShopSectionTitle extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     Colors.transparent,
-                    accent.withOpacity(.9),
+                    accent.withValues(alpha: .9),
                   ],
                 ),
               ),
@@ -72,7 +72,7 @@ class ShopSectionTitle extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: accent
-                      .withOpacity(.30),
+                      .withValues(alpha: .30),
                   blurRadius: 22,
                   spreadRadius: 1,
                 ),
@@ -107,8 +107,8 @@ class ShopSectionTitle extends StatelessWidget {
                     shadows: [
                       Shadow(
                         color: accent
-                            .withOpacity(
-                          .6,
+                            .withValues(
+                          alpha: .6,
                         ),
                         blurRadius:
                         12,
@@ -128,7 +128,7 @@ class ShopSectionTitle extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    accent.withOpacity(.9),
+                    accent.withValues(alpha: .9),
                     Colors.transparent,
                   ],
                 ),

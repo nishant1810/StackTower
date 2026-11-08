@@ -1,14 +1,11 @@
 import 'dart:math';
 import 'dart:async';
 
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/services.dart';
 
 import '../components/block_component.dart';
 

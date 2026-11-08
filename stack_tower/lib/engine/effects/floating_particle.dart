@@ -14,8 +14,8 @@ class FloatingParticle extends CircleComponent {
   }) : super(
     radius: 2 + Random().nextDouble() * 3,
     paint: Paint()
-      ..color = Colors.white.withOpacity(
-        0.3,
+      ..color = Colors.white.withValues(
+        alpha: 0.3,
       ),
   ) {
     position = Vector2(

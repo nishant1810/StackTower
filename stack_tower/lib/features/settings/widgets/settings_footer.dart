@@ -20,7 +20,7 @@ class SettingsFooter extends StatelessWidget {
         border: Border.all(
           color: const Color(
             0xFF6F63FF,
-          ).withOpacity(0.4),
+          ).withValues(alpha: 0.4),
         ),
         gradient: const LinearGradient(
           colors: [

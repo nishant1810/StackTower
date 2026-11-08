@@ -19,8 +19,8 @@ class AchievementPreview extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: unlocked
-            ? Colors.amber.withOpacity(.15)
-            : Colors.white.withOpacity(.05),
+            ? Colors.amber.withValues(alpha: .15)
+            : Colors.white.withValues(alpha: .05),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: unlocked

@@ -35,7 +35,7 @@ class _FloatingParticlesState extends State<FloatingParticles>
     return IgnorePointer(
       child: AnimatedBuilder(
         animation: controller,
-        builder: (_, __) {
+        builder: (_, _) {
           return CustomPaint(
             size: MediaQuery.of(context).size,
             painter: _ParticlePainter(controller.value),
@@ -87,7 +87,7 @@ class _ParticlePainter extends CustomPainter {
 
       final paint = Paint()
         ..color = colors[random.nextInt(colors.length)]
-            .withOpacity(alpha)
+            .withValues(alpha: alpha)
         ..maskFilter = MaskFilter.blur(
           BlurStyle.normal,
           radius * 2.5,
