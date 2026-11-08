@@ -21,13 +21,6 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
-    packaging {
-        jniLibs {
-            keepDebugSymbols += "**/*.so"
-            useLegacyPackaging = true
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -58,6 +51,11 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
         }
+    }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 }
 

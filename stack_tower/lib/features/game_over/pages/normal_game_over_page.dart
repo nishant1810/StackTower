@@ -252,12 +252,15 @@ class _StatCard extends StatelessWidget {
             size: 26,
           ),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.w900,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
         ],
@@ -309,25 +312,34 @@ class _PrimaryButton extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          mainAxisAlignment:
-          MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
-              size: height * .40,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              label,
-              style: TextStyle(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
                 color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: height * .22,
+                size: height * .40,
               ),
-            ),
-          ],
+              const SizedBox(width: 10),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: height * .22,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -369,24 +381,35 @@ class _MenuButton extends StatelessWidget {
               ),
             ],
           ),
-          child: Row(
-            mainAxisAlignment:
-            MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: Colors.white,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                label,
-                style: const TextStyle(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisAlignment:
+              MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
                   color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 17,
+                  size: 22,
                 ),
-              ),
-            ],
+                const SizedBox(width: 6),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
