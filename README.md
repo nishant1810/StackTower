@@ -1,11 +1,11 @@
 # 🏰 Stack Tower
 
 <p align="center">
-  <img src="assets/images/title.webp" alt="Stack Tower Title" width="380"/>
+  <img src="stack_tower/assets/images/title.webp" alt="Stack Tower Title" width="340"/>
 </p>
 
 <p align="center">
-  <img src="assets/images/icon.webp" alt="Stack Tower Icon" width="120" style="border-radius: 24px;"/>
+  <img src="stack_tower/assets/images/icon.webp" alt="Stack Tower Icon" width="90" style="border-radius: 20px;"/>
 </p>
 
 <p align="center">
@@ -29,34 +29,19 @@ Explore the visual design, neon cyber aesthetics, interactive menus, and customi
 
 ### 🎮 Primary Game Experience
 
-| Splash Screen | Main Lobby / Home |
-| :---: | :---: |
-| <img src="assets/images/splash_bg.webp" alt="Splash Screen" width="340"/> | <img src="assets/images/home_bg.webp" alt="Home Screen" width="340"/> |
-| *Immersive cyber animated startup loader* | *Dynamic glowing UI with animated quick-access dock* |
-
-| Game Over / Revive | New High Score Record |
-| :---: | :---: |
-| <img src="assets/images/game_over.webp" alt="Game Over Screen" width="340"/> | <img src="assets/images/new_best.webp" alt="New Best Score" width="340"/> |
-| *Score tally, rewards earned, and rewarded revive* | *Special celebratory particle explosion and rank badge* |
+| Splash Screen | Main Lobby / Home | Game Over / Revive | New High Score Record |
+| :---: | :---: | :---: | :---: |
+| <img src="stack_tower/assets/images/splash_bg.webp" alt="Splash Screen" width="160"/> | <img src="stack_tower/assets/images/home_bg.webp" alt="Home Screen" width="160"/> | <img src="stack_tower/assets/images/game_over.webp" alt="Game Over Screen" width="160"/> | <img src="stack_tower/assets/images/new_best.webp" alt="New Best Score" width="160"/> |
+| *Immersive cyber animated startup loader* | *Dynamic glowing UI with animated quick-access dock* | *Score tally, rewards earned, and rewarded revive* | *Special celebratory particle explosion and rank badge* |
 
 ---
 
 ### 🏆 Progression & Reward Hubs
 
-| Daily Rewards Calendar | Global & Personal Leaderboards |
-| :---: | :---: |
-| <img src="assets/images/daily_reward_bg.webp" alt="Daily Reward" width="340"/> | <img src="assets/images/leaderboard_bg.webp" alt="Leaderboard" width="340"/> |
-| *Consecutive daily login streak chest rewards* | *Live Firestore real-time global player rankings* |
-
-| Achievements & Milestones | Google Cloud Sync / Profile |
-| :---: | :---: |
-| <img src="assets/images/achievement_bg.webp" alt="Achievements" width="340"/> | <img src="assets/images/login.webp" alt="Google Login" width="340"/> |
-| *Unlockable challenges with coin & gem rewards* | *Seamless Google Sign-In with cloud progress sync* |
-
-| Theme Wardrobe | In-Game Store |
-| :---: | :---: |
-| <img src="assets/images/theme_bg.webp" alt="Themes Screen" width="340"/> | <img src="assets/images/shop_bg.webp" alt="Shop Screen" width="340"/> |
-| *Custom towers, ambient lighting, and particle effects* | *Currency packs, premium cosmetics, and boosts* |
+| Daily Rewards | Global Leaderboards | Achievements | Cloud Sync / Profile | Theme Wardrobe | In-Game Store |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| <img src="stack_tower/assets/images/daily_reward_bg.webp" alt="Daily Reward" width="125"/> | <img src="stack_tower/assets/images/leaderboard_bg.webp" alt="Leaderboard" width="125"/> | <img src="stack_tower/assets/images/achievement_bg.webp" alt="Achievements" width="125"/> | <img src="stack_tower/assets/images/login.webp" alt="Google Login" width="125"/> | <img src="stack_tower/assets/images/theme_bg.webp" alt="Themes Screen" width="125"/> | <img src="stack_tower/assets/images/shop_bg.webp" alt="Shop Screen" width="125"/> |
+| *Consecutive daily login streak rewards* | *Live Firestore real-time global rankings* | *Unlockable challenges with coin & gem rewards* | *Seamless Google Sign-In with cloud sync* | *Custom towers, lighting, and particles* | *Currency packs, premium cosmetics, and boosts* |
 
 ---
 
@@ -64,15 +49,10 @@ Explore the visual design, neon cyber aesthetics, interactive menus, and customi
 
 Stack Tower features 6 distinct customizable visual environments with reactive block gradients and color palettes:
 
-| Sky Citadel (Classic) | Neon Cyber | Purple Crystal Storm |
-| :---: | :---: | :---: |
-| <img src="assets/images/sky_theme.webp" alt="Sky Citadel" width="220"/> | <img src="assets/images/neon_theme.webp" alt="Neon Cyber" width="220"/> | <img src="assets/images/purple_theme.webp" alt="Purple Crystal Storm" width="220"/> |
-| *Breezy atmospheric heights* | *Vibrant synthwave aesthetic* | *Electric crystal energy* |
-
-| Emerald Realm | Lava Inferno | Galaxy Nexus |
-| :---: | :---: | :---: |
-| <img src="assets/images/emerald_theme.webp" alt="Emerald Realm" width="220"/> | <img src="assets/images/lava_theme.webp" alt="Lava Inferno" width="220"/> | <img src="assets/images/galaxy_theme.webp" alt="Galaxy Nexus" width="220"/> |
-| *Lush bioluminescent greens* | *High-stakes molten magma* | *Deep space cosmic void* |
+| Sky Citadel | Neon Cyber | Purple Crystal | Emerald Realm | Lava Inferno | Galaxy Nexus |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| <img src="stack_tower/assets/images/sky_theme.webp" alt="Sky Citadel" width="125"/> | <img src="stack_tower/assets/images/neon_theme.webp" alt="Neon Cyber" width="125"/> | <img src="stack_tower/assets/images/purple_theme.webp" alt="Purple Crystal Storm" width="125"/> | <img src="stack_tower/assets/images/emerald_theme.webp" alt="Emerald Realm" width="125"/> | <img src="stack_tower/assets/images/lava_theme.webp" alt="Lava Inferno" width="125"/> | <img src="stack_tower/assets/images/galaxy_theme.webp" alt="Galaxy Nexus" width="125"/> |
+| *Breezy atmospheric heights* | *Vibrant synthwave aesthetic* | *Electric crystal energy* | *Lush bioluminescent greens* | *High-stakes molten magma* | *Deep space cosmic void* |
 
 ---
 
@@ -147,8 +127,8 @@ stack_tower/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/stack_tower.git
-   cd stack_tower
+   git clone https://github.com/nishant1810/StackTower.git
+   cd StackTower/stack_tower
    ```
 
 2. **Install dependencies**:
